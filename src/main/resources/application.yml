@@ -9,6 +9,28 @@ spring:
       trust-store-password: ${SSL_TRUST_STORE_PASSWORD}
       key-store-location: file://${MTB_PID_TO_KAFKA_SSL_KEY_STORE_LOCATION:/opt/kafka-streams-template/ssl/keystore.jks}
       key-store-password: ${MTB_PID_TO_KAFKA_SSL_KEY_STORE_PASSWORD}
+  cloud:
+    function:
+      definition: process
+    stream:
+      bindings:
+        process-in-0:
+          destination: ${KAFKA_TOPIC_GEN_MH_GUIDE_INFO:mh-guide-gen-info}
+        process-in-1:
+          destination: ${KAFKA_TOPIC_MTB_PID_INFO:mtb-pid-variant}
+
+      kafka:
+        streams:
+          binder:
+            applicationId: kafka-genetic-to-mtb-xml
+            configuration:
+              #resetOffset: true
+              compression.type: gzip
+              max.request.size: 5242880
+              startOffset: latest
+services:
+  mtbSender:
+    post_url: ${URL_MTB_POST:http://127.0.0.1:5000/MTBFile}
 
 management:
   server:

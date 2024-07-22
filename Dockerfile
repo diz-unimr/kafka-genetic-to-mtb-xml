@@ -29,10 +29,10 @@ ENTRYPOINT ["java", "-XX:MaxRAMPercentage=90", "org.springframework.boot.loader.
 HEALTHCHECK --interval=25s --timeout=3s --retries=2 CMD ["java", "HealthCheck.java", "||", "exit", "1"]
 
 LABEL org.opencontainers.image.created=${BUILD_TIME} \
-    org.opencontainers.image.authors="" \
+    org.opencontainers.image.authors="Kapil Karki" \
     org.opencontainers.image.source=${GIT_URL} \
     org.opencontainers.image.version=${VERSION} \
     org.opencontainers.image.revision=${GIT_REF} \
     org.opencontainers.image.vendor="diz.uni-marburg.de" \
-    org.opencontainers.image.title="mtb-pid-to-kafka" \
-    org.opencontainers.image.description="Kafka Producer: to receive the PIDs from Onkostar, find the oder name for each PIDs in Nexus DB and produce these information in a separate kafa-topic"
+    org.opencontainers.image.title="kafka-genetic-to-mtb-xml" \
+    org.opencontainers.image.description="Kafka Consumer which construct the required xml that include the genetic information, which will be sent to MTB. The required xml will be constructed by collecting the genetic information which are scatted in different kafka-topics."

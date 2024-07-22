@@ -1,6 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
 import com.fasterxml.jackson.core.JacksonException;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbGeneticXml;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.OnkostarDaten;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +56,10 @@ public class RestClientMtbSender {
         return retryTemplate;
     }
 
-    public String sendRequestToMtb(MtbGeneticXml mtbGeneticXml) throws JacksonException {
+    public String sendRequestToMtb(OnkostarDaten onkostarDaten) throws JacksonException {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_ATOM_XML);
-        HttpEntity<MtbGeneticXml> requestEntity = new HttpEntity<>(mtbGeneticXml, headers);
+        headers.setContentType(MediaType.APPLICATION_XML);
+        HttpEntity<OnkostarDaten> requestEntity = new HttpEntity<>(onkostarDaten, headers);
         try {
             var response = retryTemplate.execute(ctx -> restTemplate
                     .exchange(postUrl, HttpMethod.POST, requestEntity, String.class));

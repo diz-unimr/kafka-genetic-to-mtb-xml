@@ -3,13 +3,18 @@ package de.unimarburg.diz.kafkagenetictomtbxml;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbGeneticXml;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.*;
 import org.apache.kafka.streams.kstream.KTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 @Service
@@ -24,7 +29,7 @@ public class GenDataBiConsumer {
         this.objectMapper = objectMapper;
     }
 
-    public MtbGeneticXml extractAndCreateXml(String mhGuideInfo, String mtbPidInfo) throws JsonProcessingException {
+    public OnkostarDaten extractAndCreateXml(String mhGuideInfo, String mtbPidInfo) throws JsonProcessingException {
         var jsonNodeMhGuide = objectMapper.readTree(mhGuideInfo);
         var jsonNodeMtbInfo = objectMapper.readTree(mtbPidInfo);
         // patient mtb
@@ -32,14 +37,15 @@ public class GenDataBiConsumer {
         // tumorId
         var tumorId = jsonNodeMtbInfo.get("tumorid").asText();
 
-        MtbGeneticXml mtbGeneticXml = new MtbGeneticXml();
+        //MtbGeneticXml mtbGeneticXml = new MtbGeneticXml();
         // the values need to extracted from the joined result
-        mtbGeneticXml.setPid(pid);
-        mtbGeneticXml.setTumorId(tumorId);
+        //mtbGeneticXml.setPid(pid);
+        //mtbGeneticXml.setTumorId(tumorId);
 
-        return mtbGeneticXml;
+        OnkostarDaten onkostarDaten = new OnkostarDaten();
+        onkostarDaten.setTitel("Test");
+        return onkostarDaten;
     }
-
 
     @Bean
     public BiConsumer<KTable<String, String>, KTable<String, String>> process() {
@@ -47,8 +53,8 @@ public class GenDataBiConsumer {
             try {
                 // Construct the xml file from the joined values
                 // Send the xml file
-                MtbGeneticXml mtbGeneticXml = extractAndCreateXml(mhGuide, mtbPid);
-                return restClientMtbSender.sendRequestToMtb(mtbGeneticXml);
+                OnkostarDaten onkostarDaten = extractAndCreateXml(mhGuide, mtbPid);
+                return restClientMtbSender.sendRequestToMtb(onkostarDaten);
             } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }

@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'jacoco'
 	id "io.freefair.lombok" version "8.6"
+
 }
 
 group = 'de.unimarburg.diz'
@@ -68,7 +69,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
-	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11'
+	//implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11'
 
 	// unit tests
 	testImplementation 'org.springframework.cloud:spring-cloud-stream'
@@ -80,6 +81,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.assertj:assertj-core:3.22.0'
+
 
 	// integration tests
 	intTestImplementation 'org.springframework.kafka:spring-kafka-test'

@@ -1,13 +1,19 @@
-package de.unimarburg.diz.kafkagenetictomtbxml.model;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+package de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import java.util.List;
 
 @Getter
 @Setter
-public class Unterformular {
-    @JacksonXmlProperty(localName = "ErkrankungExportID")
-    private int erkrankungExportID;
+
+public class TudokEintrag {
+
+    @JacksonXmlProperty(localName = "ExportID")
+    private int exportID;
 
     @JacksonXmlProperty(localName = "TumorId")
     private int tumorId;
@@ -22,10 +28,14 @@ public class Unterformular {
     private String formularName;
 
     @JacksonXmlProperty(localName = "FormularVersion")
-    private String formularVersion;
+    private int formularVersion;
 
+    @JacksonXmlProperty(localName = "Prozedurtyp")
+    private String prozedurtyp;
+
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Eintrag")
-    private Eintrag eintrag;
+    private List<Eintrag> eintraege;
 
     @JacksonXmlProperty(localName = "HauptTudokEintragExportID")
     private int hauptTudokEintragExportID;
@@ -35,4 +45,5 @@ public class Unterformular {
 
     @JacksonXmlProperty(localName = "BearbeitungStatus")
     private int bearbeitungStatus;
+
 }

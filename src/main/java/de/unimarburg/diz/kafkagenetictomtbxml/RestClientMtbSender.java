@@ -1,6 +1,8 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
 import com.fasterxml.jackson.core.JacksonException;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.OnkostarDaten;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.OnkostarDaten;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,11 @@ public class RestClientMtbSender {
 
     private static final Logger log = LoggerFactory.getLogger(RestClientMtbSender.class);
 
-    @Autowired
-    private RestTemplate restTemplate;
+    //@Autowired
+    //private RestTemplate restTemplate;
+    RestTemplate restTemplate = new RestTemplate();
+    XmlMapper xmlMapper = new XmlMapper();
+
     private static String postUrl;
     private final RetryTemplate retryTemplate = defaultTemplate();
 
@@ -57,12 +62,15 @@ public class RestClientMtbSender {
     }
 
     public String sendRequestToMtb(OnkostarDaten onkostarDaten) throws JacksonException {
+        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        String xmlOnkostarDaten = xmlMapper.writeValueAsString(onkostarDaten);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
-        HttpEntity<OnkostarDaten> requestEntity = new HttpEntity<>(onkostarDaten, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(xmlOnkostarDaten, headers);
         try {
             var response = retryTemplate.execute(ctx -> restTemplate
                     .exchange(postUrl, HttpMethod.POST, requestEntity, String.class));
+
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.debug("API request succeeded");
                 return response.getBody();

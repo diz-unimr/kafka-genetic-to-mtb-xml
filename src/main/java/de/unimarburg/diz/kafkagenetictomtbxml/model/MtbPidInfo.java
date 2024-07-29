@@ -5,14 +5,12 @@ import com.fasterxml.jackson.annotation.Nulls;
 import lombok.Data;
 
 import java.io.Serializable;
-
+@Data
 public class MtbPidInfo implements Serializable {
-    @JsonProperty
-    @JsonSetter(nulls = Nulls.AS_EMPTY)
+    @JsonProperty("pid")
     private String pid;
 
-    @JsonProperty
-    @JsonSetter(nulls = Nulls.AS_EMPTY)
+    @JsonProperty("tumorId")
     private String tumorId;
 
 }

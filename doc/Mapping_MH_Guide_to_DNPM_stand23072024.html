@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<body>
+	<ul>
+		<li><a>[[DNPM]]</a></li>
+		<ul>
+			<li>remapping <a>[[MH Guide]]</a> JSON output to MTB file</li>
+			<ul>
+				<li><a>[[Archer]]</a> <a>[[Complete Solid Tumor]]</a> panel</li>
+				<ul>
+					<li><code>ngsReports</code>:</li>
+					<ul>
+						<li><code>id</code>: bc976afc-ed7d-40f3-96b2-0a8a80077764</li>
+						<li>
+							<code>patient</code>: 47309a40-d933-4a56-b193-6aca5430f209
+						</li>
+						<li>
+							<code>specimen</code>: 8d9f0d13-a756-4cc2-aa49-f23411eb3257
+						</li>
+						<li><code>issueDate</code>: <b>2024-06-25</b></li>
+						<li><code>sequencingType</code>: <b>Targeted NGS</b></li>
+						<li><code>metadata</code>:</li>
+						<ul>
+							<li>
+								<code>kitType</code>:
+								<p>
+									if <b><code>GENERAL</code></b> ➔
+									<b><code>LABTEST_DISPLAY_NAME</code></b> =
+									<b
+									>VCF ArcherDx VP Complete Solid Tumor (unpaired)
+									PathoMarburg</b
+									><br />
+									then <b>Archer VariantPlex Complete Solid Tumor</b><br />
+									if <b><code>GENERAL</code></b> ➔
+									<b><code>LABTEST_DISPLAY_NAME</code></b> =
+									<b
+									>VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor
+									PathoMarburg v2</b
+									><br />
+									then
+									<b
+									>Archer VariantPlex Complete Solid Tumor + FusionPlex Pan
+									Solid Tumor v2</b
+									><br />
+								</p>
+							</li>
+							<li><code>kitManufacturer</code>: <b>Archer</b></li>
+							<li><code>sequencer</code>: <b>Illumina NovaSeq 6000</b></li>
+							<li><code>referenceGenome</code>: <b>GRCh37</b></li>
+							<li>
+								<code>pipeline</code>:
+								<p>
+									if <b><code>GENERAL</code></b> ➔
+									<b><code>LABTEST_DISPLAY_NAME</code></b> =
+									<b
+									>VCF ArcherDx VP Complete Solid Tumor (unpaired)
+									PathoMarburg</b
+									><br />
+									then <b><code>urn:Marburg:VP:CST:1.0:MHGuide:6.3.0</code></b
+										><br />
+										if <b><code>GENERAL</code></b> ➔
+										<b><code>LABTEST_DISPLAY_NAME</code></b> =
+										<b
+										>VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor
+										PathoMarburg v2</b
+										><br />
+										then
+										<b
+										><code
+										>urn:Marburg:VP:CST:1.0:FP:PST:1.0:MHGuide:6.3.0</code
+										></b
+										><br />
+									</p>
+								</li>
+							</ul>
+							<li><code>tumorCellContent</code>:</li>
+							<ul>
+								<li><code>id</code>: 7aff0bb4-5add-4c97-8d1f-140fa4961fb0</li>
+								<li>
+									<code>specimen</code>: 8d9f0d13-a756-4cc2-aa49-f23411eb3257
+								</li>
+								<li><code>method</code>: <b>bioinformatic</b></li>
+								<li><code>value</code>: <b>n/a</b></li>
+							</ul>
+							<li><code>brcaness</code>: <b>n/a</b></li>
+							<li>
+								<code>msi</code>:
+								<p>
+									if <b><code>VARIANT_LONG_LIST</code></b> ➔
+									<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>MSI</b><br />
+									and <b><code>VARIANT_LONG_LIST</code></b> ➔
+									<b><code>VARIANT_SYMBOL</code></b> = <b>MSS</b><br />
+									then: <b><code>VARIANT_LONG_LIST</code></b> ➔
+									<b><code>GENOMIC_EXTRA_DATA</code></b
+										><br />
+									</p>
+								</li>
+								<li>
+									<code>tmb</code>:
+									<p>
+										if <b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>TMB</b><br />
+										then: <b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>TMB_VARIANT_COUNT_PER_MEGABASE</code></b
+											><br />
+										</p>
+									</li>
+									<li>
+										<code>simpleVariants</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>SNV</b>)
+									</li>
+									<ul>
+										<li>
+											<code>id</code>: SNV_e57da71b-03ae-4572-b1be-042b6dd12c95
+										</li>
+										<li>
+											<code>chromosome</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>CHROMOSOMAL_MODIFIED_OBJECT</code></b>
+										</li>
+										<li>
+											<code>gene</code>: (only <code>symbol</code> mandatory,
+											<code>ensemblId</code>, <code>hgncId</code>, and
+											<code>name</code> will be filled automatically by DNPM)
+										</li>
+										<ul>
+											<li>
+												<code>ensemblId</code>:
+												<b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>TRANSCRIPT_HGVS_CODING</code></b> (filled by DNPM)
+											</li>
+											<li><code>hgncId</code>: (filled by DNPM)</li>
+											<li>
+												<code>symbol</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>GENE_SYMBOL</code></b>
+											</li>
+											<li><code>name</code>: (filled by DNPM)</li>
+										</ul>
+										<li><code>startEnd</code>:</li>
+										<ul>
+											<li>
+												<code>start</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (number must be
+												parsed, <i>e.g.</i> g.10106408C>T ➔ <b>10106408</b>)
+											</li>
+										</ul>
+										<li>
+											<code>refAllele</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>CHROMOSOMAL_MODIFICATION</code></b> (allele must be
+											parsed, <i>e.g.</i> g.10106408C>T ➔ <b>C</b>)
+										</li>
+										<li>
+											<code>altAllele</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>CHROMOSOMAL_MODIFICATION</code></b> (allele must be
+											parsed, <i>e.g.</i> g.10106408C>T ➔ <b>T</b>)
+										</li>
+										<li><code>dnaChange</code>:</li>
+										<ul>
+											<li>
+												<code>code</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (change must be
+												parsed, <i>e.g.</i> g.10106408C>T ➔ <b>C>T</b>)
+											</li>
+											<li><code>system</code>: <b>HGVS.c</b></li>
+										</ul>
+										<li><code>aminoAcidChange</code>:</li>
+										<ul>
+											<li>
+												<code>code</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>PROTEIN_MODIFICATION</code></b> (change must be
+												parsed, <i>e.g.</i> p.S1293C ➔ <b>S1293C</b>)
+											</li>
+											<li><code>system</code>: <b>HGVS.p</b></li>
+										</ul>
+										<li>
+											<code>readDepth</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>TOTAL_READS_IN_TUMOR</code></b>
+										</li>
+										<li>
+											<code>allelicFrequency</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>VARIANT_ALLELE_FREQUENCY_IN_TUMOR</code></b>
+										</li>
+										<li><code>cosmicId</code>: n/a</li>
+										<li>
+											<code>dbSNPId</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>DBSNP</code></b>
+										</li>
+										<li><code>interpretation</code>:</li>
+										<ul>
+											<li>
+												<code>code</code>:
+												<p>
+													if <b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>VARIANT_CLASSIFICATION</code></b> = 1 ➔
+													<b>benign</b><br />
+													if <b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>VARIANT_CLASSIFICATION</code></b> = 2 ➔
+													<b>likely benign</b><br />
+													if <b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>VARIANT_CLASSIFICATION</code></b> = 3 ➔
+													<b>uncertain significance</b><br />
+													if <b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>VARIANT_CLASSIFICATION</code></b> = 4 ➔
+													<b>likely pathogenic</b><br />
+													if <b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>VARIANT_CLASSIFICATION</code></b> = 5 ➔
+													<b>pathogenic</b><br />
+												</p>
+											</li>
+											<li><code>system</code>: <b>MH Guide</b></li>
+										</ul>
+									</ul>
+									<li> in contact with [[Molecular Health]]
+										<code>simpleVariants</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>ins</b>)
+									</li>
+									<li> in contact with [[Molecular Health]]
+										<code>simpleVariants</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>del</b>)
+									</li>
+									<li> in contact with [[Molecular Health]]
+										<code>simpleVariants</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>MNP</b>)
+									</li>
+									<li>
+										<code>copyNumberVariants</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>CNA</b>)
+									</li>
+									<ul>
+										<li>
+											<code>id</code>:
+											<code>CNV_AARS1_ABCC4_AADAT_ABCA6_high-level-gain</code>
+										</li>
+										<li>
+											<code>chromosome</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>CHROMOSOMAL_MODIFIED_OBJECT</code></b>
+										</li>
+										<li><code>startRange</code>:</li>
+										<ul>
+											<li>
+												<code>start</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (number must be
+												parsed, <i>e.g.</i> ChrX:47420516_47431307gain ➔
+												<b>47420516</b>)
+											</li>
+											<li>
+												<code>end</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (number must be
+												parsed, <i>e.g.</i> ChrX:47420516_47431307gain ➔
+												<b>47420516</b>)
+											</li>
+										</ul>
+										<li><code>endRange</code>:</li>
+										<ul>
+											<li>
+												<code>start</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (number must be
+												parsed, <i>e.g.</i> ChrX:47420516_47431307gain ➔
+												<b>47431307</b>)
+											</li>
+											<li>
+												<code>end</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (number must be
+												parsed, <i>e.g.</i> ChrX:47420516_47431307gain ➔
+												<b>47431307</b>)
+											</li>
+										</ul>
+										<li>
+											<code>totalCopyNumber</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>ANNOTATION_JSON</code></b> (number must be parsed,
+											<i>e.g.</i> ...GSP2 Count:"30" ➔ <b>30</b>)
+										</li>
+										<li>
+											<code>relativeCopyNumber</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>COPY_NUMBER</code></b>
+										</li>
+										<li>
+											<code>cnA</code>: n/a (in contact with
+											<a>[[Molecular Health]]</a>)
+										</li>
+										<li>
+											<code>cnB</code>: n/a (in contact with
+											<a>[[Molecular Health]]</a>)
+										</li>
+										<li>
+											<code>reportedAffectedGenes</code>: (only
+											<code>symbol</code> mandatory, <code>ensemblId</code>,
+											<code>hgncId</code>, and <code>name</code> will be filled
+											automatically by DNPM)
+										</li>
+										<ul>
+											<li><code>ensemblId</code>: (filled by DNPM)</li>
+											<li><code>hgncId</code>: (filled by DNPM)</li>
+											<li>
+												<code>symbol</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>GENE_SYMBOL</code></b>
+											</li>
+											<li><code>name</code>: (filled by DNPM)</li>
+										</ul>
+										<li><code>reportedFocality</code>: <b>complete</b></li>
+										<li>
+											<code>type</code>:
+											<p>
+												if <code>relativeCopyNumber</code> > 1 ➔
+												<b>high-level gain</b><br />
+												if <code>relativeCopyNumber</code> < 1 ➔
+												<b>high-level loss</b><br />
+											</p>
+										</li>
+										<li>
+											<code>copyNumberNeutralLoH</code>: (in contact with
+											<a>[[Molecular Health]]</a>)
+										</li>
+										<ul>
+											<li><code>ensemblId</code>: n/a</li>
+											<li><code>hgncId</code>: n/a</li>
+											<li><code>symbol</code>: n/a</li>
+											<li><code>name</code>: n/a</li>
+										</ul>
+									</ul>
+									<li><code>dnaFusions</code>: (not covered by panel)</li>
+									<ul>
+										<li><code>id</code>: n/a</li>
+										<li><code>fusionPartner5prime</code>:</li>
+										<ul>
+											<li><code>chromosome</code>: n/a</li>
+											<li><code>position</code>: n/a</li>
+											<li><code>gene</code>:</li>
+											<ul>
+												<li><code>ensemblId</code>: n/a</li>
+												<li><code>hgncId</code>: n/a</li>
+												<li><code>symbol</code>: n/a</li>
+												<li><code>name</code>: n/a</li>
+											</ul>
+										</ul>
+										<li><code>fusionPartner3prime</code>:</li>
+										<ul>
+											<li><code>chromosome</code>: n/a</li>
+											<li><code>position</code>: n/a</li>
+											<li><code>gene</code>:</li>
+											<ul>
+												<li><code>ensemblId</code>: n/a</li>
+												<li><code>hgncId</code>: n/a</li>
+												<li><code>symbol</code>: n/a</li>
+												<li><code>name</code>: n/a</li>
+											</ul>
+										</ul>
+										<li><code>reportedNumReads</code>: n/a</li>
+									</ul>
+									<li>
+										<code>rnaFusions</code>: (if
+										<b><code>VARIANT_LONG_LIST</code></b> ➔
+										<b><code>DISPLAY_VARIANT_TYPE</code></b> = <b>fusion</b>)
+									</li>
+									<ul>
+										<li>
+											<code>id</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>ANNOTATION_JSON</code></b> ➔
+											<b><code>QUIVER_FUSION_ID</code></b>
+										</li>
+										<li><code>fusionPartner5prime</code>:</li>
+										<ul>
+											<li>
+												<code>gene</code>: (only <code>symbol</code> mandatory,
+												<code>ensemblId</code>, <code>hgncId</code>, and
+												<code>name</code> will be filled automatically by DNPM)
+											</li>
+											<ul>
+												<li>
+													<code>ensemblId</code>:
+													<b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>ANNOTATION_JSON</code></b> ➔
+													<b><code>SEGMENT_1_DISPLAY_TRANSCRIPT_ID</code></b>
+													(filled by DNPM)
+												</li>
+												<li><code>hgncId</code>: (filled by DNPM)</li>
+												<li>
+													<code>symbol</code>:
+													<b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>DISPLAY_MODIFIED_OBJECT</code></b> (symbol must
+													be parsed, <i>e.g.</i> "NAB2/STAT6" ➔ <b>NAB2</b>)
+												</li>
+												<li><code>name</code>: (filled by DNPM)</li>
+											</ul>
+											<li>
+												<code>transcriptId</code>:
+												<b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>SEGMENT_1_DISPLAY_TRANSCRIPT_ID</code></b>
+											</li>
+											<li>
+												<code>exon</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>MH_EXON_NUMBER_1</code></b>
+											</li>
+											<li>
+												<code>position</code>:
+												<b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (position must
+												be parsed, <i>e.g.</i> "Chr12:57486751/Chr12:57502082" ➔
+												<b>Chr12:57486751</b>)
+											</li>
+											<li>
+												<code>strand</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>SEGMENT_1_ALIGNMENT_STRAND</code></b>
+											</li>
+										</ul>
+										<li><code>fusionPartner3prime</code>:</li>
+										<ul>
+											<li>
+												<code>gene</code>: (only <code>symbol</code> mandatory,
+												<code>ensemblId</code>, <code>hgncId</code>, and
+												<code>name</code> will be filled automatically by DNPM)
+											</li>
+											<ul>
+												<li>
+													<code>ensemblId</code>:
+													<b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>ANNOTATION_JSON</code></b> ➔
+													<b><code>SEGMENT_2_DISPLAY_TRANSCRIPT_ID</code></b>
+													(filled by DNPM)
+												</li>
+												<li><code>hgncId</code>: (filled by DNPM)</li>
+												<li>
+													<code>symbol</code>:
+													<b><code>VARIANT_LONG_LIST</code></b> ➔
+													<b><code>DISPLAY_MODIFIED_OBJECT</code></b> (symbol must
+													be parsed, <i>e.g.</i> "NAB2/STAT6" ➔ <b>STAT6</b>)
+												</li>
+												<li><code>name</code>: (filled by DNPM)</li>
+											</ul>
+											<li>
+												<code>transcriptId</code>:
+												<b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>SEGMENT_2_DISPLAY_TRANSCRIPT_ID</code></b>
+											</li>
+											<li>
+												<code>exon</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>MH_EXON_NUMBER_2</code></b>
+											</li>
+											<li>
+												<code>position</code>:
+												<b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>CHROMOSOMAL_MODIFICATION</code></b> (position must
+												be parsed, <i>e.g.</i> "Chr12:57486751/Chr12:57502082" ➔
+												<b>Chr12:57502082</b>)
+											</li>
+											<li>
+												<code>strand</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+												<b><code>ANNOTATION_JSON</code></b> ➔
+												<b><code>SEGMENT_2_ALIGNMENT_STRAND</code></b>
+											</li>
+										</ul>
+										<li>
+											<code>effect</code>: <b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>VARIANT_EFFECT</code></b>
+										</li>
+										<li><code>cosmicId</code>: n/a</li>
+										<li>
+											<code>reportedNumReads</code>:
+											<b><code>VARIANT_LONG_LIST</code></b> ➔
+											<b><code>SUPPORTING_READ_PAIRS_IN_FUSION_GENE</code></b>
+										</li>
+									</ul>
+									<li><code>rnaSeqs</code>: (not covered by panel)</li>
+									<ul>
+										<li><code>id</code>: n/a</li>
+										<li><code>entrezId</code>: n/a</li>
+										<li><code>ensemblId</code>: n/a</li>
+										<li><code>gene</code>:</li>
+										<ul>
+											<li><code>ensemblId</code>: n/a</li>
+											<li><code>hgncId</code>: n/a</li>
+											<li><code>symbol</code>: n/a</li>
+											<li><code>name</code>: n/a</li>
+										</ul>
+										<li><code>transcriptId</code>: n/a</li>
+										<li><code>fragmentsPerKilobaseMillion</code>: n/a</li>
+										<li><code>fromNGS</code>: n/a</li>
+										<li><code>tissueCorrectedExpression</code>: n/a</li>
+										<li><code>rawCounts</code>: n/a</li>
+										<li><code>librarySize</code>: n/a</li>
+										<li><code>cohortRanking</code>: n/a</li>
+									</ul>
+								</ul>
+							</ul>
+						</ul>
+					</ul>
+				</ul>
+			</body>
+			</html>
+			

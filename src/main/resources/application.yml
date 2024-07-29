@@ -32,6 +32,16 @@ services:
   mtbSender:
     post_url: ${URL_MTB_POST:http://127.0.0.1:5000/MTBFile}
 
+metadata:
+  ngsReports:
+    kitManufacturer: ${KIT_MANUFACTURER:Archer}
+    sequencer: ${SEQUENCER:Illumina NovaSeq 6000}
+    referenceGenome: ${REFERENCE_GENOME:GRCh37}
+    sequencingType: ${SEQUENCING_TYPE:Targeted NGS}
+    interpolationSystem: ${INTERPOLATION_SYSTEM:MH Guide}
+    reportedFocality: ${REPORTED_FOCALITY:complete}
+
+
 management:
   server:
     port: 8080

@@ -35,17 +35,23 @@ public class Eintrag {
     @JacksonXmlProperty(localName = "Kurztext")
     private String kurztext;
 
+    @JacksonXmlProperty(localName = "FachabteilungKennung")
+    private String fachabteilungKennung;
+
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Unterformular")
     private List<Unterformular> unterformulars;
 
-    public Eintrag(String Feldname, String wert, String genauigkeit, String filterkategorie, String version, String kurztext, List<Unterformular> unterformulars) {
+
+
+    public Eintrag(String Feldname, String wert, String genauigkeit, String filterkategorie, String version, String kurztext, String fachabteilungKennung, List<Unterformular> unterformulars) {
         this.Feldname = Feldname;
         this.genauigkeit = genauigkeit;
         this.wert = wert;
         this.filterkategorie = filterkategorie;
         this.version = version;
         this.kurztext = kurztext;
+        this.fachabteilungKennung = fachabteilungKennung;
         this.unterformulars = unterformulars;
     }
 
@@ -95,6 +101,14 @@ public class Eintrag {
     }
     public void setKurztext(String kurztext) {
         this.kurztext = kurztext;
+    }
+
+    public String getFachabteilungKennung() {
+        return fachabteilungKennung;
+    }
+
+    public String setFachabteilungKennung(String fachabteilungKennung) {
+        return fachabteilungKennung;
     }
 
     public List<Unterformular> getUnterformulars() {

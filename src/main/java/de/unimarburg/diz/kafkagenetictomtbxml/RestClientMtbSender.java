@@ -25,11 +25,8 @@ public class RestClientMtbSender {
 
     private static final Logger log = LoggerFactory.getLogger(RestClientMtbSender.class);
 
-    //@Autowired
-    //private RestTemplate restTemplate;
     RestTemplate restTemplate = new RestTemplate();
     XmlMapper xmlMapper = new XmlMapper();
-
     private static String postUrl;
     private final RetryTemplate retryTemplate = defaultTemplate();
 

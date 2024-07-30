@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OnkostarDaten>
+    <Titel/>
+    <SendendeOrganisation>
+        <Bezeichnung/>
+        <Kennung/>
+    </SendendeOrganisation>
+    <SendeDatum>2024-07-22T11:05:43.410+02:00</SendeDatum>
+    <DokumentId>1</DokumentId>
+    <DokumentVersion>1</DokumentVersion>
+    <Inhalt>
+        <PatientenDaten>
+            <Patient>
+                <PatientenId>1000</PatientenId>
+                <Personendaten>
+                    <Nachname/>
+                    <Vorname/>
+                    <Geburtsdatum/>
+                    <Geschlecht/>
+                    <Titel/>
+                    <Namenzusatz/>
+                    <Namensvorsatz/>
+                    <Geburtsname/>
+                    <AndereNamen/>
+                    <Geburtsland/>
+                    <Geburtsort/>
+                    <AktuelleAdresse>
+                        <Strasse/>
+                        <Hausnummer/>
+                        <PLZ/>
+                        <Wohnort/>
+                        <Adresszusatz/>
+                        <Land/>
+                        <Bundesland/>
+                        <Postfix/>
+                        <GKZ/>
+                    </AktuelleAdresse>
+                    <Telefonnummer/>
+                    <Telefonnummer2/>
+                    <Emailadresse/>
+                    <Nachsorgepassnr/>
+                </Personendaten>
+                <LetzteInformation>2023-09-27+02:00</LetzteInformation>
+                <Sterbedatum/>
+                <SterbedatumGenauigkeit/>
+                <Versichertennummer/>
+                <AHV-Nummer/>
+                <Familienangehoerigennummer/>
+                <Krankenkassennummer/>
+                <Geburtsort/>
+                <Staatsangehoerigkeit/>
+                <Familienstand/>
+                <Geburtsland/>
+                <Anmerkung/>
+                <AnmerkungLkr/>
+                <PidGesperrt>false</PidGesperrt>
+                <AngelegtAm>2023-08-10T12:00:08.000+02:00</AngelegtAm>
+                <ZuletztBearbeitetAm>2024-06-10T10:58:07.000+02:00</ZuletztBearbeitetAm>
+            </Patient>
+            <Dokumentation>
+                <Erkrankung>
+                    <TumorId>1</TumorId>
+                    <ErkrankungICD10/>
+                    <ErkrankungICD10VersionOID/>
+                    <ErkrankungLokalisation/>
+                    <ErkrankungLokalisationVersionOID/>
+                    <ErkrankungHistologie/>
+                    <ErkrankungHistologieVersionOID/>
+                    <Diagnosedatum>2024-01-11T12:00:08.000+02:00</Diagnosedatum>
+                    <DiagnosedatumAcc/>
+                    <Diagnosestatus/>
+                    <DiagnosestatusVersionOID/>
+                    <Diagnosetext/>
+                    <Revision>19</Revision>
+                </Erkrankung>
+                <TudokEintrag>
+                    <ExportID>1</ExportID>
+                    <TumorId>1</TumorId>
+                    <DokumentierendeFachabteilung>
+                        <FachabteilungKennung>Studiensekretariat H\xe4matologie</FachabteilungKennung>
+                        <EinrichtungKennung>CCCUMR</EinrichtungKennung>
+                    </DokumentierendeFachabteilung>
+                    <StartDatum>2024-07-21</StartDatum>
+                    <FormularName>OS.Molekulargenetik</FormularName>
+                    <FormularVersion>1</FormularVersion>
+                    <Prozedurtyp>Beobachtung</Prozedurtyp>
+                    <Eintrag Feldname="AnalyseID"/>
+                    <Eintrag Feldname="AnalyseMethode">
+                        <Wert></Wert>
+                    </Eintrag>
+                    <Eintrag Feldname="AnalyseMethoden">
+                        <Wert>S,H,</Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version>OS.MolArtderHybridisierung.v1</Version>
+                    </Eintrag>
+                    <Eintrag Feldname="ArtDerSequenzierung">
+                        <Wert></Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version>OS.MolArtderHybridisierung.v1</Version>
+                        <Kurztext></Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="ArtinsituHybridisierung">
+                        <Wert></Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version></Version>
+                        <Kurztext></Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="Blocknummer">
+                        <Wert></Wert>
+                    </Eintrag>
+                    <Eintrag Feldname="Datum">
+                        <Wert></Wert>
+                        <Genauigkeit></Genauigkeit>
+                    </Eintrag>
+                    <Eintrag Feldname="Dokumentation">
+                        <Wert>BAS</Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version>OS.MolDokumentation.v1</Version>
+                        <Kurztext>Basis</Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="DurchfuehrendeOE">
+                        <Wert></Wert>
+                        <Kurztext></Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="Einsendenummer">
+                        <Wert></Wert>
+                    </Eintrag>
+                    <Eintrag Feldname="Entnahmedatum">
+                        <Wert>2024-07-21</Wert>
+                    </Eintrag>
+                    <Eintrag Feldname="EntnahmeMethoden">
+                        <Wert>B</Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version>OS.MolDiagEntnahmemethode.v1</Version>
+                        <Kurztext>Biopsie</Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="ErgebnisMSI">
+                        <Wert></Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                    </Eintrag>
+                    <Eintrag Feldname="InternExtern">
+                        <Wert></Wert>
+                        <Filterkategorie>{}</Filterkategorie>
+                        <Version>OS.MolDiagInternExtern.v1</Version>
+                        <Kurztext>Andere Einrichtung</Kurztext>
+                    </Eintrag>
+                    <Eintrag Feldname="MolekulargenetischeUntersuchung">
+                        <Unterformular>
+                            <ExportID>1</ExportID>
+                            <TumorId>1</TumorId>
+                            <DokumentierendeFachabteilung/>
+                            <StartDatum>2023-08-10</StartDatum>
+                            <FormularName>OS.Molekulargenetische Untersuchung</FormularName>
+                            <FormularVersion>1</FormularVersion>
+                            <Prozedurtyp>Beobachtung</Prozedurtyp>
+                            <Eintrag Feldname="Dokumentation">
+                                <Wert>ERW</Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                                <Version>OS.MolDokumentation.v1</Version>
+                                <Kurztext>Erweitert</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="Aktivierend">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelfrequenz">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelzahl">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Analysemethode">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                            </Eintrag>
+                            <Eintrag Feldname="Bemerkung">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Datum">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVAltNucleotide">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVCOSMICID">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVChromosom">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                            </Eintrag>
+                            <Eintrag Feldname="EVENSEMBLID">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVEnde">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVHGNCID">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVHGNCName"/>
+                            <Eintrag Feldname="EVHGNCSymbol">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVNMNummer"/>
+                            <Eintrag Feldname="EVReadDepth">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="EVRefNucleotide"/>
+                            <Eintrag Feldname="EVStart"/>
+                            <Eintrag Feldname="Untersucht">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                                <Kurztext>NF1</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="Ergebnis">
+                                <Wert>P</Wert>
+                                <Filterkategorie>
+                                    {&amp;quot;OS.MolGenErgebnis.v1&amp;quot;:&amp;quot;Standard&amp;quot;}
+                                </Filterkategorie>
+                                <Version>OS.MolGenErgebnis.v1</Version>
+                                <Kurztext>Einfache Variante (Mutation / positiv)</Kurztext>
+                            </Eintrag>
+                        </Unterformular>
+                        <Unterformular>
+                            <ExportID>1</ExportID>
+                            <TumorId>1</TumorId>
+                            <DokumentierendeFachabteilung/>
+                            <StartDatum>2023-08-10</StartDatum>
+                            <FormularName>OS.Molekulargenetische Untersuchung</FormularName>
+                            <FormularVersion>1</FormularVersion>
+                            <Prozedurtyp>Beobachtung</Prozedurtyp>
+                            <Eintrag Feldname="Dokumentation">
+                                <Wert>ERW</Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                                <Version>OS.MolDokumentation.v1</Version>
+                                <Kurztext>Erweitert</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="Ergebnis">
+                                <Wert>CNV</Wert>
+                                <Filterkategorie>
+                                    {&amp;quot;OS.MolGenErgebnis.v1&amp;quot;:&amp;quot;Standard&amp;quot;}
+                                </Filterkategorie>
+                                <Version>OS.MolGenErgebnis.v1</Version>
+                                <Kurztext>Copy number variation (CNV)</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="Aktivierend">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelfrequenz">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelzahl">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Analysemethode">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                            </Eintrag>
+                            <Eintrag Feldname="Bemerkung">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Datum">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="BetroffeneGene"/>
+                            <Eintrag Feldname="CNVCNB"/>
+                            <Eintrag Feldname="CNVCNA"/>
+                            <Eintrag Feldname="Untersucht">
+                                <Wert>MSH3</Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                                <Version>OS.Molekulargenetik.v1</Version>
+                                <Kurztext>MSH3</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="CNVChromosom">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                            </Eintrag>
+                            <Eintrag Feldname="CNVENSEMBLID"/>
+                            <Eintrag Feldname="CNVEndRange"/>
+                            <Eintrag Feldname="CNVHGNCID"/>
+                            <Eintrag Feldname="CNVHGNCName"/>
+                            <Eintrag Feldname="CNVHGNCSymbol"/>
+                            <Eintrag Feldname="CNVNeutralLoH"/>
+                            <Eintrag Feldname="CNVRelativeCN"/>
+                            <Eintrag Feldname="CNVReportedFocality"/>
+                            <Eintrag Feldname="CNVStartRange"/>
+                            <Eintrag Feldname="CNVTotalCN"/>
+                            <Eintrag Feldname="CNVTotalCNDouble"/>
+                            <Eintrag Feldname="Codon"/>
+                            <Eintrag Feldname="CopyNumberVariation"/>
+                        </Unterformular>
+                        <Unterformular>
+                            <ExportID>1</ExportID>
+                            <TumorId>1</TumorId>
+                            <DokumentierendeFachabteilung/>
+                            <StartDatum>2023-08-10</StartDatum>
+                            <FormularName>OS.Molekulargenetische Untersuchung</FormularName>
+                            <FormularVersion>1</FormularVersion>
+                            <Prozedurtyp>Beobachtung</Prozedurtyp>
+                            <Eintrag Feldname="Dokumentation">
+                                <Wert>ERW</Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                                <Version>OS.MolDokumentation.v1</Version>
+                                <Kurztext>Erweitert</Kurztext>
+                            </Eintrag>
+                            <Eintrag Feldname="Aktivierend">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelfrequenz">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Allelzahl">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Analysemethode">
+                                <Wert></Wert>
+                                <Filterkategorie>{}</Filterkategorie>
+                            </Eintrag>
+                            <Eintrag Feldname="Bemerkung">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="Datum">
+                                <Wert></Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="FusionArt">
+                                <Wert>RNA</Wert>
+                            </Eintrag>
+                            <Eintrag Feldname="FusionRNA3ENSEMBLID"/>
+                            <Eintrag Feldname="FusionRNA3ExonID"/>
+                            <Eintrag Feldname="FusionRNA3HGNCID"/>
+                            <Eintrag Feldname="FusionRNA3HGNCName"/>
+                            <Eintrag Feldname="FusionRNA3HGNCSymbol"/>
+                            <Eintrag Feldname="FusionRNA3Strand"/>
+                            <Eintrag Feldname="FusionRNA3TransPosition"/>
+                            <Eintrag Feldname="FusionRNA3TranscriptID"/>
+                            <Eintrag Feldname="FusionRNA5ENSEMBLID"/>
+                            <Eintrag Feldname="FusionRNA5ExonID"/>
+                            <Eintrag Feldname="FusionRNA5HGNCID"/>
+                            <Eintrag Feldname="FusionRNA3HGNCName"/>
+                            <Eintrag Feldname="FusionRNA5HGNCSymbol"/>
+                            <Eintrag Feldname="FusionRNA5Strand"/>
+                            <Eintrag Feldname="FusionRNA5TransPosition"/>
+                            <Eintrag Feldname="FusionRNA5TranscriptID"/>
+                            <Eintrag Feldname="FusionRNACosmicID"/>
+                            <Eintrag Feldname="FusionRNAEffect"/>
+                            <Eintrag Feldname="FusionRNAReportedNumRead"/>
+                            <Eintrag Feldname="Untersucht"/>
+                            <Eintrag Feldname="Ergebnis">
+                                <Wert>F</Wert>
+                                <Filterkategorie>
+                                    {&amp;quot;OS.MolGenErgebnis.v1&amp;quot;:&amp;quot;Standard&amp;quot;}
+                                </Filterkategorie>
+                                <Version>OS.MolGenErgebnis.v1</Version>
+                                <Kurztext>Fusion (Translokation Inversion Insertion)</Kurztext>
+                            </Eintrag>
+                        </Unterformular>
+                    </Eintrag>
+                    <HauptTudokEintragExportID>12345</HauptTudokEintragExportID>
+                    <Revision>7</Revision>
+                    <BearbeitungStatus>2</BearbeitungStatus>
+                </TudokEintrag>
+            </Dokumentation>
+        </PatientenDaten>
+    </Inhalt>
+</OnkostarDaten>

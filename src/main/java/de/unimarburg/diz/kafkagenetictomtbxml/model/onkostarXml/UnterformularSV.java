@@ -11,7 +11,7 @@ public class UnterformularSV extends Unterformular{
     private List<Eintrag> eintraege;
 
     public UnterformularSV() {}
-    public UnterformularSV(int exportID, int tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
+    public UnterformularSV(int exportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
                            String startDatum, String formularName, int formularVersion, String prozedurtyp, List<Eintrag> eintraege) {
         super(exportID,tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
         this.eintraege = eintraege;

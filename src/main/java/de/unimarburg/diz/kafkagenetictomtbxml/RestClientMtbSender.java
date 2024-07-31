@@ -30,7 +30,6 @@ public class RestClientMtbSender {
     private static String postUrl;
     private final RetryTemplate retryTemplate = defaultTemplate();
 
-    @Autowired
     public RestClientMtbSender(@Value("${services.mtbSender.post_url}") String postUrl
     )
     {

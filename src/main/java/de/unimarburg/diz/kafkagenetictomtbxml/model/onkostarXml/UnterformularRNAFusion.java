@@ -11,7 +11,7 @@ public class UnterformularRNAFusion extends Unterformular {
     private List<Eintrag> eintraege;
 
     public UnterformularRNAFusion() {}
-    public UnterformularRNAFusion(int exportID, int tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
+    public UnterformularRNAFusion(int exportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
                             String startDatum, String formularName, int formularVersion,  String prozedurtyp, List<Eintrag> eintraege) {
         super(exportID,tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
         this.eintraege = eintraege;

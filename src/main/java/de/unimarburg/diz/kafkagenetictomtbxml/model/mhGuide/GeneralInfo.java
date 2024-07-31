@@ -22,7 +22,7 @@ public class GeneralInfo implements Serializable {
     private String orderDate;
     @JsonProperty("DISEASE_DESCRIPTION")
     private String diseaseDescription;
-    @JsonProperty("Pancreatic Neoplasms")
+    @JsonProperty("PT_DISEASE_NAME")
     private String patientIdentifier;
     @JsonProperty("LABTEST_DISPLAY_NAME")
     private String lastestDisplayName;

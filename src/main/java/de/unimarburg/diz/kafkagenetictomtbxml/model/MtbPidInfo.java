@@ -13,4 +13,7 @@ public class MtbPidInfo implements Serializable {
     @JsonProperty("tumorId")
     private String tumorId;
 
+    @JsonProperty("orderId")
+    private String orderId;
+
 }

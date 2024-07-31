@@ -8,7 +8,7 @@ import lombok.Setter;
 
 public class Erkrankung {
     @JacksonXmlProperty(localName = "TumorId")
-    private int tumorId;
+    private String tumorId;
     @JacksonXmlProperty(localName = "ErkrankungICD10")
     private String erkrankungICD10;
     @JacksonXmlProperty(localName = "ErkrankungICD10VersionOID")

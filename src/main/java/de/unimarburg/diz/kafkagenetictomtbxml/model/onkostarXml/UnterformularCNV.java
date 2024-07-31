@@ -14,7 +14,7 @@ public class UnterformularCNV extends Unterformular {
     private List<Eintrag> eintraege;
 
     public UnterformularCNV() {}
-    public UnterformularCNV(int exportID, int tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
+    public UnterformularCNV(int exportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
                             String startDatum, String formularName, int formularVersion,  String prozedurtyp, List<Eintrag> eintraege) {
         super(exportID,tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
         this.eintraege = eintraege;

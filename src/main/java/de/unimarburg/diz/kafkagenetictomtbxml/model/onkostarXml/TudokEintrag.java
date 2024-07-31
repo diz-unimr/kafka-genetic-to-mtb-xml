@@ -16,7 +16,7 @@ public class TudokEintrag {
     private int exportID;
 
     @JacksonXmlProperty(localName = "TumorId")
-    private int tumorId;
+    private String tumorId;
 
     @JacksonXmlProperty(localName = "DokumentierendeFachabteilung")
     private DokumentierendeFachabteilung dokumentierendeFachabteilung;

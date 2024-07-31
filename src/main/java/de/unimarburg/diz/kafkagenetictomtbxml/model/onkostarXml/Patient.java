@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class Patient {
     @JacksonXmlProperty(localName = "PatientenId")
-    private int patientenId;
+    private String patientenId;
 
     @JacksonXmlProperty(localName = "Personendaten")
     private Personendaten personendaten;

@@ -1,12 +1,13 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularSV;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.Arrays;
 @Component
@@ -17,7 +18,68 @@ public class UnterformularSVMapper {
         this.interpolationSystem = interpolationSystem;
     }
 
-    public UnterformularSV createXmlUnterformularSV (MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo, DokumentierendeFachabteilung dokumentierendeFachabteilung) {
+    public String parseStartEnd(String chromosomalModi){
+
+        String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(chromosomalModi);
+        String startEnd = "";
+        if (matcher.find()) {
+            startEnd = matcher.group(1);
+
+        }
+        return startEnd;
+    }
+
+    public String parserRefAlle(String chromosomalModi){
+
+        String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(chromosomalModi);
+        String refAlle = "";
+        if (matcher.find()) {
+            refAlle = matcher.group(2);
+
+        }
+        return refAlle;
+    }
+
+    public String parseAltAlle(String chromosomalModi){
+
+        String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(chromosomalModi);
+        String altAlle = "";
+        if (matcher.find()) {
+            altAlle = matcher.group(3);
+        }
+        return altAlle;
+    }
+
+    public String parseDnaChange(String chromosomalModi){
+        String regex = "g\\.(\\d+)([A-Za-z].*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(chromosomalModi);
+        String dnaChange = "";
+        if (matcher.find()) {
+            dnaChange = matcher.group(1);
+
+        }
+       return dnaChange;
+    }
+
+    public String parseAminoAcidChange(String chromosomalModi){
+        String regex = "p\\.([A-Za-z].*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(chromosomalModi);
+        String aminoChange = "";
+        if (matcher.find()) {
+            aminoChange = matcher.group(1);
+        }
+        return aminoChange;
+    }
+
+    public UnterformularSV createXmlUnterformularSV (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) {
         UnterformularSV unterformularSV = new UnterformularSV();
         unterformularSV.setExportID(1);
         unterformularSV.setTumorId("1");
@@ -42,7 +104,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: Allelfrequenz
         Eintrag allelfrequenz = new Eintrag();
         allelfrequenz.setFeldname("Allelfrequenz");
-        allelfrequenz.setWert("");
+        allelfrequenz.setWert(variantLongList.getVariantAlleleFrequencyInTumor());
 
         // SV-Unterformular: Eintrag: Allelzahl
         Eintrag allelzahl = new Eintrag();
@@ -67,11 +129,13 @@ public class UnterformularSVMapper {
         datumSV.setWert("");
 
         // SV-Unterformular: Eintrag: "EVAltNucleotide
+        // NA
         Eintrag eVAltNucleotide  = new Eintrag();
         eVAltNucleotide.setFeldname("EVAltNucleotide");
         eVAltNucleotide.setWert("");
 
         // SV-Unterformular: Eintrag: EVCOSMICID
+        // NA
         Eintrag eVCOSMICID = new Eintrag();
         eVCOSMICID.setFeldname("EVCOSMICID");
         eVCOSMICID.setWert("");
@@ -79,10 +143,11 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVChromosom
         Eintrag eVChromosom = new Eintrag();
         eVChromosom.setFeldname("EVChromosom");
-        eVChromosom.setWert("");
+        eVChromosom.setWert(variantLongList.getChromosomeModifiedObject());
         eVChromosom.setFilterkategorie("{}");
 
         // SV-Unterformular: Eintrag: EVENSEMBLID
+        // Wird automatisch aus der EVHGNCSymbol zugeordnet
         Eintrag eVENSEMBLID = new Eintrag();
         eVENSEMBLID.setFeldname("EVENSEMBLID");
         eVENSEMBLID.setWert("");
@@ -103,7 +168,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVHGNCSymbol
         Eintrag eVHGNCSymbol = new Eintrag();
         eVHGNCSymbol.setFeldname("EVHGNCSymbol");
-        eVHGNCSymbol.setWert("");
+        eVHGNCSymbol.setWert(variantLongList.getGeneSymbol());
 
         // SV-Unterformular: Eintrag: EVNMNummer
         Eintrag eVNMNummer = new Eintrag();
@@ -112,6 +177,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVReadDepth
         Eintrag eVReadDepth = new Eintrag();
         eVReadDepth.setFeldname("EVReadDepth");
+        eVReadDepth.setWert(variantLongList.getTotalReadsInTumor());
         eVReadDepth.setWert("");
 
         // SV-Unterformular: Eintrag: EVRefNucleotide
@@ -121,6 +187,8 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVStart
         Eintrag eVStart = new Eintrag();
         eVStart.setFeldname("EVStart");
+        String evStartString = parseStartEnd(variantLongList.getChromosomeModification());
+        eVStart.setWert(evStartString);
 
         // SV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();

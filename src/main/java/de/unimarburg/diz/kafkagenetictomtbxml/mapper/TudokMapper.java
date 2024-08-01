@@ -147,6 +147,7 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : ErgebnisMSI
         Eintrag ergebnisMSI = new Eintrag();
         ergebnisMSI.setFeldname("ErgebnisMSI");
+
         ergebnisMSI.setWert("");
         ergebnisMSI.setFilterkategorie("{}");
 
@@ -179,7 +180,7 @@ public class TudokMapper {
                 switch (variantType) {
                     case "SNV":
                         log.info("SNV found");
-                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mhGuideInfo, mtbPidInfo, dokumentierendeFachabteilung);
+                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularSV);
                         log.info("New formular created and add to the list of unterformular");
                         break;
@@ -196,6 +197,13 @@ public class TudokMapper {
                     case "TMB":
                         log.info("TMB found");
                         tumorMutationalBurden.setWert(variantLongList.getTmbVariantCountPerMegabase());
+                        break;
+                    case "MSI":
+                        log.info("MSI found");
+                        var variantSymbol = variantLongList.getVariantSymbol();
+                        if (variantSymbol.equals("MSS")){
+                            ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
+                        }
                         break;
                 }
             }else {

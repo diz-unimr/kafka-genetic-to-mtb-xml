@@ -1,7 +1,10 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularRNAFusion;
@@ -11,8 +14,14 @@ import java.util.Arrays;
 @Component
 public class UnterformularRANFusionMapper {
 
+    public  String extractStringFromJson(String jsonAnotation, String keyToExtract) throws JsonProcessingException {
 
-    public UnterformularRNAFusion createXmlUnterformularRANFusion (MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo, DokumentierendeFachabteilung dokumentierendeFachabteilung){
+        ObjectMapper objectMapper = new ObjectMapper();
+        var jsonNode = objectMapper.readTree(jsonAnotation);
+        var value = jsonNode.get(keyToExtract).asText();
+        return value;
+    }
+    public UnterformularRNAFusion createXmlUnterformularRANFusion (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung){
         UnterformularRNAFusion unterformularRNAFusion = new UnterformularRNAFusion();
         unterformularRNAFusion.setExportID(1);
         unterformularRNAFusion.setTumorId("1");
@@ -112,6 +121,7 @@ public class UnterformularRANFusionMapper {
         Eintrag fusionRNA5ExonID = new Eintrag();
         fusionRNA5ExonID.setFeldname("FusionRNA5ExonID");
 
+
         // Unterformular: Eintrag: Feldname = FusionRNA5HGNCID
         Eintrag fusionRNA5HGNCID = new Eintrag();
         fusionRNA5HGNCID.setFeldname("FusionRNA5HGNCID");
@@ -141,13 +151,17 @@ public class UnterformularRANFusionMapper {
         Eintrag fusionRNACosmicID = new Eintrag();
         fusionRNACosmicID.setFeldname("FusionRNACosmicID");
 
+
         // Unterformular: Eintrag: Feldname = FusionRNAEffect
         Eintrag fusionRNAEffect = new Eintrag();
         fusionRNAEffect.setFeldname("FusionRNAEffect");
+        fusionRNAEffect.setFeldname(variantLongList.getVariantEffect());
 
         // Unterformular: Eintrag: Feldname = FusionRNAReportedNumRead
         Eintrag fusionRNAReportedNumRead = new Eintrag();
-        fusionRNAReportedNumRead.setFeldname("FusionRNAReportedNumRead");        // Unterformular: Eintrag: Feldname = FusioniertesGen
+        fusionRNAReportedNumRead.setFeldname("FusionRNAReportedNumRead");
+        fusionRNAReportedNumRead.setWert(variantLongList.getVariantEffect());
+        // Unterformular: Eintrag: Feldname = FusioniertesGen
 
         // Unterformular: Eintrag: Feldname = Untersucht
         Eintrag untersucht = new Eintrag();

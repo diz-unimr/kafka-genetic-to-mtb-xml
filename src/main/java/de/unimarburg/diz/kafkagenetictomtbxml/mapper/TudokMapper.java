@@ -1,5 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
@@ -46,7 +47,7 @@ public class TudokMapper {
         this.panel = panel;
     }
 
-    public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) {
+    public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) throws JsonProcessingException {
         TudokEintrag tudokEintrag = new TudokEintrag();
 
 
@@ -186,12 +187,12 @@ public class TudokMapper {
                         break;
                     case "CNV":
                         log.info("CNV found");
-                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mhGuideInfo, mtbPidInfo, dokumentierendeFachabteilung);
+                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularCNV);
                         log.info("New formular created and add to the list of unterformular");
                         break;
                     case "fusion":
-                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mhGuideInfo, mtbPidInfo, dokumentierendeFachabteilung);
+                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularRNAFusion);
                         break;
                     case "TMB":

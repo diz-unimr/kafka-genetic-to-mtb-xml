@@ -190,6 +190,11 @@ public class UnterformularSVMapper {
         String evStartString = parseStartEnd(variantLongList.getChromosomeModification());
         eVStart.setWert(evStartString);
 
+        // SV-Unterformular: EVdbSNPID
+        Eintrag eVdbSNPID = new Eintrag();
+        eVdbSNPID.setFeldname("EVdbSNPID");
+        eVdbSNPID.setWert(variantLongList.getDbsnp());
+
         // SV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");

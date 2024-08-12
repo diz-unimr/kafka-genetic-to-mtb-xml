@@ -1,10 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
@@ -30,8 +27,7 @@ public class UnterformularCNVMapper {
 
         ObjectMapper objectMapper = new ObjectMapper();
         var jsonNode = objectMapper.readTree(jsonAnotation);
-        var value = jsonNode.get(keyToExtract).asText();
-        return value;
+        return jsonNode.get(keyToExtract).asText();
     }
     public UnterformularCNV createXmlUnterformularCNV (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular

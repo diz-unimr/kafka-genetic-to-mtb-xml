@@ -14,15 +14,15 @@ public class UnterformularCNV extends Unterformular {
     private List<Eintrag> eintraege;
 
     public UnterformularCNV() {}
-    public UnterformularCNV(int exportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
-                            String startDatum, String formularName, int formularVersion,  String prozedurtyp, List<Eintrag> eintraege) {
-        super(exportID,tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
+    public UnterformularCNV(int exportID,  int erkrankungExportID, int tumorId,  DokumentierendeFachabteilung dokumentierendeFachabteilung,
+                            String startDatum, String formularName, int formularVersion,  String prozedurtyp, List<Eintrag> eintraege, int hauptTudokEintragExportID, int revision, int bearbeitungStatus) {
+        super(exportID,erkrankungExportID, tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp, hauptTudokEintragExportID,revision,bearbeitungStatus);
         this.eintraege = eintraege;
     }
     public List<Eintrag> getEintraege() {
         return eintraege;
     }
-    public void setEintraege(List<Eintrag> eintraegee) {
-        this.eintraege = eintraegee;
+    public void setEintraege(List<Eintrag> eintraege) {
+        this.eintraege = eintraege;
     }
 }

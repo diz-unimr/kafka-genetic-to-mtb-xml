@@ -2,18 +2,38 @@ package de.unimarburg.diz.kafkagenetictomtbxml.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
+
 @Data
 public class MtbPidInfo implements Serializable {
-    @JsonProperty("pid")
+    @JsonProperty("patienten_id")
     private String pid;
 
-    @JsonProperty("tumorId")
-    private String tumorId;
+    @JsonProperty("pid_gesperrt")
+    private int pidGesperrt;
 
-    @JsonProperty("orderId")
+    @JsonProperty("tumor_id")
+    private int tumorId;
+
+    @JsonProperty("erkrankung_sid")
+    private int sid;
+
+    @JsonProperty("erkrankung_guid")
+    private String guid;
+
+    @JsonProperty("erkrankung_revision")
+    private int revision;
+
+    @JsonProperty("einsendennummer")
     private String orderId;
 
+    @JsonProperty("diagnose_datum")
+    private Date diagnoseDatum;
+
+    @JacksonXmlProperty(localName = "migReferenzTumorId")
+    private int migReferenzTumorId ;
 }

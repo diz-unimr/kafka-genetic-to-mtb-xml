@@ -2,6 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
@@ -49,10 +50,11 @@ public class UnterformularRANFusionMapper {
     }
 
 
-    public UnterformularRNAFusion createXmlUnterformularRANFusion (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
+    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
         UnterformularRNAFusion unterformularRNAFusion = new UnterformularRNAFusion();
+        // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularRNAFusion.setExportID(1);
-        unterformularRNAFusion.setTumorId("1");
+        unterformularRNAFusion.setTumorId(mtbPidInfo.getTumorId());
         unterformularRNAFusion.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularRNAFusion.setStartDatum("2023-08-10");
         unterformularRNAFusion.setFormularName("OS.Molekulargenetische Untersuchung");
@@ -220,6 +222,11 @@ public class UnterformularRANFusionMapper {
                 fusionRNA3Strand, fusionRNA3TransPosition, fusionRNA3TranscriptID, fusionRNA5ENSEMBLID, fusionRNA5ExonID,
                 fusionRNA5HGNCID, fusionRNA5HGNCName, fusionRNA5HGNCSymbol, fusionRNA5Strand,
                 fusionRNA5TransPosition, fusionRNA5TranscriptID, fusionRNACosmicID, fusionRNAEffect, fusionRNAReportedNumRead, untersucht, ergebnisEintragRNAFusion));
+
+        unterformularRNAFusion.setHauptTudokEintragExportID(3);
+        unterformularRNAFusion.setRevision(1);
+        unterformularRNAFusion.setBearbeitungStatus(0);
+
         return unterformularRNAFusion;
     }
 

@@ -7,9 +7,26 @@ import lombok.Setter;
 @Setter
 
 public class Erkrankung {
+    @JacksonXmlProperty(localName = "ExportID")
+    private int exportId;
+
     @JacksonXmlProperty(localName = "TumorId")
-    private String tumorId;
-    @JacksonXmlProperty(localName = "ErkrankungICD10")
+    private int tumorId;
+
+    @JacksonXmlProperty(localName = "SID")
+    private int sid;
+
+    @JacksonXmlProperty(localName = "GUID")
+    private String guid;
+
+    @JacksonXmlProperty(localName = "Revision")
+    private int revision;
+
+    @JacksonXmlProperty(localName = "MigReferenzTumorId")
+    private int migReferenzTumorId ;
+
+
+   /* @JacksonXmlProperty(localName = "ErkrankungICD10")
     private String erkrankungICD10;
     @JacksonXmlProperty(localName = "ErkrankungICD10VersionOID")
     private String erkrankungICD10VersionOID;
@@ -30,7 +47,6 @@ public class Erkrankung {
     @JacksonXmlProperty(localName = "DiagnosestatusVersionOID")
     private String diagnosestatusVersionOID;
     @JacksonXmlProperty(localName = "Diagnosetext")
-    private String diagnosetext;
-    @JacksonXmlProperty(localName = "Revision")
-    private int revision;
+    private String diagnosetext;*/
+
 }

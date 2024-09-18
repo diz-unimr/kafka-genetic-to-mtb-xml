@@ -2,6 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
@@ -29,12 +30,13 @@ public class UnterformularCNVMapper {
         var jsonNode = objectMapper.readTree(jsonAnotation);
         return jsonNode.get(keyToExtract).asText();
     }
-    public UnterformularCNV createXmlUnterformularCNV (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
+    public UnterformularCNV createXmlUnterformularCNV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular
         // CNV
         UnterformularCNV unterformularCNV = new UnterformularCNV();
-        unterformularCNV.setExportID(1);
-        unterformularCNV.setTumorId("1");
+        // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
+        unterformularCNV.setExportID(4);
+        unterformularCNV.setTumorId(mtbPidInfo.getTumorId());
         unterformularCNV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularCNV.setStartDatum("2023-08-10");
         unterformularCNV.setFormularName("OS.Molekulargenetische Untersuchung");
@@ -183,8 +185,9 @@ public class UnterformularCNVMapper {
                 cNVCNB, cNVCNA, untersucht, cNVChromosom, cNVENSEMBLID, cNVEndRange, cNVHGNCID, cNVHGNCName,
                 cNVHGNCSymbol, cNVNeutralLoH, cNVRelativeCN, cNVReportedFocality, cNVStartRange, cNVTotalCN, cNVTotalCNDouble, codon,
                 copyNumberVariation));
-
+        unterformularCNV.setHauptTudokEintragExportID(3);
+        unterformularCNV.setRevision(1);
+        unterformularCNV.setBearbeitungStatus(0);
         return unterformularCNV;
     }
-
 }

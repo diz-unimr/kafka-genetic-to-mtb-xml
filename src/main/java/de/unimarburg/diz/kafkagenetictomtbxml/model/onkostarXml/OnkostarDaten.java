@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @JacksonXmlRootElement(localName = "OnkostarDaten")
@@ -16,7 +18,7 @@ public class OnkostarDaten {
     @JacksonXmlProperty(localName = "SendendeOrganisation")
     private SendendeOrganisation sendendeOrganisation;
     @JacksonXmlProperty(localName = "SendeDatum")
-    private String sendeDatum;
+    private Date sendeDatum;
     @JacksonXmlProperty(localName = "DokumentId")
     private int dokumentId;
     @JacksonXmlProperty(localName = "DokumentVersion")

@@ -12,6 +12,8 @@ public class PatientMapper {
 
     public Patient createPatient(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo){
         Patient patient = new Patient();
+        // ExportID
+        patient.setExportID(1);
         // Patient: PatientId
         patient.setPatientenId(mtbPidInfo.getPid());
         // Patient: PersonenDaten
@@ -20,15 +22,8 @@ public class PatientMapper {
         Adresse adresse = new Adresse();
         personendaten.setAktuelleAdresse(adresse);
         patient.setPersonendaten(personendaten);
-        // Patient: LetzteInformation
-        // TODO: Which date?
-        patient.setLetzteInformation("2023-09-27+02:00");
-        // Patient: AngelegtAm
-        // TODO: Which date?
-        patient.setAngelegtAm("2023-08-10T12:00:08.000+02:00");
-        // Patient: setZuletztBearbeitetAm
-        // TODO: Which date?
-        patient.setZuletztBearbeitetAm("2024-06-10T10:58:07.000+02:00");
+        // Patient: PID gesperrt
+        patient.setPidGesperrt(mtbPidInfo.getPidGesperrt());
         return patient;
     }
 }

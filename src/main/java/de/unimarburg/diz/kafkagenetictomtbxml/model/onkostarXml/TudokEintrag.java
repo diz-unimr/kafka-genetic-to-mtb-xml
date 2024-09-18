@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -15,14 +16,17 @@ public class TudokEintrag {
     @JacksonXmlProperty(localName = "ExportID")
     private int exportID;
 
+    @JacksonXmlProperty(localName = "ErkrankungExportID")
+    private int erkrankungExportID;
+
     @JacksonXmlProperty(localName = "TumorId")
-    private String tumorId;
+    private int tumorId;
 
     @JacksonXmlProperty(localName = "DokumentierendeFachabteilung")
     private DokumentierendeFachabteilung dokumentierendeFachabteilung;
 
     @JacksonXmlProperty(localName = "StartDatum")
-    private String startDatum;
+    private Date startDatum;
 
     @JacksonXmlProperty(localName = "FormularName")
     private String formularName;
@@ -36,9 +40,6 @@ public class TudokEintrag {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Eintrag")
     private List<Eintrag> eintraege;
-
-    @JacksonXmlProperty(localName = "HauptTudokEintragExportID")
-    private int hauptTudokEintragExportID;
 
     @JacksonXmlProperty(localName = "Revision")
     private int revision;

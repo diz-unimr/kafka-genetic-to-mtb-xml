@@ -11,10 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 @Component
 public class TudokMapper {
     private final static Logger log = LoggerFactory.getLogger(TudokMapper.class);
@@ -52,11 +50,12 @@ public class TudokMapper {
 
 
         // TudokEintrag : ExportID
-        tudokEintrag.setExportID(1);
+        tudokEintrag.setExportID(3);
+        tudokEintrag.setErkrankungExportID(2);
         // TudokEintrag :
         tudokEintrag.setTumorId(mtbPidInfo.getTumorId());
-        // TudokEintrag :
-        tudokEintrag.setStartDatum("2024-07-21");
+        // TudokEintrag // ToDo
+        tudokEintrag.setStartDatum(mtbPidInfo.getDiagnoseDatum());
         // TudokEintrag :
         tudokEintrag.setFormularName("OS.Molekulargenetik");
         // TudokEintrag :
@@ -64,9 +63,9 @@ public class TudokMapper {
         // TudokEintrag :
         tudokEintrag.setProzedurtyp("Beobachtung");
         // TudokEintrag :
-        dokumentierendeFachabteilung.setFachabteilungKennung("Studiensekretariat Hämatologie");
+        dokumentierendeFachabteilung.setFachabteilungKennung("Tumordokumentation");
         // TudokEintrag :
-        dokumentierendeFachabteilung.setEinrichtungKennung("CCCUMR");
+        dokumentierendeFachabteilung.setEinrichtungKennung("CCC");
         // TudokEintrag: Eintrag: Feldname = AnalyseID
         Eintrag analyseID = new Eintrag();
         analyseID.setFeldname("AnalyseID");
@@ -109,7 +108,7 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = Datum
         Eintrag datum = new Eintrag();
         datum.setFeldname("Datum");
-        datum.setWert("");
+        datum.setWert(new Date().toString());
         datum.setGenauigkeit("");
 
         // TudokEintrag: Eintrag: Feldname = Dokumentation
@@ -130,7 +129,7 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = Einsendenummer
         Eintrag einsendenummer = new Eintrag();
         einsendenummer.setFeldname("Einsendenummer");
-        einsendenummer.setWert("");
+        einsendenummer.setWert(mtbPidInfo.getOrderId());
 
         // TudokEintrag: Eintrag: Feldname = Entnahmedatum
         Eintrag entnahmedatum = new Eintrag();
@@ -148,7 +147,6 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : ErgebnisMSI
         Eintrag ergebnisMSI = new Eintrag();
         ergebnisMSI.setFeldname("ErgebnisMSI");
-
         ergebnisMSI.setWert("");
         ergebnisMSI.setFilterkategorie("{}");
 
@@ -181,18 +179,18 @@ public class TudokMapper {
                 switch (variantType) {
                     case "SNV":
                         log.info("SNV found");
-                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularSV);
                         log.info("New formular created and add to the list of unterformular");
                         break;
                     case "CNV":
                         log.info("CNV found");
-                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularCNV);
                         log.info("New formular created and add to the list of unterformular");
                         break;
                     case "fusion":
-                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
                         unterformularList.add(unterformularRNAFusion);
                         break;
                     case "TMB":
@@ -274,7 +272,6 @@ public class TudokMapper {
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, blocknummer, datum, doc,
                 durchfuehrendeOE, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI, internExtern, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
-        tudokEintrag.setHauptTudokEintragExportID(1);
         tudokEintrag.setRevision(7);
         tudokEintrag.setBearbeitungStatus(2);
 

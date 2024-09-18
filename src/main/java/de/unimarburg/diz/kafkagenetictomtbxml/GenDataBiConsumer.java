@@ -31,7 +31,7 @@ public class GenDataBiConsumer {
         return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) ->  {
             try {
                 // Construct onkostarDataObject
-                OnkostarDaten onkostarDaten = onkostarDataMapper.ceateOnkostarDaten(mhGuide, mtbPid);
+                OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
                 return restClientMtbSender.sendRequestToMtb(onkostarDaten);
             } catch (JacksonException e) {
                 throw new RuntimeException(e);

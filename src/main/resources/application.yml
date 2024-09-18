@@ -17,7 +17,8 @@ spring:
         process-in-0:
           destination: ${KAFKA_TOPIC_GEN_MH_GUIDE_INFO:mh-guide-gen-info}
         process-in-1:
-          destination: ${KAFKA_TOPIC_MTB_PID_INFO:mtb-pid-variant}
+          destination: ${KAFKA_TOPIC_MTB_PID_INFO:mtb-pid-info}
+
 
       kafka:
         streams:
@@ -41,7 +42,6 @@ metadata:
     interpolationSystem: ${INTERPOLATION_SYSTEM:MH Guide}
     reportedFocality: ${REPORTED_FOCALITY:complete}
     panel: ${PANEL:Archer Complete Solid Tumor}
-
 
 management:
   server:

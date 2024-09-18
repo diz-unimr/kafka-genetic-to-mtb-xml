@@ -1,5 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
@@ -79,10 +80,11 @@ public class UnterformularSVMapper {
         return aminoChange;
     }
 
-    public UnterformularSV createXmlUnterformularSV (VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) {
+    public UnterformularSV createXmlUnterformularSV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) {
         UnterformularSV unterformularSV = new UnterformularSV();
+        // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularSV.setExportID(1);
-        unterformularSV.setTumorId("1");
+        unterformularSV.setTumorId(mtbPidInfo.getTumorId());
         unterformularSV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularSV.setStartDatum("2023-08-10");
         unterformularSV.setFormularName("OS.Molekulargenetische Untersuchung");
@@ -178,7 +180,6 @@ public class UnterformularSVMapper {
         Eintrag eVReadDepth = new Eintrag();
         eVReadDepth.setFeldname("EVReadDepth");
         eVReadDepth.setWert(variantLongList.getTotalReadsInTumor());
-        eVReadDepth.setWert("");
 
         // SV-Unterformular: Eintrag: EVRefNucleotide
         Eintrag eVRefNucleotide = new Eintrag();
@@ -212,6 +213,9 @@ public class UnterformularSVMapper {
         unterformularSV.setEintraege(Arrays.asList(dokumentationUnterformular, aktivierend,
                 allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, eVAltNucleotide,
                 eVCOSMICID, eVChromosom, eVENSEMBLID, eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht,ergebnisEintragSV));
+        unterformularSV.setHauptTudokEintragExportID(3);
+        unterformularSV.setRevision(1);
+        unterformularSV.setBearbeitungStatus(0);
         return unterformularSV;
     }
 

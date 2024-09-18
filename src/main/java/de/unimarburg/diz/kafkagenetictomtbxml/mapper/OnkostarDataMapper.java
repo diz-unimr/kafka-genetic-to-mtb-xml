@@ -7,6 +7,8 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class OnkostarDataMapper {
 
@@ -20,7 +22,7 @@ public class OnkostarDataMapper {
         this.tudokMapper = tudokMapper;
     }
 
-    public OnkostarDaten ceateOnkostarDaten(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) throws JsonProcessingException {
+    public OnkostarDaten createOnkostarDaten(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) throws JsonProcessingException {
         // Onkostar
         OnkostarDaten onkostarDaten = new OnkostarDaten();
         // Sende Organisation
@@ -28,7 +30,7 @@ public class OnkostarDataMapper {
         onkostarDaten.setSendendeOrganisation(sendendeOrganisation);
         // SendeDatum
         // TODO: Which Date?
-        onkostarDaten.setSendeDatum("2024-07-22T11:05:43.410+02:00");
+        onkostarDaten.setSendeDatum(new Date());
         // DokumentId
         onkostarDaten.setDokumentId(1);
         // DokumentVersion

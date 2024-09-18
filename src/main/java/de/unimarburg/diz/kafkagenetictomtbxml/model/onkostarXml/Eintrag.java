@@ -43,7 +43,6 @@ public class Eintrag {
     private List<Unterformular> unterformulars;
 
 
-
     public Eintrag(String Feldname, String wert, String genauigkeit, String filterkategorie, String version, String kurztext, String fachabteilungKennung, List<Unterformular> unterformulars) {
         this.Feldname = Feldname;
         this.genauigkeit = genauigkeit;

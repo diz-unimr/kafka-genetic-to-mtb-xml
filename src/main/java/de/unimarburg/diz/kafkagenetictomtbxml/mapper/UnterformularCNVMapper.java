@@ -30,12 +30,12 @@ public class UnterformularCNVMapper {
         var jsonNode = objectMapper.readTree(jsonAnotation);
         return jsonNode.get(keyToExtract).asText();
     }
-    public UnterformularCNV createXmlUnterformularCNV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
+    public UnterformularCNV createXmlUnterformularCNV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular
         // CNV
         UnterformularCNV unterformularCNV = new UnterformularCNV();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
-        unterformularCNV.setExportID(4);
+        unterformularCNV.setExportID(exportIDUnterformular);
         unterformularCNV.setTumorId(mtbPidInfo.getTumorId());
         unterformularCNV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularCNV.setStartDatum("2023-08-10");

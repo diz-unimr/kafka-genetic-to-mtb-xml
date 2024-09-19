@@ -80,10 +80,10 @@ public class UnterformularSVMapper {
         return aminoChange;
     }
 
-    public UnterformularSV createXmlUnterformularSV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) {
+    public UnterformularSV createXmlUnterformularSV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularSV unterformularSV = new UnterformularSV();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
-        unterformularSV.setExportID(1);
+        unterformularSV.setExportID(startExportIDUNterformular);
         unterformularSV.setTumorId(mtbPidInfo.getTumorId());
         unterformularSV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularSV.setStartDatum("2023-08-10");

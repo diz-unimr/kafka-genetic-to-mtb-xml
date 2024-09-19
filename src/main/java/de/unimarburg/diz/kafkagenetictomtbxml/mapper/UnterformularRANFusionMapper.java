@@ -50,10 +50,10 @@ public class UnterformularRANFusionMapper {
     }
 
 
-    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung) throws JsonProcessingException {
+    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) throws JsonProcessingException {
         UnterformularRNAFusion unterformularRNAFusion = new UnterformularRNAFusion();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
-        unterformularRNAFusion.setExportID(1);
+        unterformularRNAFusion.setExportID(startExportIDUNterformular);
         unterformularRNAFusion.setTumorId(mtbPidInfo.getTumorId());
         unterformularRNAFusion.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
         unterformularRNAFusion.setStartDatum("2023-08-10");

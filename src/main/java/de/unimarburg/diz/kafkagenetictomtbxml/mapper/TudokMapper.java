@@ -172,6 +172,10 @@ public class TudokMapper {
         // UnterformaularTyp: SimpleVariant (SV)
 
         List<VariantLongList> variantLongLists = mhGuideInfo.getVariantLongList();
+        // length of variantlong list
+        var  lengthVariantLongList = variantLongLists.size();
+        log.info("Length of current variantList: {}", lengthVariantLongList);
+        var startExportIDUNterformular = 4;
         for (VariantLongList variantLongList : variantLongLists) {
             var variantType = variantLongList.getDisplayVariantType();
             if ( variantType != null) {
@@ -179,23 +183,27 @@ public class TudokMapper {
                 switch (variantType) {
                     case "SNV":
                         log.info("SNV found");
-                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularSV);
                         log.info("New formular created and add to the list of unterformular");
+                        startExportIDUNterformular++;
                         break;
                     case "CNV":
                         log.info("CNV found");
-                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularCNV);
                         log.info("New formular created and add to the list of unterformular");
+                        startExportIDUNterformular++;
                         break;
                     case "fusion":
-                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPidInfo,variantLongList, dokumentierendeFachabteilung);
+                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularRNAFusion);
+                        startExportIDUNterformular++;
                         break;
                     case "TMB":
                         log.info("TMB found");
                         tumorMutationalBurden.setWert(variantLongList.getTmbVariantCountPerMegabase());
+                        startExportIDUNterformular++;
                         break;
                     case "MSI":
                         log.info("MSI found");
@@ -203,6 +211,7 @@ public class TudokMapper {
                         if (variantSymbol.equals("MSS")){
                             ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
                         }
+                        startExportIDUNterformular++;
                         break;
                 }
             }else {

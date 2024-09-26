@@ -34,20 +34,21 @@ public class Unterformular {
     @JacksonXmlProperty(localName = "Prozedurtyp")
     private String prozedurtyp;
 
-    @JacksonXmlProperty(localName = "HauptTudokEintragExportID")
+/*    @JacksonXmlProperty(localName = "HauptTudokEintragExportID")
     private int hauptTudokEintragExportID;
 
     @JacksonXmlProperty(localName = "Revision")
     private int revision;
 
     @JacksonXmlProperty(localName = "BearbeitungStatus")
-    private int bearbeitungStatus;
+    private int bearbeitungStatus;*/
 
     public Unterformular() {}
 
     public Unterformular(int exportID, int erkrankungExportID, int tumorId,
                          DokumentierendeFachabteilung dokumentierendeFachabteilung, String startDatum, String formularName,
-                         int formularVersion, String prozedurtyp, int hauptTudokEintragExportID, int revision, int bearbeitungStatus) {
+                         int formularVersion, String prozedurtyp){
+                         //int hauptTudokEintragExportID, int revision, int bearbeitungStatus) {
         this.exportID = exportID;
         this.erkrankungExportID = erkrankungExportID;
         this.tumorId = tumorId;
@@ -56,8 +57,8 @@ public class Unterformular {
         this.formularVersion = formularVersion;
         this.startDatum = startDatum;
         this.prozedurtyp = prozedurtyp;
-        this.hauptTudokEintragExportID = hauptTudokEintragExportID;
-        this.revision = revision;
-        this.bearbeitungStatus = bearbeitungStatus;
+        //this.hauptTudokEintragExportID = hauptTudokEintragExportID;
+        //this.revision = revision;
+        //this.bearbeitungStatus = bearbeitungStatus;
     }
 }

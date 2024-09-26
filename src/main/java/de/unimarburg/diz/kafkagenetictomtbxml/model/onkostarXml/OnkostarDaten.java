@@ -18,7 +18,7 @@ public class OnkostarDaten {
     @JacksonXmlProperty(localName = "SendendeOrganisation")
     private SendendeOrganisation sendendeOrganisation;
     @JacksonXmlProperty(localName = "SendeDatum")
-    private Date sendeDatum;
+    private String sendeDatum;
     @JacksonXmlProperty(localName = "DokumentId")
     private int dokumentId;
     @JacksonXmlProperty(localName = "DokumentVersion")

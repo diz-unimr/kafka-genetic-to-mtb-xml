@@ -2,11 +2,12 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularRNAFusion;
+import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -50,13 +51,14 @@ public class UnterformularRANFusionMapper {
     }
 
 
-    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) throws JsonProcessingException {
+    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) throws JsonProcessingException {
         UnterformularRNAFusion unterformularRNAFusion = new UnterformularRNAFusion();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularRNAFusion.setExportID(startExportIDUNterformular);
-        unterformularRNAFusion.setTumorId(mtbPidInfo.getTumorId());
+        unterformularRNAFusion.setTumorId(mtbPatientInfo.getTumorId());
+        unterformularRNAFusion.setErkrankungExportID(2);
         unterformularRNAFusion.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularRNAFusion.setStartDatum("2023-08-10");
+        unterformularRNAFusion.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularRNAFusion.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularRNAFusion.setFormularVersion(1);
         unterformularRNAFusion.setProzedurtyp("Beobachtung");

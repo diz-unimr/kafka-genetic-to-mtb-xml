@@ -2,7 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml;
 
 import com.fasterxml.jackson.core.JacksonException;
 import de.unimarburg.diz.kafkagenetictomtbxml.mapper.OnkostarDataMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
 import org.apache.kafka.streams.kstream.KTable;
@@ -27,7 +27,7 @@ public class GenDataBiConsumer {
 
     // Functions for creating sub element in xml
     @Bean
-    public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPidInfo>> process() {
+    public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPatientInfo>> process() {
         return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) ->  {
             try {
                 // Construct onkostarDataObject

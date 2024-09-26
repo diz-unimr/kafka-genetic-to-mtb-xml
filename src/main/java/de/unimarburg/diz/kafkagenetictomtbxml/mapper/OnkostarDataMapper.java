@@ -1,13 +1,16 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Component
 public class OnkostarDataMapper {
@@ -22,7 +25,7 @@ public class OnkostarDataMapper {
         this.tudokMapper = tudokMapper;
     }
 
-    public OnkostarDaten createOnkostarDaten(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) throws JsonProcessingException {
+    public OnkostarDaten createOnkostarDaten(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
         // Onkostar
         OnkostarDaten onkostarDaten = new OnkostarDaten();
         // Sende Organisation
@@ -30,7 +33,12 @@ public class OnkostarDataMapper {
         onkostarDaten.setSendendeOrganisation(sendendeOrganisation);
         // SendeDatum
         // TODO: Which Date?
-        onkostarDaten.setSendeDatum(new Date());
+        OffsetDateTime currentDateTime = OffsetDateTime.now();
+        // Define the desired format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        // Format the current date and time
+        var formattedDateTime = currentDateTime.format(formatter);
+        onkostarDaten.setSendeDatum(formattedDateTime);
         // DokumentId
         onkostarDaten.setDokumentId(1);
         // DokumentVersion
@@ -40,16 +48,16 @@ public class OnkostarDataMapper {
         // Inhalt: PatientenDaten
         PatientenDaten patientenDaten = new PatientenDaten();
         // PatientenDaten: Patient
-        Patient patient = patientMapper.createPatient(mhGuideInfo, mtbPidInfo);
+        Patient patient = patientMapper.createPatient(mhGuideInfo, mtbPatientInfo);
         // Patient: PatientenId
         patientenDaten.setPatient(patient);
         // PatientenDaten: Dokumentation
         Dokumentation dokumentation = new Dokumentation();
         // Dokumentation: Erkrankung
-        Erkrankung erkrankung = erkrankungMapper.createErkrankung(mhGuideInfo, mtbPidInfo);
+        Erkrankung erkrankung = erkrankungMapper.createErkrankung(mhGuideInfo, mtbPatientInfo);
         dokumentation.setErkrankung(erkrankung);
         // Dokumentation: TudokEintrag
-        TudokEintrag tudokEintrag = tudokMapper.createTudokEintrag(mhGuideInfo, mtbPidInfo);
+        TudokEintrag tudokEintrag = tudokMapper.createTudokEintrag(mhGuideInfo, mtbPatientInfo);
         dokumentation.setTudokEintrag(tudokEintrag);
         // add Dokumentation block
         patientenDaten.setDokumentation(dokumentation);

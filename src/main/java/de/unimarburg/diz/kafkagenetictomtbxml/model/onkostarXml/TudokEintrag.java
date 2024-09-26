@@ -26,7 +26,7 @@ public class TudokEintrag {
     private DokumentierendeFachabteilung dokumentierendeFachabteilung;
 
     @JacksonXmlProperty(localName = "StartDatum")
-    private Date startDatum;
+    private String startDatum;
 
     @JacksonXmlProperty(localName = "FormularName")
     private String formularName;

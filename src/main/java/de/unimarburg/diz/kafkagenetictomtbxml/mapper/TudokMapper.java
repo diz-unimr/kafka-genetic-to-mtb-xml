@@ -1,16 +1,18 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
+import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -45,17 +47,15 @@ public class TudokMapper {
         this.panel = panel;
     }
 
-    public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPidInfo mtbPidInfo) throws JsonProcessingException {
+    public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
         TudokEintrag tudokEintrag = new TudokEintrag();
-
-
         // TudokEintrag : ExportID
         tudokEintrag.setExportID(3);
         tudokEintrag.setErkrankungExportID(2);
         // TudokEintrag :
-        tudokEintrag.setTumorId(mtbPidInfo.getTumorId());
-        // TudokEintrag // ToDo
-        tudokEintrag.setStartDatum(mtbPidInfo.getDiagnoseDatum());
+        tudokEintrag.setTumorId(mtbPatientInfo.getTumorId());
+        // TudokEintrag //
+        tudokEintrag.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         // TudokEintrag :
         tudokEintrag.setFormularName("OS.Molekulargenetik");
         // TudokEintrag :
@@ -66,6 +66,10 @@ public class TudokMapper {
         dokumentierendeFachabteilung.setFachabteilungKennung("Tumordokumentation");
         // TudokEintrag :
         dokumentierendeFachabteilung.setEinrichtungKennung("CCC");
+
+        // Set the Dokumentierendedfachabteilung
+        tudokEintrag.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
+
         // TudokEintrag: Eintrag: Feldname = AnalyseID
         Eintrag analyseID = new Eintrag();
         analyseID.setFeldname("AnalyseID");
@@ -94,10 +98,10 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = ArtinsituHybridisierung
         Eintrag artinsituHybridisierung = new Eintrag();
         artinsituHybridisierung.setFeldname("ArtinsituHybridisierung");
-        artinsituHybridisierung.setWert("");
-        artinsituHybridisierung.setFilterkategorie("{}");
-        artinsituHybridisierung.setKurztext("");
-        artinsituHybridisierung.setVersion("");
+        artinsituHybridisierung.setWert("FISH");
+        artinsituHybridisierung.setFilterkategorie("");
+        artinsituHybridisierung.setVersion("OS.MolArtderHybridisierung.v1");
+        artinsituHybridisierung.setKurztext("FISH");
 
         // TudokEintrag: Eintrag: Feldname = Blocknummer
         Eintrag blocknummer = new Eintrag();
@@ -108,8 +112,8 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = Datum
         Eintrag datum = new Eintrag();
         datum.setFeldname("Datum");
-        datum.setWert(new Date().toString());
-        datum.setGenauigkeit("");
+        datum.setWert(CurrentDateFormatter.formatCurrentDate());
+        datum.setGenauigkeit("exact");
 
         // TudokEintrag: Eintrag: Feldname = Dokumentation
         Eintrag doc = new Eintrag();
@@ -122,19 +126,19 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = DurchfuehrendeOE
         Eintrag durchfuehrendeOE = new Eintrag();
         durchfuehrendeOE.setFeldname("DurchfuehrendeOE");
-        durchfuehrendeOE.setWert("");
-        durchfuehrendeOE.setKurztext("");
-        durchfuehrendeOE.setFachabteilungKennung("");
+        durchfuehrendeOE.setWert("CCC");
+        durchfuehrendeOE.setKurztext("CCC Marburg");
+
 
         // TudokEintrag: Eintrag: Feldname = Einsendenummer
         Eintrag einsendenummer = new Eintrag();
         einsendenummer.setFeldname("Einsendenummer");
-        einsendenummer.setWert(mtbPidInfo.getOrderId());
+        einsendenummer.setWert(mtbPatientInfo.getEinsendennummer());
 
         // TudokEintrag: Eintrag: Feldname = Entnahmedatum
         Eintrag entnahmedatum = new Eintrag();
         entnahmedatum.setFeldname("Entnahmedatum");
-        entnahmedatum.setWert("2024-07-21");
+        entnahmedatum.setWert("");
 
         // TudokEintrag: Eintrag: Feldname = Entnahmemethode
         Eintrag entnahmemethode = new Eintrag();
@@ -183,20 +187,20 @@ public class TudokMapper {
                 switch (variantType) {
                     case "SNV":
                         log.info("SNV found");
-                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularSV);
                         log.info("New formular created and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
                     case "CNV":
                         log.info("CNV found");
-                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularCNV);
                         log.info("New formular created and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
                     case "fusion":
-                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPidInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularList.add(unterformularRNAFusion);
                         startExportIDUNterformular++;
                         break;
@@ -277,13 +281,11 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : Tumorzellgehalt
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
-
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, blocknummer, datum, doc,
                 durchfuehrendeOE, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI, internExtern, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
-        tudokEintrag.setRevision(7);
-        tudokEintrag.setBearbeitungStatus(2);
-
+        tudokEintrag.setRevision(1);
+        tudokEintrag.setBearbeitungStatus(0);
         return tudokEintrag;
     }
 }

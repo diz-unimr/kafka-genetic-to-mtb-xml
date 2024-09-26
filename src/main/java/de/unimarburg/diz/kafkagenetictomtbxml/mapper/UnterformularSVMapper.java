@@ -1,16 +1,21 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularSV;
+import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.util.Arrays;
+
 @Component
 public class UnterformularSVMapper {
 
@@ -80,23 +85,17 @@ public class UnterformularSVMapper {
         return aminoChange;
     }
 
-    public UnterformularSV createXmlUnterformularSV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
+    public UnterformularSV createXmlUnterformularSV (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularSV unterformularSV = new UnterformularSV();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularSV.setExportID(startExportIDUNterformular);
-        unterformularSV.setTumorId(mtbPidInfo.getTumorId());
+        unterformularSV.setTumorId(mtbPatientInfo.getTumorId());
+        unterformularSV.setErkrankungExportID(2);
         unterformularSV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularSV.setStartDatum("2023-08-10");
+        unterformularSV.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularSV.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularSV.setFormularVersion(1);
         unterformularSV.setProzedurtyp("Beobachtung");
-        // SV-Unterformular: Eintrag: Dokumentation
-        Eintrag dokumentationUnterformular = new Eintrag();
-        dokumentationUnterformular.setFeldname("Dokumentation");
-        dokumentationUnterformular.setWert("ERW");
-        dokumentationUnterformular.setFilterkategorie("{}");
-        dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
-        dokumentationUnterformular.setKurztext("Erweitert");
 
         // SV-Unterformular: Eintrag: Aktivierend
         Eintrag aktivierend = new Eintrag();
@@ -129,6 +128,14 @@ public class UnterformularSVMapper {
         Eintrag datumSV = new Eintrag();
         datumSV.setFeldname("Datum");
         datumSV.setWert("");
+
+        // SV-Unterformular: Eintrag: Dokumentation
+        Eintrag dokumentationUnterformular = new Eintrag();
+        dokumentationUnterformular.setFeldname("Dokumentation");
+        dokumentationUnterformular.setWert("ERW");
+        dokumentationUnterformular.setFilterkategorie("{}");
+        dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
+        dokumentationUnterformular.setKurztext("Erweitert");
 
         // SV-Unterformular: Eintrag: "EVAltNucleotide
         // NA
@@ -210,9 +217,10 @@ public class UnterformularSVMapper {
         ergebnisEintragSV.setVersion("OS.MolGenErgebnis.v1");
         ergebnisEintragSV.setKurztext("Einfache Variante (Mutation / positiv)");
 
-        unterformularSV.setEintraege(Arrays.asList(dokumentationUnterformular, aktivierend,
-                allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, eVAltNucleotide,
+        unterformularSV.setEintraege(Arrays.asList(aktivierend,
+                allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, dokumentationUnterformular, eVAltNucleotide,
                 eVCOSMICID, eVChromosom, eVENSEMBLID, eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht,ergebnisEintragSV));
+
         unterformularSV.setHauptTudokEintragExportID(3);
         unterformularSV.setRevision(1);
         unterformularSV.setBearbeitungStatus(0);

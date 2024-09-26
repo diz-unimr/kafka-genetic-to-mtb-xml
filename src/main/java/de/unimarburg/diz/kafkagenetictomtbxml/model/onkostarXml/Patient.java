@@ -19,6 +19,6 @@ public class Patient {
     private Personendaten personendaten;
 
     @JacksonXmlProperty(localName = "PidGesperrt")
-    private int pidGesperrt;
+    private String pidGesperrt;
 
 }

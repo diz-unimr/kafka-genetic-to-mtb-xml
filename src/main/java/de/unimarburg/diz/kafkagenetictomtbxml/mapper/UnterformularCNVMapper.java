@@ -2,11 +2,12 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPidInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularCNV;
+import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,15 +31,16 @@ public class UnterformularCNVMapper {
         var jsonNode = objectMapper.readTree(jsonAnotation);
         return jsonNode.get(keyToExtract).asText();
     }
-    public UnterformularCNV createXmlUnterformularCNV (MtbPidInfo mtbPidInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
+    public UnterformularCNV createXmlUnterformularCNV (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular
         // CNV
         UnterformularCNV unterformularCNV = new UnterformularCNV();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularCNV.setExportID(exportIDUnterformular);
-        unterformularCNV.setTumorId(mtbPidInfo.getTumorId());
+        unterformularCNV.setTumorId(mtbPatientInfo.getTumorId());
+        unterformularCNV.setErkrankungExportID(2);
         unterformularCNV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularCNV.setStartDatum("2023-08-10");
+        unterformularCNV.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularCNV.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularCNV.setFormularVersion(1);
         unterformularCNV.setProzedurtyp("Beobachtung");

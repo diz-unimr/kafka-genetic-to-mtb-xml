@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Personendaten {
-    @JacksonXmlProperty(localName = "Nachname")
+/*    @JacksonXmlProperty(localName = "Nachname")
     private String nachname;
     @JacksonXmlProperty(localName = "Vorname")
     private String vorname;
@@ -38,7 +38,8 @@ public class Personendaten {
     @JacksonXmlProperty(localName = "Emailadresse")
     private String emailadresse;
     @JacksonXmlProperty(localName = "Nachsorgepassnr")
-    private String nachsorgepassnr;
+    private String nachsorgepassnr;*/
 
-
+    @JacksonXmlProperty(localName = "AktuelleAdresse")
+    private Adresse aktuelleAdresse;
 }

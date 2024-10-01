@@ -27,13 +27,16 @@ public class RestClientMtbSender {
 
     RestTemplate restTemplate = new RestTemplate();
     XmlMapper xmlMapper = new XmlMapper();
-    private static String postUrl;
+    private final String postUrl;
+    private final String username;
+    private final String password;
+
     private final RetryTemplate retryTemplate = defaultTemplate();
 
-    public RestClientMtbSender(@Value("${services.mtbSender.post_url}") String postUrl
-    )
-    {
-        RestClientMtbSender.postUrl = postUrl;
+    public RestClientMtbSender(@Value("${services.mtbSender.post_url}") String postUrl, @Value("${services.mtbSender.mtb-username}") String username, @Value("${services.mtbSender.mtb-password}") String password ) {
+        this.postUrl = postUrl;
+        this.username = username;
+        this.password = password;
     }
 
     public static RetryTemplate defaultTemplate() {
@@ -60,8 +63,11 @@ public class RestClientMtbSender {
     public String sendRequestToMtb(OnkostarDaten onkostarDaten) throws JacksonException {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         String xmlOnkostarDaten = xmlMapper.writeValueAsString(onkostarDaten);
+        String authHeaderValue = "Basic " + java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
+        headers.set("Authorization", authHeaderValue);
+        log.info(xmlOnkostarDaten);
         HttpEntity<String> requestEntity = new HttpEntity<>(xmlOnkostarDaten, headers);
         try {
             var response = retryTemplate.execute(ctx -> restTemplate

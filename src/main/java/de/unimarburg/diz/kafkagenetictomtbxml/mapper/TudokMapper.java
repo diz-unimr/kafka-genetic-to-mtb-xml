@@ -10,9 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -27,6 +24,7 @@ public class TudokMapper {
     private final String referenceGenome;
     private final String sequencingType;
     private final String panel;
+
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
 
@@ -51,11 +49,18 @@ public class TudokMapper {
         TudokEintrag tudokEintrag = new TudokEintrag();
         // TudokEintrag : ExportID
         tudokEintrag.setExportID(3);
+        //
         tudokEintrag.setErkrankungExportID(2);
         // TudokEintrag :
         tudokEintrag.setTumorId(mtbPatientInfo.getTumorId());
         // TudokEintrag //
-        tudokEintrag.setStartDatum(CurrentDateFormatter.formatCurrentDate());
+        dokumentierendeFachabteilung.setFachabteilungKennung("Tumordokumentation");
+        dokumentierendeFachabteilung.setEinrichtungKennung("CCC");
+        // Set the Dokumentierendedfachabteilung
+        tudokEintrag.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
+
+        // TudokEintrag : StartDatum
+        tudokEintrag.setStartDatum("");
         // TudokEintrag :
         tudokEintrag.setFormularName("OS.Molekulargenetik");
         // TudokEintrag :
@@ -63,12 +68,6 @@ public class TudokMapper {
         // TudokEintrag :
         tudokEintrag.setProzedurtyp("Beobachtung");
         // TudokEintrag :
-        dokumentierendeFachabteilung.setFachabteilungKennung("Tumordokumentation");
-        // TudokEintrag :
-        dokumentierendeFachabteilung.setEinrichtungKennung("CCC");
-
-        // Set the Dokumentierendedfachabteilung
-        tudokEintrag.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
 
         // TudokEintrag: Eintrag: Feldname = AnalyseID
         Eintrag analyseID = new Eintrag();
@@ -77,7 +76,6 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = AnalyseMethode
         Eintrag analyseMethode = new Eintrag();
         analyseMethode.setFeldname("AnalyseMethode");
-        analyseMethode.setWert("");
 
         // TudokEintrag: Eintrag: Feldname = AnalyseMethoden
         Eintrag analyseMethoden = new Eintrag();
@@ -85,15 +83,15 @@ public class TudokMapper {
         // application.yml
         analyseMethoden.setWert("S,H,");
         analyseMethoden.setFilterkategorie("{}");
-        analyseMethoden.setVersion("OS.MolArtderHybridisierung.v1");
+        analyseMethoden.setVersion("OS.MolDiagMethode.v1");
 
         // TudokEintrag: Eintrag: Feldname = ArtDerSequenzierung
         Eintrag artDerSequenzierung = new Eintrag();
         artDerSequenzierung.setFeldname("ArtDerSequenzierung");
-        artDerSequenzierung.setWert(sequencingType);
+        artDerSequenzierung.setWert("PanelKit");
         artDerSequenzierung.setFilterkategorie("{}");
-        artDerSequenzierung.setVersion("OS.MolArtderHybridisierung.v1");
-        artDerSequenzierung.setKurztext("");
+        artDerSequenzierung.setVersion("OS.MolDiagSequenzierung.v1");
+        artDerSequenzierung.setKurztext("Panel");
 
         // TudokEintrag: Eintrag: Feldname = ArtinsituHybridisierung
         Eintrag artinsituHybridisierung = new Eintrag();
@@ -103,11 +101,17 @@ public class TudokMapper {
         artinsituHybridisierung.setVersion("OS.MolArtderHybridisierung.v1");
         artinsituHybridisierung.setKurztext("FISH");
 
+        // TudokEintrag: Eintrag: Feldname = Befund
+        Eintrag befund = new Eintrag();
+        befund.setFeldname("Befund");
+
+        // TudokEintrag: Eintrag: Feldname = Bemerkung
+        Eintrag bemerkung = new Eintrag();
+        bemerkung.setFeldname("Bemerkung");
+
         // TudokEintrag: Eintrag: Feldname = Blocknummer
         Eintrag blocknummer = new Eintrag();
         blocknummer.setFeldname("Blocknummer");
-        blocknummer.setWert("");
-
 
         // TudokEintrag: Eintrag: Feldname = Datum
         Eintrag datum = new Eintrag();
@@ -138,15 +142,16 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = Entnahmedatum
         Eintrag entnahmedatum = new Eintrag();
         entnahmedatum.setFeldname("Entnahmedatum");
-        entnahmedatum.setWert("");
+        //entnahmedatum.setWert("");
+        //entnahmedatum.setGenauigkeit("");
 
         // TudokEintrag: Eintrag: Feldname = Entnahmemethode
         Eintrag entnahmemethode = new Eintrag();
-        entnahmemethode.setFeldname("EntnahmeMethoden");
-        entnahmemethode.setWert("B");
-        entnahmemethode.setFilterkategorie("{}");
-        entnahmemethode.setVersion("OS.MolDiagEntnahmemethode.v1");
-        entnahmemethode.setKurztext("Biopsie");
+        entnahmemethode.setFeldname("EntnahmeMethode");
+        //entnahmemethode.setWert("");
+        entnahmemethode.setFilterkategorie("");
+        //entnahmemethode.setVersion("");
+        //entnahmemethode.setKurztext("");
 
         // TudokEintrag: Eintrag : ErgebnisMSI
         Eintrag ergebnisMSI = new Eintrag();
@@ -154,17 +159,36 @@ public class TudokMapper {
         ergebnisMSI.setWert("");
         ergebnisMSI.setFilterkategorie("{}");
 
+        // TudokEintrag: Eintrag : GenetischeVeraenderung
+        Eintrag genetischeVeraenderung = new Eintrag();
+        genetischeVeraenderung.setFeldname("GenetischeVeraenderung");
+
+        // TudokEintrag: Eintrag : Genexpressionstests
+        Eintrag genexpressionstests = new Eintrag();
+        genexpressionstests.setFeldname("Genexpressionstests");
+
+        // TudokEintrag: Eintrag : HRD
+        Eintrag hRD = new Eintrag();
+        hRD.setFeldname("HRD");
+        hRD.setFilterkategorie("{}");
+
+        // TudokEintrag: Eintrag : ICDO3Lokalisation
+        Eintrag iCDO3Lokalisation = new Eintrag();
+        iCDO3Lokalisation.setFeldname("ICDO3Lokalisation");
+        iCDO3Lokalisation.setFilterkategorie("");
+
         // TudokEintrag: Eintrag: Feldname = InternExtern
         Eintrag internExtern = new Eintrag();
         internExtern.setFeldname("InternExtern");
-        internExtern.setWert("");
+        internExtern.setWert("E");
         internExtern.setFilterkategorie("{}");
-        internExtern.setVersion("OS.MolDiagInternExtern.v1");
+        internExtern.setVersion("OS.OrtDurchfuehrung.v1");
         internExtern.setKurztext("Andere Einrichtung");
 
         // TudokEintrag: Eintrag : TumorMutationalBurden
         Eintrag tumorMutationalBurden = new Eintrag();
         tumorMutationalBurden.setFeldname("TumorMutationalBurden");
+
 
         // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
         Eintrag eintragMolekulargenetischeUntersuchung = new Eintrag();
@@ -269,7 +293,7 @@ public class TudokMapper {
             seqKitTyp.setWert("Archer VariantPlex Complete Solid Tumor");
             seqPipeline.setWert("urn:Marburg:VP:CST:1.0:MHGuide:6.3.0");
         } else if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor PathoMarburg v2")) {
-            seqKitTyp.setWert("Archer VariantPlex Complete Solid Tumor + FusionPlex Pan Solid Tumor v2");
+            seqKitTyp.setWert("Archer VP Complete Solid Tumor + FP Pan Solid Tumor v2");
             seqPipeline.setWert("urn:Marburg:VP:CST:1.0:FP:PST:1.0:MHGuide:6.3.0");
         }
 
@@ -281,8 +305,8 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : Tumorzellgehalt
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
-        tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, blocknummer, datum, doc,
-                durchfuehrendeOE, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI, internExtern, eintragMolekulargenetischeUntersuchung,
+        tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
+                durchfuehrendeOE, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(0);

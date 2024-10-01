@@ -95,7 +95,7 @@ public class UnterformularSVMapper {
         unterformularSV.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularSV.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularSV.setFormularVersion(1);
-        unterformularSV.setProzedurtyp("Beobachtung");
+        unterformularSV.setProzedurtyp("");
 
         // SV-Unterformular: Eintrag: Aktivierend
         Eintrag aktivierend = new Eintrag();
@@ -198,17 +198,18 @@ public class UnterformularSVMapper {
         String evStartString = parseStartEnd(variantLongList.getChromosomeModification());
         eVStart.setWert(evStartString);
 
+        // SV-Unterformular: Eintrag: Untersucht
+        Eintrag untersucht = new Eintrag();
+        untersucht.setFeldname("Untersucht");
+        untersucht.setWert(variantLongList.getGeneSymbol());
+        untersucht.setFilterkategorie("{}");
+        untersucht.setVersion("OS.Molekulargenetik.v1");
+        untersucht.setKurztext(variantLongList.getGeneSymbol());
+
         // SV-Unterformular: EVdbSNPID
         Eintrag eVdbSNPID = new Eintrag();
         eVdbSNPID.setFeldname("EVdbSNPID");
         eVdbSNPID.setWert(variantLongList.getDbsnp());
-
-        // SV-Unterformular: Eintrag: Untersucht
-        Eintrag untersucht = new Eintrag();
-        untersucht.setFeldname("Untersucht");
-        untersucht.setWert("");
-        untersucht.setFilterkategorie("{}");
-        untersucht.setKurztext("NF1");
 
         Eintrag ergebnisEintragSV = new Eintrag();
         ergebnisEintragSV.setFeldname("Ergebnis");
@@ -219,7 +220,8 @@ public class UnterformularSVMapper {
 
         unterformularSV.setEintraege(Arrays.asList(aktivierend,
                 allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, dokumentationUnterformular, eVAltNucleotide,
-                eVCOSMICID, eVChromosom, eVENSEMBLID, eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht,ergebnisEintragSV));
+                eVCOSMICID, eVChromosom, eVENSEMBLID,
+                eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht, eVdbSNPID, ergebnisEintragSV));
 
         unterformularSV.setHauptTudokEintragExportID(3);
         unterformularSV.setRevision(1);

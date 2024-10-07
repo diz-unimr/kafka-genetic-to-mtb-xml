@@ -18,7 +18,7 @@ public class TudokMapper {
 
     private final UnterformularSVMapper unterformularSVMapper;
     private final UnterformularCNVMapper unterformularCNVMapper;
-    private final UnterformularRANFusionMapper unterformularRANFusionMapper;
+    private final UnterformularRNAFusionMapper unterformularRANFusionMapper;
     private final String kitManufacturer;
     private final String sequencer;
     private final String referenceGenome;
@@ -28,7 +28,7 @@ public class TudokMapper {
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
 
-    public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRANFusionMapper unterformularRANFusionMapper,
+    public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
                        @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
                        @Value("${metadata.ngsReports.sequencer}") String sequencer,
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,

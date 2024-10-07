@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
@@ -14,6 +15,8 @@ import org.springframework.retry.RetryPolicy;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.web.client.RestTemplate;
@@ -63,16 +66,24 @@ public class RestClientMtbSender {
     public String sendRequestToMtb(OnkostarDaten onkostarDaten) throws JacksonException {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         String xmlOnkostarDaten = xmlMapper.writeValueAsString(onkostarDaten);
+        log.info("Current mtb xml file");
+        log.info(xmlOnkostarDaten);
         String authHeaderValue = "Basic " + java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_XML);
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("Authorization", authHeaderValue);
-        log.info(xmlOnkostarDaten);
-        HttpEntity<String> requestEntity = new HttpEntity<>(xmlOnkostarDaten, headers);
+        ByteArrayResource xmlResource = new ByteArrayResource(xmlOnkostarDaten.getBytes()) {
+            @Override
+            public String getFilename() {
+                return "mtbXmlFile.xml";
+            }
+        };
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("document", xmlResource);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         try {
             var response = retryTemplate.execute(ctx -> restTemplate
                     .exchange(postUrl, HttpMethod.POST, requestEntity, String.class));
-
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.debug("API request succeeded");
                 return response.getBody();

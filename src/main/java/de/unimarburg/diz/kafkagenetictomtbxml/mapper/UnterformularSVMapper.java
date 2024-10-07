@@ -218,15 +218,89 @@ public class UnterformularSVMapper {
         ergebnisEintragSV.setVersion("OS.MolGenErgebnis.v1");
         ergebnisEintragSV.setKurztext("Einfache Variante (Mutation / positiv)");
 
+
+        // Newly added on 07102024
+        // Common-Attribute-Unterformular: Eintrag: Exon
+        Eintrag exon = new Eintrag();
+        exon.setFeldname("Exon");
+
+        // Common-Attribute-Unterformular: Eintrag: ExonInt
+        Eintrag exonInt = new Eintrag();
+        exonInt.setFeldname("ExonInt");
+
+        // Common-Attribute-Unterformular: Eintrag: ExonText
+        Eintrag exonText = new Eintrag();
+        exonText.setFeldname("ExonText");
+
+        // Common-Attribute-Unterformular: Eintrag: ExpressionStoma
+        Eintrag expressionStoma = new Eintrag();
+        expressionStoma.setFeldname("ExpressionStoma");
+
+        // Common-Attribute-Unterformular: Eintrag: ExpressionTumor
+        Eintrag expressionTumor = new Eintrag();
+        expressionTumor.setFeldname("ExpressionTumor");
+
+        // Common-Attribute-Unterformular: Eintrag: Genomposition
+        Eintrag genomposition = new Eintrag();
+        genomposition.setFeldname("Genomposition");
+
+        // Common-Attribute-Unterformular: Eintrag: Interpretation
+        Eintrag interpretation = new Eintrag();
+        interpretation.setFeldname("Interpretation");
+
+        // Common-Attribute-Unterformular: Eintrag: METLevel
+        Eintrag mETLevel = new Eintrag();
+        mETLevel.setFeldname("MetLevel");
+
+        // Common-Attribute-Unterformular: Eintrag: Mutation
+        Eintrag mutation = new Eintrag();
+        mutation.setFeldname("Mutation");
+
+        // Nicht sicher mit Wert
+        // Common-Attribute-Unterformular: Eintrag: Neuanlage
+        Eintrag neuanlage = new Eintrag();
+        neuanlage.setFeldname("Neuanlage");
+        neuanlage.setWert("0");
+        neuanlage.setFilterkategorie("{}");
+        neuanlage.setVersion("OS.JaNein.v1");
+        neuanlage.setKurztext("Nein");
+
+        // Nicht Sicher mit Wert
+        // Common-Attribute-Unterformular: Eintrag: Pathogenitaetsklasse
+        Eintrag pathogenitaetsklasse = new Eintrag();
+        pathogenitaetsklasse.setFeldname("Pathogenitaetsklasse");
+        pathogenitaetsklasse.setWert("1");
+        pathogenitaetsklasse.setFilterkategorie("{}");
+        pathogenitaetsklasse.setVersion("OS.MolGenPathogenitätsklasse.v1");
+        pathogenitaetsklasse.setKurztext("1= Normvariante ohne klinische Relevanz (benign)");
+
+        // Common-Attribute-Unterformular: Eintrag: ProteinebeneNomenklatur
+        Eintrag proteinebeneNomenklatur = new Eintrag();
+        proteinebeneNomenklatur.setFeldname("ProteinebeneNomenklatur");
+
+        // Common-Attribute-Unterformular: Eintrag: Translation
+        Eintrag translation = new Eintrag();
+        translation.setFeldname("Translation");
+
+        // Common-Attribute-Unterformular: Eintrag: Zygositaet
+        Eintrag zygositaet = new Eintrag();
+        zygositaet.setFeldname("Zygositaet");
+
+        // Common-Attribute-Unterformular: Eintrag: cDNANomenklatur
+        Eintrag cDNANomenklatur = new Eintrag();
+        cDNANomenklatur.setFeldname("cDNANomenklatur");
+
+
         unterformularSV.setEintraege(Arrays.asList(aktivierend,
                 allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, dokumentationUnterformular, eVAltNucleotide,
                 eVCOSMICID, eVChromosom, eVENSEMBLID,
-                eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht, eVdbSNPID, ergebnisEintragSV));
+                eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht, eVdbSNPID,
+                ergebnisEintragSV, exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,
+                neuanlage, pathogenitaetsklasse, proteinebeneNomenklatur, translation, zygositaet,cDNANomenklatur));
 
         unterformularSV.setHauptTudokEintragExportID(3);
         unterformularSV.setRevision(1);
         unterformularSV.setBearbeitungStatus(0);
         return unterformularSV;
     }
-
 }

@@ -263,8 +263,6 @@ public class UnterformularCNVMapper {
         Eintrag cDNANomenklatur = new Eintrag();
         cDNANomenklatur.setFeldname("cDNANomenklatur");
 
-
-
         unterformularCNV.setEintraege(Arrays.asList(aktivierend,
                 allelfrequenz, allelzahl, analysemethode, bemerkung, cNVBetroffeneGene, cNVCNA,
                 cNVCNB, cNVChromosom, cNVENSEMBLID, cNVEndRange, cNVHGNCID, cNVHGNCName,

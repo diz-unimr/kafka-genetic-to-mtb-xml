@@ -17,7 +17,7 @@ public class Unterformular {
     private int erkrankungExportID;
 
     @JacksonXmlProperty(localName = "TumorId")
-    private int tumorId;
+    private String tumorId;
 
     @JacksonXmlProperty(localName = "DokumentierendeFachabteilung")
     private DokumentierendeFachabteilung dokumentierendeFachabteilung;
@@ -45,7 +45,7 @@ public class Unterformular {
 
     public Unterformular() {}
 
-    public Unterformular(int exportID, int erkrankungExportID, int tumorId,
+    public Unterformular(int exportID, int erkrankungExportID, String tumorId,
                          DokumentierendeFachabteilung dokumentierendeFachabteilung, String startDatum, String formularName,
                          int formularVersion, String prozedurtyp){
                          //int hauptTudokEintragExportID, int revision, int bearbeitungStatus) {

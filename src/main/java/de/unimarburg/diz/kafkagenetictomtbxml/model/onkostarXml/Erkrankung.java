@@ -11,19 +11,19 @@ public class Erkrankung {
     private int exportId;
 
     @JacksonXmlProperty(localName = "TumorId")
-    private int tumorId;
+    private String tumorId;
 
     @JacksonXmlProperty(localName = "SID")
-    private int sid;
+    private String sid;
 
     @JacksonXmlProperty(localName = "GUID")
     private String guid;
 
     @JacksonXmlProperty(localName = "Revision")
-    private int revision;
+    private String revision;
 
     @JacksonXmlProperty(localName = "MigReferenzTumorId")
-    private int migReferenzTumorId ;
+    private String migReferenzTumorId ;
 
 
    /* @JacksonXmlProperty(localName = "ErkrankungICD10")

@@ -20,7 +20,7 @@ public class UnterformularSV extends Unterformular{
     private int bearbeitungStatus;
 
     public UnterformularSV() {}
-    public UnterformularSV(int exportID, int erkrankungExportID, int tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
+    public UnterformularSV(int exportID, int erkrankungExportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
                            String startDatum, String formularName, int formularVersion, String prozedurtyp, List<Eintrag> eintraege, int hauptTudokEintragExportID, int revision, int bearbeitungStatus ) {
         super(exportID,erkrankungExportID, tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
 

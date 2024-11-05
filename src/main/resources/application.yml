@@ -7,8 +7,8 @@ spring:
     ssl:
       trust-store-location: file://${SSL_TRUST_STORE_LOCATION:/opt/kafka-streams-template/ssl/truststore.jks}
       trust-store-password: ${SSL_TRUST_STORE_PASSWORD}
-      key-store-location: file://${MTB_PID_TO_KAFKA_SSL_KEY_STORE_LOCATION:/opt/kafka-streams-template/ssl/keystore.jks}
-      key-store-password: ${MTB_PID_TO_KAFKA_SSL_KEY_STORE_PASSWORD}
+      key-store-location: file://${KAFKA_GENETIC_TO_MTB_XML_SSL_KEY_STORE_LOCATION:/opt/kafka-streams-template/ssl/keystore.jks}
+      key-store-password: ${KAFKA_GENETIC_TO_MTB_XML_SSL_KEY_STORE_PASSWORD}
   cloud:
     function:
       definition: process
@@ -18,7 +18,6 @@ spring:
           destination: ${KAFKA_TOPIC_GEN_MH_GUIDE_INFO:mh-guide-gen-info}
         process-in-1:
           destination: ${KAFKA_TOPIC_MTB_PATIENT_INFO:mtb-patient-info}
-
 
       kafka:
         streams:

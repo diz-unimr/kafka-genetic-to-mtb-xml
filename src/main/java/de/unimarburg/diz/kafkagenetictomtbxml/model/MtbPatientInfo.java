@@ -15,16 +15,16 @@ public class MtbPatientInfo implements Serializable {
     private int pidGesperrt;
 
     @JsonProperty("tumor_id")
-    private int tumorId;
+    private String tumorId;
 
     @JsonProperty("erkrankung_sid")
-    private int sid;
+    private String sid;
 
     @JsonProperty("erkrankung_guid")
     private String guid;
 
     @JsonProperty("erkrankung_revision")
-    private int revision;
+    private String revision;
 
     @JsonProperty("einsendennummer")
     private String einsendennummer;
@@ -32,6 +32,7 @@ public class MtbPatientInfo implements Serializable {
     @JsonProperty("diagnose_datum")
     private Date diagnoseDatum;
 
+    // Need to be checked
     @JacksonXmlProperty(localName = "migReferenzTumorId")
-    private int migReferenzTumorId ;
+    private String migReferenzTumorId ;
 }

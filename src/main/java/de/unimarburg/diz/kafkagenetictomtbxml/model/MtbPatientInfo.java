@@ -33,6 +33,6 @@ public class MtbPatientInfo implements Serializable {
     private Date diagnoseDatum;
 
     // Need to be checked
-    @JacksonXmlProperty(localName = "migReferenzTumorId")
+    @JsonProperty("migReferenzTumorId")
     private String migReferenzTumorId ;
 }

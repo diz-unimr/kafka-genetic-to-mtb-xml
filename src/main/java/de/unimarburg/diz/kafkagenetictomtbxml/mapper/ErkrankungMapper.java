@@ -16,6 +16,7 @@ public class ErkrankungMapper {
         erkrankung.setSid(mtbPatientInfo.getSid());
         erkrankung.setGuid(mtbPatientInfo.getGuid());
         erkrankung.setRevision(mtbPatientInfo.getRevision());
+        erkrankung.setMigReferenzTumorId(mtbPatientInfo.getMigReferenzTumorId());
         return erkrankung;
     }
 

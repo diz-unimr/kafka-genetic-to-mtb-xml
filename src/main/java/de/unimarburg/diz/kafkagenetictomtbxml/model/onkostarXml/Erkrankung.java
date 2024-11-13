@@ -25,7 +25,6 @@ public class Erkrankung {
     @JacksonXmlProperty(localName = "MigReferenzTumorId")
     private String migReferenzTumorId ;
 
-
    /* @JacksonXmlProperty(localName = "ErkrankungICD10")
     private String erkrankungICD10;
     @JacksonXmlProperty(localName = "ErkrankungICD10VersionOID")

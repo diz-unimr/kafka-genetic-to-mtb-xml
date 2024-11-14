@@ -24,16 +24,35 @@ public class TudokMapper {
     private final String referenceGenome;
     private final String sequencingType;
     private final String panel;
+    private final String seqKitTypVP;
+    private final String seqPipelineVP;
+    private final String seqKitTypVPCP;
+    private final String seqPipelineVPCP;
+    private final String fachabteilungKennung;
+    private final String einrichtungKennung;
+    private final String durchfuehrendeOE;
+    private final String durchfuehrendeOEKurzText;
+    private final String internExternWert;
+    private final String internExternKurztext;
 
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
-
     public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
                        @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
                        @Value("${metadata.ngsReports.sequencer}") String sequencer,
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
                        @Value("${metadata.ngsReports.sequencingType}") String sequencingType,
-                       @Value("${metadata.ngsReports.panel}") String panel
+                       @Value("${metadata.ngsReports.panel}") String panel,
+                       @Value("${metadata.ngsReports.seqKitTypVP}")  String seqKitTypVP,
+                       @Value("${metadata.ngsReports.seqPipelineVP}") String seqPipelineVP,
+                       @Value("${metadata.ngsReports.seqKitTypVPCP}") String seqKitTypVPCP,
+                       @Value("${metadata.ngsReports.seqPipelineVPCP}") String seqPipelineVPCP,
+                       @Value("${metadata.ngsReports.fachabteilungKennung}") String fachabteilungKennung,
+                       @Value("${metadata.ngsReports.einrichtungKennung}") String einrichtungKennung,
+                       @Value("${metadata.ngsReports.durchfuehrendeOE}") String durchfuehrendeOE,
+                       @Value("${metadata.ngsReports.durchfuehrendeOEKurzText}") String durchfuehrendeOEKurzText,
+                       @Value("${metadata.ngsReports.internExternWert}") String internExternWert,
+                       @Value("${metadata.ngsReports.internExternKurztext}") String internExternKurztext
                        ) {
         this.unterformularSVMapper = unterformularSVMapper;
         this.unterformularCNVMapper = unterformularCNVMapper;
@@ -43,6 +62,16 @@ public class TudokMapper {
         this.referenceGenome = referenceGenome;
         this.sequencingType = sequencingType;
         this.panel = panel;
+        this.seqKitTypVP = seqKitTypVP;
+        this.seqPipelineVP = seqPipelineVP;
+        this.seqKitTypVPCP = seqKitTypVPCP;
+        this.seqPipelineVPCP = seqPipelineVPCP;
+        this.fachabteilungKennung = fachabteilungKennung;
+        this.einrichtungKennung = einrichtungKennung;
+        this.durchfuehrendeOE = durchfuehrendeOE;
+        this.durchfuehrendeOEKurzText = durchfuehrendeOEKurzText;
+        this.internExternWert = internExternWert;
+        this.internExternKurztext = internExternKurztext;
     }
 
     public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
@@ -54,8 +83,8 @@ public class TudokMapper {
         // TudokEintrag :
         tudokEintrag.setTumorId(mtbPatientInfo.getTumorId());
         // TudokEintrag //
-        dokumentierendeFachabteilung.setFachabteilungKennung("Tumordokumentation");
-        dokumentierendeFachabteilung.setEinrichtungKennung("CCC");
+        dokumentierendeFachabteilung.setFachabteilungKennung(fachabteilungKennung);
+        dokumentierendeFachabteilung.setEinrichtungKennung(einrichtungKennung);
         // Set the Dokumentierendedfachabteilung
         tudokEintrag.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
 
@@ -128,10 +157,10 @@ public class TudokMapper {
         doc.setKurztext("Basis");
 
         // TudokEintrag: Eintrag: Feldname = DurchfuehrendeOE
-        Eintrag durchfuehrendeOE = new Eintrag();
-        durchfuehrendeOE.setFeldname("DurchfuehrendeOE");
-        durchfuehrendeOE.setWert("CCC");
-        durchfuehrendeOE.setKurztext("CCC Marburg");
+        Eintrag durchfuehrendeOEFeld = new Eintrag();
+        durchfuehrendeOEFeld.setFeldname("DurchfuehrendeOE");
+        durchfuehrendeOEFeld.setWert(durchfuehrendeOE);
+        durchfuehrendeOEFeld.setKurztext(durchfuehrendeOEKurzText);
 
 
         // TudokEintrag: Eintrag: Feldname = Einsendenummer
@@ -180,10 +209,10 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = InternExtern
         Eintrag internExtern = new Eintrag();
         internExtern.setFeldname("InternExtern");
-        internExtern.setWert("E");
+        internExtern.setWert(internExternWert);
         internExtern.setFilterkategorie("{}");
         internExtern.setVersion("OS.OrtDurchfuehrung.v1");
-        internExtern.setKurztext("Andere Einrichtung");
+        internExtern.setKurztext(internExternKurztext);
 
         // TudokEintrag: Eintrag : TumorMutationalBurden
         Eintrag tumorMutationalBurden = new Eintrag();
@@ -259,12 +288,14 @@ public class TudokMapper {
         probeID.setFeldname("ProbeID");
 
         // TudokEintrag: Eintrag : Probenmaterial
-        Eintrag probenmaterial = new Eintrag();
-        probenmaterial.setFeldname("Probenmaterial");
+        // Used for new version of onkostar
+        //Eintrag probenmaterial = new Eintrag();
+        //probenmaterial.setFeldname("Probenmaterial");
 
         // TudokEintrag: Eintrag : Projekt
         Eintrag projekt = new Eintrag();
         projekt.setFeldname("Projekt");
+        projekt.setWert("");
 
         // TudokEintrag: Eintrag : ReferenzGenom
         Eintrag referenzGenom = new Eintrag();
@@ -290,11 +321,11 @@ public class TudokMapper {
         //then Archer VariantPlex Complete Solid Tumor + FusionPlex Pan Solid Tumor v2
         String lastestDisplayName = mhGuideInfo.getGeneralInfo().getLastestDisplayName();
         if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor (unpaired) PathoMarburg")) {
-            seqKitTyp.setWert("Archer VariantPlex Complete Solid Tumor");
-            seqPipeline.setWert("urn:Marburg:VP:CST:1.0:MHGuide:6.3.0");
+            seqKitTyp.setWert(seqKitTypVP);
+            seqPipeline.setWert(seqPipelineVP);
         } else if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor PathoMarburg v2")) {
-            seqKitTyp.setWert("Archer VP Complete Solid Tumor + FP Pan Solid Tumor v2");
-            seqPipeline.setWert("urn:Marburg:VP:CST:1.0:FP:PST:1.0:MHGuide:6.3.0");
+            seqKitTyp.setWert(seqKitTypVPCP);
+            seqPipeline.setWert(seqPipelineVPCP);
         }
 
         // TudokEintrag: Eintrag : Sequenziergeraet
@@ -306,8 +337,8 @@ public class TudokMapper {
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
-                durchfuehrendeOE, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragMolekulargenetischeUntersuchung,
-                panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
+                durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragMolekulargenetischeUntersuchung,
+                panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(0);
         return tudokEintrag;

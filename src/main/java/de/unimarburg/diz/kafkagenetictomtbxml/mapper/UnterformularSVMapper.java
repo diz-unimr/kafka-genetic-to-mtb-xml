@@ -248,9 +248,10 @@ public class UnterformularSVMapper {
         Eintrag interpretation = new Eintrag();
         interpretation.setFeldname("Interpretation");
 
-        // Common-Attribute-Unterformular: Eintrag: METLevel
+        // TODO:Common-Attribute-Unterformular: Eintrag: METLevel
+        // Unterschied neue und alte MetLevel - METLevel
         Eintrag mETLevel = new Eintrag();
-        mETLevel.setFeldname("MetLevel");
+        mETLevel.setFeldname("METLevel");
 
         // Common-Attribute-Unterformular: Eintrag: Mutation
         Eintrag mutation = new Eintrag();
@@ -300,7 +301,7 @@ public class UnterformularSVMapper {
 
         unterformularSV.setHauptTudokEintragExportID(3);
         unterformularSV.setRevision(1);
-        unterformularSV.setBearbeitungStatus(0);
+        unterformularSV.setBearbeitungStatus(2);
         return unterformularSV;
     }
 }

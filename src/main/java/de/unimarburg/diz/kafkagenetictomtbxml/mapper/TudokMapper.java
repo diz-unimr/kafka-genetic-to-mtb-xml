@@ -174,9 +174,11 @@ public class TudokMapper {
         //entnahmedatum.setWert("");
         //entnahmedatum.setGenauigkeit("");
 
-        // TudokEintrag: Eintrag: Feldname = Entnahmemethode
+        // TODO: TudokEintrag: Eintrag: Feldname = Entnahmemethode
+        // Unterschied Neue und Alte
+        //- EntnahmeMethode zu Entnahmemethode
         Eintrag entnahmemethode = new Eintrag();
-        entnahmemethode.setFeldname("EntnahmeMethode");
+        entnahmemethode.setFeldname("Entnahmemethode");
         //entnahmemethode.setWert("");
         entnahmemethode.setFilterkategorie("");
         //entnahmemethode.setVersion("");
@@ -340,7 +342,7 @@ public class TudokMapper {
                 durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
         tudokEintrag.setRevision(1);
-        tudokEintrag.setBearbeitungStatus(0);
+        tudokEintrag.setBearbeitungStatus(2);
         return tudokEintrag;
     }
 }

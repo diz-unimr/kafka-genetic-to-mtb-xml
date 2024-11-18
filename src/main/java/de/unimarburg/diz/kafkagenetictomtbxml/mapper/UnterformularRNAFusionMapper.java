@@ -131,9 +131,10 @@ public class UnterformularRNAFusionMapper {
         Eintrag interpretation = new Eintrag();
         interpretation.setFeldname("Interpretation");
 
-        // Common-Attribute-Unterformular: Eintrag: METLevel
+        // TODO: Common-Attribute-Unterformular: Eintrag: METLevel
+        // Unterschied neue und alte Version MetLevel - METLevel
         Eintrag mETLevel = new Eintrag();
-        mETLevel.setFeldname("MetLevel");
+        mETLevel.setFeldname("METLevel");
 
         // Common-Attribute-Unterformular: Eintrag: Mutation
         Eintrag mutation = new Eintrag();
@@ -324,7 +325,7 @@ public class UnterformularRNAFusionMapper {
 
         unterformularRNAFusion.setHauptTudokEintragExportID(3);
         unterformularRNAFusion.setRevision(1);
-        unterformularRNAFusion.setBearbeitungStatus(0);
+        unterformularRNAFusion.setBearbeitungStatus(2);
         return unterformularRNAFusion;
     }
 

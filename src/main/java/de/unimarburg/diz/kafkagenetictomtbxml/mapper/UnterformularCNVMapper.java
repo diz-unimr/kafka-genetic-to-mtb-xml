@@ -221,9 +221,10 @@ public class UnterformularCNVMapper {
         Eintrag interpretation = new Eintrag();
         interpretation.setFeldname("Interpretation");
 
-        // Common-Attribute-Unterformular: Eintrag: METLevel
+        // TODO: Common-Attribute-Unterformular: Eintrag: METLevel
+        // Unterschied neue und alte Version MetLevel - METLevel
         Eintrag mETLevel = new Eintrag();
-        mETLevel.setFeldname("MetLevel");
+        mETLevel.setFeldname("METLevel");
 
         // Common-Attribute-Unterformular: Eintrag: Mutation
         Eintrag mutation = new Eintrag();
@@ -273,7 +274,7 @@ public class UnterformularCNVMapper {
 
         unterformularCNV.setHauptTudokEintragExportID(3);
         unterformularCNV.setRevision(1);
-        unterformularCNV.setBearbeitungStatus(0);
+        unterformularCNV.setBearbeitungStatus(2);
         return unterformularCNV;
     }
 }

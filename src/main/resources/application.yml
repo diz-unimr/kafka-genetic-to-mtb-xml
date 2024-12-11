@@ -40,7 +40,8 @@ metadata:
     kitManufacturer: ${KIT_MANUFACTURER:Archer}
     sequencer: ${SEQUENCER:Illumina NovaSeq 6000}
     referenceGenome: ${REFERENCE_GENOME:GRCh37}
-    sequencingType: ${SEQUENCING_TYPE:Targeted NGS}
+    sequencingType: ${SEQUENCING_TYPE:PanelKit}
+    sequencingTypeShort: ${SEQUENCING_TYPE_SHORT:Panel}
     interpolationSystem: ${INTERPOLATION_SYSTEM:MH Guide}
     reportedFocality: ${REPORTED_FOCALITY:complete}
     panel: ${PANEL:Archer Complete Solid Tumor}
@@ -54,6 +55,7 @@ metadata:
     durchfuehrendeOEKurzText: ${DURCHFUEHRENDEOE_KURZTEXT:CCC Marburg}
     internExternWert: ${INTERNEXTERN_WERT:M}
     internExternKurztext: ${INTERNEXTERN_KURZTEXT:Meine Einrichtung}
+    analyseMethoden: ${ANALYSE_METHODE:S}
 
 management:
   server:

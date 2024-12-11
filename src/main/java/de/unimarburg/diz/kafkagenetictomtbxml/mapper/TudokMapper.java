@@ -19,10 +19,12 @@ public class TudokMapper {
     private final UnterformularSVMapper unterformularSVMapper;
     private final UnterformularCNVMapper unterformularCNVMapper;
     private final UnterformularRNAFusionMapper unterformularRANFusionMapper;
+    private final UnterformularKomplexBiomarkerMapper unterformularKomplexBiomarkerMapper;
     private final String kitManufacturer;
     private final String sequencer;
     private final String referenceGenome;
     private final String sequencingType;
+    private final String sequencingTypeShort;
     private final String panel;
     private final String seqKitTypVP;
     private final String seqPipelineVP;
@@ -34,14 +36,17 @@ public class TudokMapper {
     private final String durchfuehrendeOEKurzText;
     private final String internExternWert;
     private final String internExternKurztext;
+    private final String analyseMethodenVal;
 
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
     public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
+                       UnterformularKomplexBiomarkerMapper unterformularKomplexBiomarkerMapper,
                        @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
                        @Value("${metadata.ngsReports.sequencer}") String sequencer,
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
                        @Value("${metadata.ngsReports.sequencingType}") String sequencingType,
+                       @Value("${metadata.ngsReports.sequencingTypeShort}") String sequencingTypeShort,
                        @Value("${metadata.ngsReports.panel}") String panel,
                        @Value("${metadata.ngsReports.seqKitTypVP}")  String seqKitTypVP,
                        @Value("${metadata.ngsReports.seqPipelineVP}") String seqPipelineVP,
@@ -52,15 +57,18 @@ public class TudokMapper {
                        @Value("${metadata.ngsReports.durchfuehrendeOE}") String durchfuehrendeOE,
                        @Value("${metadata.ngsReports.durchfuehrendeOEKurzText}") String durchfuehrendeOEKurzText,
                        @Value("${metadata.ngsReports.internExternWert}") String internExternWert,
-                       @Value("${metadata.ngsReports.internExternKurztext}") String internExternKurztext
+                       @Value("${metadata.ngsReports.internExternKurztext}") String internExternKurztext,
+                       @Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal
                        ) {
         this.unterformularSVMapper = unterformularSVMapper;
         this.unterformularCNVMapper = unterformularCNVMapper;
         this.unterformularRANFusionMapper = unterformularRANFusionMapper;
+        this.unterformularKomplexBiomarkerMapper = unterformularKomplexBiomarkerMapper;
         this.kitManufacturer = kitManufacturer;
         this.sequencer = sequencer;
         this.referenceGenome = referenceGenome;
         this.sequencingType = sequencingType;
+        this.sequencingTypeShort = sequencingTypeShort;
         this.panel = panel;
         this.seqKitTypVP = seqKitTypVP;
         this.seqPipelineVP = seqPipelineVP;
@@ -72,6 +80,7 @@ public class TudokMapper {
         this.durchfuehrendeOEKurzText = durchfuehrendeOEKurzText;
         this.internExternWert = internExternWert;
         this.internExternKurztext = internExternKurztext;
+        this.analyseMethodenVal = analyseMethodenVal;
     }
 
     public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
@@ -110,25 +119,27 @@ public class TudokMapper {
         Eintrag analyseMethoden = new Eintrag();
         analyseMethoden.setFeldname("AnalyseMethoden");
         // application.yml
-        analyseMethoden.setWert("S,H,");
+        analyseMethoden.setWert(analyseMethodenVal);
         analyseMethoden.setFilterkategorie("{}");
         analyseMethoden.setVersion("OS.MolDiagMethode.v1");
 
         // TudokEintrag: Eintrag: Feldname = ArtDerSequenzierung
         Eintrag artDerSequenzierung = new Eintrag();
         artDerSequenzierung.setFeldname("ArtDerSequenzierung");
-        artDerSequenzierung.setWert("PanelKit");
+        artDerSequenzierung.setWert(sequencingType);
         artDerSequenzierung.setFilterkategorie("{}");
         artDerSequenzierung.setVersion("OS.MolDiagSequenzierung.v1");
-        artDerSequenzierung.setKurztext("Panel");
+        artDerSequenzierung.setKurztext(sequencingTypeShort);
 
         // TudokEintrag: Eintrag: Feldname = ArtinsituHybridisierung
+        // Only if analysemethode = "H"
+        // Actual not necessary due to actual analysemethode is "S"
         Eintrag artinsituHybridisierung = new Eintrag();
         artinsituHybridisierung.setFeldname("ArtinsituHybridisierung");
-        artinsituHybridisierung.setWert("FISH");
+        artinsituHybridisierung.setWert("");
         artinsituHybridisierung.setFilterkategorie("");
-        artinsituHybridisierung.setVersion("OS.MolArtderHybridisierung.v1");
-        artinsituHybridisierung.setKurztext("FISH");
+        artinsituHybridisierung.setVersion("");
+        artinsituHybridisierung.setKurztext("");
 
         // TudokEintrag: Eintrag: Feldname = Befund
         Eintrag befund = new Eintrag();
@@ -143,6 +154,7 @@ public class TudokMapper {
         blocknummer.setFeldname("Blocknummer");
 
         // TudokEintrag: Eintrag: Feldname = Datum
+        // this is necessary to make clear
         Eintrag datum = new Eintrag();
         datum.setFeldname("Datum");
         datum.setWert(CurrentDateFormatter.formatCurrentDate());
@@ -224,7 +236,13 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
         Eintrag eintragMolekulargenetischeUntersuchung = new Eintrag();
         eintragMolekulargenetischeUntersuchung.setFeldname("MolekulargenetischeUntersuchung");
-        List<Unterformular> unterformularList = new ArrayList<>();
+        List<Unterformular> unterformularListMolUntersuchung = new ArrayList<>();
+
+
+        // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
+        Eintrag eintragKBiomarker = new Eintrag();
+        eintragKBiomarker.setFeldname("KomplexeBiomarker");
+        List<Unterformular> unterformularListKBiomarker = new ArrayList<>();
 
         // Eintrag : Feldname = MolekulargenetischeUntersuchung
         // MolekulargenetischeUntersuchung: Formular
@@ -243,20 +261,20 @@ public class TudokMapper {
                     case "SNV":
                         log.info("SNV found");
                         var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularList.add(unterformularSV);
+                        unterformularListMolUntersuchung.add(unterformularSV);
                         log.info("New formular created and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
                     case "CNV":
                         log.info("CNV found");
                         var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularList.add(unterformularCNV);
+                        unterformularListMolUntersuchung.add(unterformularCNV);
                         log.info("New formular created and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
                     case "fusion":
                         var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularList.add(unterformularRNAFusion);
+                        unterformularListMolUntersuchung.add(unterformularRNAFusion);
                         startExportIDUNterformular++;
                         break;
                     case "TMB":
@@ -268,17 +286,24 @@ public class TudokMapper {
                         log.info("MSI found");
                         var variantSymbol = variantLongList.getVariantSymbol();
                         if (variantSymbol.equals("MSS")){
-                            ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
+                            // This need to be make clear
+                            //ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
+                            var unterformularKomplexBiomarker = unterformularKomplexBiomarkerMapper.createXmlUnterformularKBiomarker(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
+                            unterformularListKBiomarker.add(unterformularKomplexBiomarker);
+                            startExportIDUNterformular++;
                         }
-                        startExportIDUNterformular++;
                         break;
                 }
             }else {
                 log.warn(String.format("CASE_UUID: {%s}: MH Guide variation list element with DETECTED_VAR_ID: {%s} has empty CHROMOSOMAL_VARIANT_TYPE", mhGuideInfo.getGeneralInfo().getCaseUuid(), variantLongList.getDetectedVarId()));
             }
         }
-        log.info("Total number of unterformular: " + unterformularList.size());
-        eintragMolekulargenetischeUntersuchung.setUnterformulars(unterformularList);
+        log.info("Total number of unterformular MolekulargenetischeUntersuchung " + unterformularListMolUntersuchung.size());
+        eintragMolekulargenetischeUntersuchung.setUnterformulars(unterformularListMolUntersuchung);
+
+        log.info("Total number of unterformular KomplexeBiomarker" + unterformularListKBiomarker.size());
+        eintragKBiomarker.setUnterformulars(unterformularListKBiomarker);
+
         // TudokEintrag: Eintrag : Panel
         Eintrag panelEintrag = new Eintrag();
         panelEintrag.setFeldname("Panel");
@@ -339,7 +364,7 @@ public class TudokMapper {
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
-                durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragMolekulargenetischeUntersuchung,
+                durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(2);

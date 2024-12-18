@@ -26,5 +26,4 @@ public class GeneralInfo implements Serializable {
     private String patientIdentifier;
     @JsonProperty("LABTEST_DISPLAY_NAME")
     private String lastestDisplayName;
-
 }

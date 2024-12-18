@@ -44,10 +44,11 @@ metadata:
     sequencingTypeShort: ${SEQUENCING_TYPE_SHORT:Panel}
     interpolationSystem: ${INTERPOLATION_SYSTEM:MH Guide}
     reportedFocality: ${REPORTED_FOCALITY:complete}
-    panel: ${PANEL:Archer Complete Solid Tumor}
-    seqKitTypVP: ${SEQKITTYP_VP:Archer VariantPlex Complete Solid Tumor}
+    panelVP: ${PANEL_VP:VP-CST}
+    panelVPCP: ${PANEL_VP_CP:VP-CST+FP-PST}
+    seqKitTypVP: ${SEQKITTYP_VP:VP-CST}
     seqPipelineVP: ${SEQPIPELINE_VP:urn:Marburg:VP:CST:1.0:MHGuide:6.3.0}
-    seqKitTypVPCP: ${SEQKITTYP_VPCP:Archer VP Complete Solid Tumor + FP Pan Solid Tumor v2}
+    seqKitTypVPCP: ${SEQKITTYP_VPCP:VP-CST+FP-PST}
     seqPipelineVPCP: ${SEQPIPELINE_VPCP:urn:Marburg:VP:CST:1.0:FP:PST:1.0:MHGuide:6.3.0}
     fachabteilungKennung: ${FACHABTEILUNGKENNUNG:ITCCC}
     einrichtungKennung: ${EINRICHTUNGKENNUNG:CCCUMR}

@@ -2,6 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
@@ -25,7 +26,8 @@ public class TudokMapper {
     private final String referenceGenome;
     private final String sequencingType;
     private final String sequencingTypeShort;
-    private final String panel;
+    private final String panelVP;
+    private final String panelVPCP;
     private final String seqKitTypVP;
     private final String seqPipelineVP;
     private final String seqKitTypVPCP;
@@ -47,7 +49,7 @@ public class TudokMapper {
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
                        @Value("${metadata.ngsReports.sequencingType}") String sequencingType,
                        @Value("${metadata.ngsReports.sequencingTypeShort}") String sequencingTypeShort,
-                       @Value("${metadata.ngsReports.panel}") String panel,
+                       @Value("${metadata.ngsReports.panelVP}") String panelVP,@Value("${metadata.ngsReports.panelVPCP}") String panelVPCP,
                        @Value("${metadata.ngsReports.seqKitTypVP}")  String seqKitTypVP,
                        @Value("${metadata.ngsReports.seqPipelineVP}") String seqPipelineVP,
                        @Value("${metadata.ngsReports.seqKitTypVPCP}") String seqKitTypVPCP,
@@ -69,7 +71,8 @@ public class TudokMapper {
         this.referenceGenome = referenceGenome;
         this.sequencingType = sequencingType;
         this.sequencingTypeShort = sequencingTypeShort;
-        this.panel = panel;
+        this.panelVP = panelVP;
+        this.panelVPCP = panelVPCP;
         this.seqKitTypVP = seqKitTypVP;
         this.seqPipelineVP = seqPipelineVP;
         this.seqKitTypVPCP = seqKitTypVPCP;
@@ -155,9 +158,11 @@ public class TudokMapper {
 
         // TudokEintrag: Eintrag: Feldname = Datum
         // this is necessary to make clear
+        // Extract the general part of the mh-guide
+        GeneralInfo generalInfo = mhGuideInfo.getGeneralInfo();
         Eintrag datum = new Eintrag();
         datum.setFeldname("Datum");
-        datum.setWert(CurrentDateFormatter.formatCurrentDate());
+        datum.setWert(generalInfo.getOrderDate());
         datum.setGenauigkeit("exact");
 
         // TudokEintrag: Eintrag: Feldname = Dokumentation
@@ -197,6 +202,7 @@ public class TudokMapper {
         //entnahmemethode.setKurztext("");
 
         // TudokEintrag: Eintrag : ErgebnisMSI
+        // Let here MSI empty, it was
         Eintrag ergebnisMSI = new Eintrag();
         ergebnisMSI.setFeldname("ErgebnisMSI");
         ergebnisMSI.setWert("");
@@ -307,8 +313,7 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : Panel
         Eintrag panelEintrag = new Eintrag();
         panelEintrag.setFeldname("Panel");
-        // TODO: check it
-        panelEintrag.setWert(panel);
+
 
         // TudokEintrag: Eintrag : ProbeID
         Eintrag probeID = new Eintrag();
@@ -335,6 +340,7 @@ public class TudokMapper {
         seqKitHersteller.setWert(kitManufacturer);
 
         // TudokEintrag: Eintrag : SeqKitTyp
+        // Is not clear what is difference to panel
         Eintrag seqKitTyp = new Eintrag();
         seqKitTyp.setFeldname("SeqKitTyp");
 
@@ -348,9 +354,13 @@ public class TudokMapper {
         //then Archer VariantPlex Complete Solid Tumor + FusionPlex Pan Solid Tumor v2
         String lastestDisplayName = mhGuideInfo.getGeneralInfo().getLastestDisplayName();
         if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor (unpaired) PathoMarburg")) {
+            // TODO! Need to checked the values present in panel and seqKitTyp
+            panelEintrag.setWert(panelVP);
+            // seqKitType need to be checked
             seqKitTyp.setWert(seqKitTypVP);
             seqPipeline.setWert(seqPipelineVP);
         } else if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor PathoMarburg v2")) {
+            panelEintrag.setWert(panelVPCP);
             seqKitTyp.setWert(seqKitTypVPCP);
             seqPipeline.setWert(seqPipelineVPCP);
         }

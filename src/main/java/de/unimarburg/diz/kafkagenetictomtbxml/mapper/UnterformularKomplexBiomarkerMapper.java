@@ -49,10 +49,18 @@ public class UnterformularKomplexBiomarkerMapper {
         // Eintrag: ErgebnisMSI
         Eintrag ergebnisEintragSV = new Eintrag();
         ergebnisEintragSV.setFeldname("ErgebnisMSI");
-        ergebnisEintragSV.setWert("MSS");
+        // Value need to be mapped in categories
+        // If the value of GENOMIC_EXTRA_DATA < 20 %  -> MSS (stable) and if >= 20 % -> H (unstable)
+        var genomicExtraData = Double.parseDouble(variantLongList.getGenomicExtraData());
+        if(genomicExtraData < 20) {
+            ergebnisEintragSV.setWert("MSS");
+            ergebnisEintragSV.setKurztext("Stabil (MSS)");
+        } else if (genomicExtraData >= 20) {
+            ergebnisEintragSV.setWert("H");
+            ergebnisEintragSV.setKurztext("Instabil (MSI high)");
+        }
         ergebnisEintragSV.setFilterkategorie("{}");
         ergebnisEintragSV.setVersion("OS.MolDiagErgebnisMSI.v1");
-        ergebnisEintragSV.setKurztext("Stabil (MSS)");
 
         // Eintrag: KomplexerBiomarker
         Eintrag komplexerBiomarker = new Eintrag();

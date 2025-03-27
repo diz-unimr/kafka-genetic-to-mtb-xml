@@ -1,38 +1,40 @@
-FROM gradle:8.6.0-jdk17 AS build
+
+FROM eclipse-temurin:21-jdk-jammy AS build
 WORKDIR /home/gradle/src
-ENV GRADLE_USER_HOME /gradle
+ENV GRADLE_USER_HOME=/gradle
 
-COPY build.gradle settings.gradle ./
-
-COPY --chown=gradle:gradle . .
-RUN gradle build -x integrationTest --info && \
-    gradle jacocoTestReport && \
-    awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' build/jacoco/coverage.csv && \
+COPY . .
+RUN ./gradlew clean build --info && \
     java -Djarmode=layertools -jar build/libs/*.jar extract
 
-FROM gcr.io/distroless/java17:nonroot
-WORKDIR /opt/mtb-pid-to-kafka
+FROM gcr.io/distroless/java21:nonroot
+
+USER root
+USER nonroot
+
+WORKDIR /opt/kafka-genetic-to-mtb-xml
 COPY --from=build /home/gradle/src/dependencies/ ./
 COPY --from=build /home/gradle/src/spring-boot-loader/ ./
 COPY --from=build /home/gradle/src/application/ ./
 COPY HealthCheck.java .
 
-USER nonroot
+USER 65532
 ARG GIT_REF=""
 ARG GIT_URL=""
 ARG BUILD_TIME=""
 ARG VERSION=0.0.0
 ENV APP_VERSION=${VERSION} \
     SPRING_PROFILES_ACTIVE="prod"
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=90", "org.springframework.boot.loader.launch.JarLauncher"]
+EXPOSE 8080
 
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=85", "org.springframework.boot.loader.launch.JarLauncher"]
 HEALTHCHECK --interval=25s --timeout=3s --retries=2 CMD ["java", "HealthCheck.java", "||", "exit", "1"]
 
 LABEL org.opencontainers.image.created=${BUILD_TIME} \
-    org.opencontainers.image.authors="Kapil Karki" \
+    org.opencontainers.image.authors="" \
     org.opencontainers.image.source=${GIT_URL} \
     org.opencontainers.image.version=${VERSION} \
     org.opencontainers.image.revision=${GIT_REF} \
     org.opencontainers.image.vendor="diz.uni-marburg.de" \
     org.opencontainers.image.title="kafka-genetic-to-mtb-xml" \
-    org.opencontainers.image.description="Kafka Consumer which construct the required xml that include the genetic information, which will be sent to MTB. The required xml will be constructed by collecting the genetic information which are scatted in different kafka-topics."
+    org.opencontainers.image.description="This ETL-Job create a xml file using patient and genetic informations in the two kafka-topics and send this xml file to onkostar"

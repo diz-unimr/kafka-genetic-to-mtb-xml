@@ -8,10 +8,9 @@ plugins {
 
 group = 'de.unimarburg.diz'
 version = '0.0.2-SNAPSHOT'
-
 java {
-	sourceCompatibility = JavaLanguageVersion.of(21)
-	targetCompatibility = JavaLanguageVersion.of(21)
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {

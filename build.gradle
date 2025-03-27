@@ -45,7 +45,6 @@ check.dependsOn integrationTest
 
 ext {
 	set('springCloudVersion', "2024.0.0")
-	set('testContainersVersion', '1.19.5')
 }
 
 dependencies {
@@ -68,7 +67,6 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
-	//implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11'
 
 	// unit tests
 	testImplementation 'org.springframework.cloud:spring-cloud-stream'
@@ -79,7 +77,7 @@ dependencies {
 	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testImplementation 'org.assertj:assertj-core:3.22.0'
+	testImplementation 'org.assertj:assertj-core'
 
 
 	// integration tests
@@ -87,12 +85,11 @@ dependencies {
 	intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	intTestImplementation "org.testcontainers:kafka:$testContainersVersion"
-	intTestImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
+	// integration tests
+	intTestImplementation 'org.awaitility:awaitility:4.2.0'
+	intTestImplementation 'org.assertj:assertj-core'
 	intTestImplementation 'org.awaitility:awaitility:4.3.0'
 	intTestImplementation 'org.assertj:assertj-core:3.17.2'
-
-
 }
 
 dependencyManagement {

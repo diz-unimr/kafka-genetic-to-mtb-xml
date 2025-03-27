@@ -6,7 +6,6 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularKomplexBiomarker;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularSV;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -74,14 +73,11 @@ public class UnterformularKomplexBiomarkerMapper {
         Eintrag seqProzentwert = new Eintrag();
         seqProzentwert.setFeldname("SeqProzentwert");
         seqProzentwert.setWert(variantLongList.getGenomicExtraData());
-
         // Add all the entrage in the array
         unterformularKBiomarker.setEintraege(Arrays.asList(analyseMethoden, assay, ergebnisEintragSV, komplexerBiomarker, seqProzentwert));
-
         unterformularKBiomarker.setHauptTudokEintragExportID(3);
         unterformularKBiomarker.setRevision(1);
         unterformularKBiomarker.setBearbeitungStatus(2);
-
         return unterformularKBiomarker;
     }
 

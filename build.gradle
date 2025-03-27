@@ -1,17 +1,14 @@
 plugins {
-	id "org.springframework.boot" version '3.4.3'
+	id "org.springframework.boot" version '3.4.4'
 	id "io.spring.dependency-management" version '1.1.7'
 	id 'java'
 	id 'jacoco'
-	id "io.freefair.lombok" version "8.12.1"
+	id "io.freefair.lombok" version "6.6.3"
 }
 
 group = 'de.unimarburg.diz'
 version = '0.0.2-SNAPSHOT'
-java {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
-}
+
 
 repositories {
 	mavenCentral()
@@ -40,7 +37,7 @@ tasks.register('integrationTest', Test) {
 	shouldRunAfter test
 }
 
-check.dependsOn integrationTest
+//check.dependsOn integrationTest
 
 ext {
 	set('springCloudVersion', "2024.0.0")

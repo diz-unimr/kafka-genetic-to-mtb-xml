@@ -6,7 +6,6 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
-import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +19,8 @@ public class TudokMapper {
     private final UnterformularSVMapper unterformularSVMapper;
     private final UnterformularCNVMapper unterformularCNVMapper;
     private final UnterformularRNAFusionMapper unterformularRANFusionMapper;
-    private final UnterformularKomplexBiomarkerMapper unterformularKomplexBiomarkerMapper;
+    private final UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI;
+    private final UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB;
     private final String kitManufacturer;
     private final String sequencer;
     private final String referenceGenome;
@@ -43,7 +43,7 @@ public class TudokMapper {
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
     public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
-                       UnterformularKomplexBiomarkerMapper unterformularKomplexBiomarkerMapper,
+                       UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI, UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB,
                        @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
                        @Value("${metadata.ngsReports.sequencer}") String sequencer,
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
@@ -65,7 +65,8 @@ public class TudokMapper {
         this.unterformularSVMapper = unterformularSVMapper;
         this.unterformularCNVMapper = unterformularCNVMapper;
         this.unterformularRANFusionMapper = unterformularRANFusionMapper;
-        this.unterformularKomplexBiomarkerMapper = unterformularKomplexBiomarkerMapper;
+        this.unterformularKomplexBiomarkerMapperMSI = unterformularKomplexBiomarkerMapperMSI;
+        this.unterformularKomplexBiomarkerMapperTMB = unterformularKomplexBiomarkerMapperTMB;
         this.kitManufacturer = kitManufacturer;
         this.sequencer = sequencer;
         this.referenceGenome = referenceGenome;
@@ -234,11 +235,6 @@ public class TudokMapper {
         internExtern.setVersion("OS.OrtDurchfuehrung.v1");
         internExtern.setKurztext(internExternKurztext);
 
-        // TudokEintrag: Eintrag : TumorMutationalBurden
-        Eintrag tumorMutationalBurden = new Eintrag();
-        tumorMutationalBurden.setFeldname("TumorMutationalBurden");
-
-
         // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
         Eintrag eintragMolekulargenetischeUntersuchung = new Eintrag();
         eintragMolekulargenetischeUntersuchung.setFeldname("MolekulargenetischeUntersuchung");
@@ -259,6 +255,8 @@ public class TudokMapper {
         var  lengthVariantLongList = variantLongLists.size();
         log.info("Length of current variantList: {}", lengthVariantLongList);
         var startExportIDUNterformular = 4;
+        //TODO: Need to implement for filtering only notable biomarkers
+        // Actual: The all the biomarkers or variations are send
         for (VariantLongList variantLongList : variantLongLists) {
             var variantType = variantLongList.getDisplayVariantType();
             if ( variantType != null) {
@@ -285,7 +283,8 @@ public class TudokMapper {
                         break;
                     case "TMB":
                         log.info("TMB found");
-                        tumorMutationalBurden.setWert(variantLongList.getTmbVariantCountPerMegabase());
+                        var unterformularKomplexBiomarkerTMB = unterformularKomplexBiomarkerMapperTMB.createXmlUnterformularKBiomarkerTMB(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
+                        unterformularListKBiomarker.add(unterformularKomplexBiomarkerTMB);
                         startExportIDUNterformular++;
                         break;
                     case "MSI":
@@ -294,8 +293,8 @@ public class TudokMapper {
                         if (variantSymbol.equals("MSS")){
                             // This need to be make clear
                             //ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
-                            var unterformularKomplexBiomarker = unterformularKomplexBiomarkerMapper.createXmlUnterformularKBiomarker(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
-                            unterformularListKBiomarker.add(unterformularKomplexBiomarker);
+                            var unterformularKomplexBiomarkerMSI = unterformularKomplexBiomarkerMapperMSI.createXmlUnterformularKBiomarkerMSI(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
+                            unterformularListKBiomarker.add(unterformularKomplexBiomarkerMSI);
                             startExportIDUNterformular++;
                         }
                         break;
@@ -375,7 +374,7 @@ public class TudokMapper {
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
                 durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragMolekulargenetischeUntersuchung,
-                panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorMutationalBurden, tumorzellgehalt));
+                panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(2);
         return tudokEintrag;

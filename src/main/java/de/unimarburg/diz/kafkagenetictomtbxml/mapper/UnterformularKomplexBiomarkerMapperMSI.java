@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 @Component
-public class UnterformularKomplexBiomarkerMapper {
+public class UnterformularKomplexBiomarkerMapperMSI {
     private final String analyseMethodenVal;
 
-    public UnterformularKomplexBiomarkerMapper(@Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal){
+    public UnterformularKomplexBiomarkerMapperMSI(@Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal){
         this.analyseMethodenVal = analyseMethodenVal;
     }
 
-    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarker(MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
+    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerMSI(MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularKomplexBiomarker unterformularKBiomarker = new UnterformularKomplexBiomarker();
 
         unterformularKBiomarker.setExportID(startExportIDUNterformular);

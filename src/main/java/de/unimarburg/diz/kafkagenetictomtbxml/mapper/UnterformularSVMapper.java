@@ -1,7 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularSV;
@@ -9,8 +9,6 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,7 +83,7 @@ public class UnterformularSVMapper {
         return aminoChange;
     }
 
-    public UnterformularSV createXmlUnterformularSV (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
+    public UnterformularSV createXmlUnterformularSV (MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularSV unterformularSV = new UnterformularSV();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularSV.setExportID(startExportIDUNterformular);
@@ -105,7 +103,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: Allelfrequenz
         Eintrag allelfrequenz = new Eintrag();
         allelfrequenz.setFeldname("Allelfrequenz");
-        allelfrequenz.setWert(variantLongList.getVariantAlleleFrequencyInTumor());
+        allelfrequenz.setWert(variant.getVariantAlleleFrequencyInTumor());
 
         // SV-Unterformular: Eintrag: Allelzahl
         Eintrag allelzahl = new Eintrag();
@@ -152,7 +150,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVChromosom
         Eintrag eVChromosom = new Eintrag();
         eVChromosom.setFeldname("EVChromosom");
-        eVChromosom.setWert(variantLongList.getChromosomeModifiedObject());
+        eVChromosom.setWert(variant.getChromosomeModifiedObject());
         eVChromosom.setFilterkategorie("{}");
 
         // SV-Unterformular: Eintrag: EVENSEMBLID
@@ -177,7 +175,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVHGNCSymbol
         Eintrag eVHGNCSymbol = new Eintrag();
         eVHGNCSymbol.setFeldname("EVHGNCSymbol");
-        eVHGNCSymbol.setWert(variantLongList.getGeneSymbol());
+        eVHGNCSymbol.setWert(variant.getGeneSymbol());
 
         // SV-Unterformular: Eintrag: EVNMNummer
         Eintrag eVNMNummer = new Eintrag();
@@ -186,7 +184,7 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVReadDepth
         Eintrag eVReadDepth = new Eintrag();
         eVReadDepth.setFeldname("EVReadDepth");
-        eVReadDepth.setWert(variantLongList.getTotalReadsInTumor());
+        eVReadDepth.setWert(variant.getTotalReadsInTumor());
 
         // SV-Unterformular: Eintrag: EVRefNucleotide
         Eintrag eVRefNucleotide = new Eintrag();
@@ -195,21 +193,21 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVStart
         Eintrag eVStart = new Eintrag();
         eVStart.setFeldname("EVStart");
-        String evStartString = parseStartEnd(variantLongList.getChromosomeModification());
+        String evStartString = parseStartEnd(variant.getChromosomeModification());
         eVStart.setWert(evStartString);
 
         // SV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");
-        untersucht.setWert(variantLongList.getGeneSymbol());
+        untersucht.setWert(variant.getGeneSymbol());
         untersucht.setFilterkategorie("{}");
         untersucht.setVersion("OS.Molekulargenetik.v1");
-        untersucht.setKurztext(variantLongList.getGeneSymbol());
+        untersucht.setKurztext(variant.getGeneSymbol());
 
         // SV-Unterformular: EVdbSNPID
         Eintrag eVdbSNPID = new Eintrag();
         eVdbSNPID.setFeldname("EVdbSNPID");
-        eVdbSNPID.setWert(variantLongList.getDbsnp());
+        eVdbSNPID.setWert(variant.getDbsnp());
 
         Eintrag ergebnisEintragSV = new Eintrag();
         ergebnisEintragSV.setFeldname("Ergebnis");
@@ -247,6 +245,7 @@ public class UnterformularSVMapper {
         // Common-Attribute-Unterformular: Eintrag: Interpretation
         Eintrag interpretation = new Eintrag();
         interpretation.setFeldname("Interpretation");
+        interpretation.setWert(variant.getClassificationName());
 
         // TODO:Common-Attribute-Unterformular: Eintrag: METLevel
         // Unterschied neue und alte MetLevel - METLevel
@@ -266,14 +265,14 @@ public class UnterformularSVMapper {
         neuanlage.setVersion("OS.JaNein.v1");
         neuanlage.setKurztext("Nein");
 
-        // Nicht Sicher mit Wert
+
         // Common-Attribute-Unterformular: Eintrag: Pathogenitaetsklasse
         Eintrag pathogenitaetsklasse = new Eintrag();
         pathogenitaetsklasse.setFeldname("Pathogenitaetsklasse");
-        pathogenitaetsklasse.setWert("1");
+        pathogenitaetsklasse.setWert(variant.getVariantClassification());
         pathogenitaetsklasse.setFilterkategorie("{}");
         pathogenitaetsklasse.setVersion("OS.MolGenPathogenitätsklasse.v1");
-        pathogenitaetsklasse.setKurztext("1= Normvariante ohne klinische Relevanz (benign)");
+        pathogenitaetsklasse.setKurztext(variant.getClassificationName());
 
         // Common-Attribute-Unterformular: Eintrag: ProteinebeneNomenklatur
         Eintrag proteinebeneNomenklatur = new Eintrag();

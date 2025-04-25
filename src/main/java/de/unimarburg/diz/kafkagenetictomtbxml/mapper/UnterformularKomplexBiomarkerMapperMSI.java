@@ -2,7 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularKomplexBiomarker;
@@ -19,7 +19,7 @@ public class UnterformularKomplexBiomarkerMapperMSI {
         this.analyseMethodenVal = analyseMethodenVal;
     }
 
-    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerMSI(MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
+    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerMSI(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularKomplexBiomarker unterformularKBiomarker = new UnterformularKomplexBiomarker();
 
         unterformularKBiomarker.setExportID(startExportIDUNterformular);
@@ -35,7 +35,7 @@ public class UnterformularKomplexBiomarkerMapperMSI {
         Eintrag analyseMethoden = new Eintrag();
         analyseMethoden.setFeldname("AnalyseMethoden");
         analyseMethoden.setWert(analyseMethodenVal);
-        analyseMethoden.setFilterkategorie("{}");
+        analyseMethoden.setFilterkategorie("{\"OS.MolDiagMethode.v1\":\"MSI\"}");
         analyseMethoden.setVersion("OS.MolDiagMethode.v1");
 
         // Eintrag: Assay
@@ -50,7 +50,7 @@ public class UnterformularKomplexBiomarkerMapperMSI {
         ergebnisEintragSV.setFeldname("ErgebnisMSI");
         // Value need to be mapped in categories
         // If the value of GENOMIC_EXTRA_DATA < 20 %  -> MSS (stable) and if >= 20 % -> H (unstable)
-        var genomicExtraData = Double.parseDouble(variantLongList.getGenomicExtraData());
+        var genomicExtraData = Double.parseDouble(variant.getGenomicExtraData());
         if(genomicExtraData < 20) {
             ergebnisEintragSV.setWert("MSS");
             ergebnisEintragSV.setKurztext("Stabil (MSS)");
@@ -65,14 +65,13 @@ public class UnterformularKomplexBiomarkerMapperMSI {
         Eintrag komplexerBiomarker = new Eintrag();
         komplexerBiomarker.setFeldname("KomplexerBiomarker");
         komplexerBiomarker.setWert("MSI");
-        komplexerBiomarker.setFilterkategorie("{}");
         komplexerBiomarker.setVersion("OS.MolDiagKomplexeBiomarker.v1");
         komplexerBiomarker.setKurztext("MSI/MMR");
 
         // Eintrag: SeqProzentwert
         Eintrag seqProzentwert = new Eintrag();
         seqProzentwert.setFeldname("SeqProzentwert");
-        seqProzentwert.setWert(variantLongList.getGenomicExtraData());
+        seqProzentwert.setWert(variant.getGenomicExtraData());
         // Add all the entrage in the array
         unterformularKBiomarker.setEintraege(Arrays.asList(analyseMethoden, assay, ergebnisEintragSV, komplexerBiomarker, seqProzentwert));
         unterformularKBiomarker.setHauptTudokEintragExportID(3);

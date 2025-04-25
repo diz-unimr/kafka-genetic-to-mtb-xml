@@ -3,7 +3,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularCNV;
@@ -31,7 +31,7 @@ public class UnterformularCNVMapper {
         var jsonNode = objectMapper.readTree(jsonAnotation);
         return jsonNode.get(keyToExtract).asText();
     }
-    public UnterformularCNV createXmlUnterformularCNV (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
+    public UnterformularCNV createXmlUnterformularCNV (MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular
         // CNV
         UnterformularCNV unterformularCNV = new UnterformularCNV();
@@ -53,7 +53,7 @@ public class UnterformularCNVMapper {
         // SV-Unterformular: Eintrag: Allelfrequenz
         Eintrag allelfrequenz = new Eintrag();
         allelfrequenz.setFeldname("Allelfrequenz");
-        allelfrequenz.setWert(variantLongList.getVariantAlleleFrequencyInTumor());
+        allelfrequenz.setWert(variant.getVariantAlleleFrequencyInTumor());
 
         // SV-Unterformular: Eintrag: Allelzahl
         Eintrag allelzahl = new Eintrag();
@@ -74,7 +74,7 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVBetroffeneGene
         Eintrag cNVBetroffeneGene = new Eintrag();
         cNVBetroffeneGene.setFeldname("CNVBetroffeneGene");
-        cNVBetroffeneGene.setWert(variantLongList.getGeneSymbol());
+        cNVBetroffeneGene.setWert(variant.getGeneSymbol());
 
         // CNV-Unterformular: Eintrag: CNVCNA
         Eintrag cNVCNA = new Eintrag();
@@ -88,7 +88,7 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVChromosom
         Eintrag cNVChromosom = new Eintrag();
         cNVChromosom.setFeldname("CNVChromosom");
-        cNVChromosom.setWert(variantLongList.getChromosomeModifiedObject());
+        cNVChromosom.setWert(variant.getChromosomeModifiedObject());
         cNVChromosom.setFilterkategorie("{}");
 
         // CNV-Unterformular: Eintrag: CNVENSEMBLID
@@ -98,7 +98,7 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVEndRange
         Eintrag cNVEndRange = new Eintrag();
         cNVEndRange.setFeldname("CNVEndRange");
-        cNVEndRange.setWert(variantLongList.getChromosomeModification());
+        cNVEndRange.setWert(variant.getChromosomeModification());
 
         // CNV-Unterformular: Eintrag: CNVHGNCID
         Eintrag cNVHGNCID = new Eintrag();
@@ -119,7 +119,7 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVRelativeCN
         Eintrag cNVRelativeCN = new Eintrag();
         cNVRelativeCN.setFeldname("CNVRelativeCN");
-        var relCopyNumber = variantLongList.getCopyNumber();
+        var relCopyNumber = variant.getCopyNumber();
         cNVRelativeCN.setWert(relCopyNumber);
 
         // CNV-Unterformular: Eintrag: CNVReportedFocality
@@ -130,12 +130,12 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVStartRange
         Eintrag cNVStartRange = new Eintrag();
         cNVStartRange.setFeldname("CNVStartRange");
-        cNVStartRange.setWert(variantLongList.getChromosomeModification());
+        cNVStartRange.setWert(variant.getChromosomeModification());
 
         // CNV-Unterformular: Eintrag: CNVTotalCN
         Eintrag cNVTotalCN = new Eintrag();
         cNVTotalCN.setFeldname("CNVTotalCN");
-        cNVTotalCN.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "GSP2 Count:" ));
+        cNVTotalCN.setWert(extractStringFromJson(variant.getAnnotationJson(), "GSP2 Count:" ));
 
         // CNV-Unterformular: Eintrag: CNVTotalCNDouble
         Eintrag cNVTotalCNDouble = new Eintrag();
@@ -178,10 +178,10 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");
-        untersucht.setWert(variantLongList.getGeneSymbol());
+        untersucht.setWert(variant.getGeneSymbol());
         untersucht.setFilterkategorie("{}");
         untersucht.setVersion("OS.Molekulargenetik.v1");
-        untersucht.setKurztext(variantLongList.getGeneSymbol());
+        untersucht.setKurztext(variant.getGeneSymbol());
 
         // Unterformular: Eintrag: Feldname = Ergebnis
         Eintrag ergebnisEintragCNV = new Eintrag();
@@ -243,10 +243,6 @@ public class UnterformularCNVMapper {
         // Common-Attribute-Unterformular: Eintrag: Pathogenitaetsklasse
         Eintrag pathogenitaetsklasse = new Eintrag();
         pathogenitaetsklasse.setFeldname("Pathogenitaetsklasse");
-        pathogenitaetsklasse.setWert("1");
-        pathogenitaetsklasse.setFilterkategorie("{}");
-        pathogenitaetsklasse.setVersion("OS.MolGenPathogenitätsklasse.v1");
-        pathogenitaetsklasse.setKurztext("1= Normvariante ohne klinische Relevanz (benign)");
 
         // Common-Attribute-Unterformular: Eintrag: ProteinebeneNomenklatur
         Eintrag proteinebeneNomenklatur = new Eintrag();

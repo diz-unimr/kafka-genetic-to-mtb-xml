@@ -56,7 +56,9 @@ metadata:
     durchfuehrendeOEKurzText: ${DURCHFUEHRENDEOE_KURZTEXT:CCC Marburg}
     internExternWert: ${INTERNEXTERN_WERT:M}
     internExternKurztext: ${INTERNEXTERN_KURZTEXT:Meine Einrichtung}
-    analyseMethoden: ${ANALYSE_METHODE:S}
+    analyseMethoden: ${ANALYSE_METHODE:S,KOMPBIO}
+    classificationName: ${CLASSIFICATION_NAME:Likely pathogenic,Pathogenic}
+    oncogenicClassificationName: ${ONCOGENIC_CLASSIFICATION_NAME:Likely oncogenic,Oncogenic}
 
 management:
   server:

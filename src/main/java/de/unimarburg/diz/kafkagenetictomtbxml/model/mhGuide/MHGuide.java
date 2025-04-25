@@ -16,6 +16,6 @@ public class MHGuide implements Serializable {
     private GeneralInfo generalInfo;
 
     @JsonProperty("VARIANT_LONG_LIST")
-    private List<VariantLongList> variantLongList;
+    private List<Variant> variant;
     
 }

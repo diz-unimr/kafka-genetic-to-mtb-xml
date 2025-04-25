@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 @Service
@@ -30,7 +32,6 @@ public class GenDataBiConsumer {
     public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPatientInfo>> process() {
         return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) ->  {
             try {
-                // Construct onkostarDataObject
                 OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
                 return restClientMtbSender.sendRequestToMtb(onkostarDaten);
             } catch (JacksonException e) {
@@ -39,5 +40,6 @@ public class GenDataBiConsumer {
         });
     }
 }
+
 
 

@@ -2,7 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularKomplexBiomarker;
@@ -20,7 +20,7 @@ public class UnterformularKomplexBiomarkerMapperTMB {
         this.analyseMethodenVal = analyseMethodenVal;
     }
 
-    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerTMB(MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
+    public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerTMB(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularKomplexBiomarker unterformularKBiomarker = new UnterformularKomplexBiomarker();
 
         unterformularKBiomarker.setExportID(startExportIDUNterformular);
@@ -36,9 +36,8 @@ public class UnterformularKomplexBiomarkerMapperTMB {
         Eintrag analyseMethoden = new Eintrag();
         analyseMethoden.setFeldname("AnalyseMethoden");
         analyseMethoden.setWert(analyseMethodenVal);
-        analyseMethoden.setFilterkategorie("{}");
+        analyseMethoden.setFilterkategorie("{\"OS.MolDiagMethode.v1\":\"MSI\"}");
         analyseMethoden.setVersion("OS.MolDiagMethode.v1");
-
         // Eintrag: Assay
 
         Eintrag assay = new Eintrag();
@@ -49,12 +48,12 @@ public class UnterformularKomplexBiomarkerMapperTMB {
         Eintrag komplexerBiomarker = new Eintrag();
         komplexerBiomarker.setFeldname("KomplexerBiomarker");
         komplexerBiomarker.setWert("TMB");
-        komplexerBiomarker.setFilterkategorie("{}");
         komplexerBiomarker.setVersion("OS.MolDiagKomplexeBiomarker.v1");
+        komplexerBiomarker.setKurztext("TMB");
 
         Eintrag komplexerBiomarkerTMB = new Eintrag();
         komplexerBiomarkerTMB.setFeldname("TumorMutationalBurden");
-        komplexerBiomarkerTMB.setWert(variantLongList.getTmbVariantCountPerMegabase());
+        komplexerBiomarkerTMB.setWert(variant.getTmbVariantCountPerMegabase());
 
         // Add all the entrage in the array
         unterformularKBiomarker.setEintraege(Arrays.asList(analyseMethoden, assay, komplexerBiomarker, komplexerBiomarkerTMB));

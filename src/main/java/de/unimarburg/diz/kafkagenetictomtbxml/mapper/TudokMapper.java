@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class TudokMapper {
@@ -39,6 +40,8 @@ public class TudokMapper {
     private final String internExternWert;
     private final String internExternKurztext;
     private final String analyseMethodenVal;
+    private final String classificationName;
+    private final String oncogenicClassificationName;
 
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
@@ -60,7 +63,9 @@ public class TudokMapper {
                        @Value("${metadata.ngsReports.durchfuehrendeOEKurzText}") String durchfuehrendeOEKurzText,
                        @Value("${metadata.ngsReports.internExternWert}") String internExternWert,
                        @Value("${metadata.ngsReports.internExternKurztext}") String internExternKurztext,
-                       @Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal
+                       @Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal,
+                       @Value("${metadata.ngsReports.classificationName}") String classificationName,
+                       @Value("${metadata.ngsReports.oncogenicClassificationName}") String oncogenicClassificationName
                        ) {
         this.unterformularSVMapper = unterformularSVMapper;
         this.unterformularCNVMapper = unterformularCNVMapper;
@@ -85,6 +90,8 @@ public class TudokMapper {
         this.internExternWert = internExternWert;
         this.internExternKurztext = internExternKurztext;
         this.analyseMethodenVal = analyseMethodenVal;
+        this.classificationName = classificationName;
+        this.oncogenicClassificationName = oncogenicClassificationName;
     }
 
     public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
@@ -246,97 +253,153 @@ public class TudokMapper {
         eintragKBiomarker.setFeldname("KomplexeBiomarker");
         List<Unterformular> unterformularListKBiomarker = new ArrayList<>();
 
+        Eintrag materialfixierung = new Eintrag();
+        materialfixierung.setFeldname("Materialfixierung");
+        materialfixierung.setWert("3");
+        materialfixierung.setVersion("OS.Material.v1");
+        materialfixierung.setKurztext("FFPE-Fixierung");
+
         // Eintrag : Feldname = MolekulargenetischeUntersuchung
         // MolekulargenetischeUntersuchung: Formular
         // UnterformaularTyp: SimpleVariant (SV)
 
-        List<VariantLongList> variantLongLists = mhGuideInfo.getVariantLongList();
+        List<Variant> variantLongListsAll = mhGuideInfo.getVariant();
         // length of variantlong list
-        var  lengthVariantLongList = variantLongLists.size();
+        var  lengthVariantLongList = variantLongListsAll.size();
         log.info("Length of current variantList: {}", lengthVariantLongList);
         var startExportIDUNterformular = 4;
         //TODO: Need to implement for filtering only notable biomarkers
-        // Actual: The all the biomarkers or variations are send
-        for (VariantLongList variantLongList : variantLongLists) {
-            var variantType = variantLongList.getDisplayVariantType();
-            if ( variantType != null) {
-                System.out.println("Current Variation" + variantLongList.getDisplayVariantType());
+        //List<Variant> variantFiltered = filterBiomarkers(variantLongListsAll);
+        List<String> classificationNameList  = Arrays.asList(classificationName.split(",\\s*"));
+        List<String>  oncogenicClassificationNameList = Arrays.asList(oncogenicClassificationName.split(",\\s*"));
+
+        for (Variant variant : variantLongListsAll) {
+            var variantType = variant.getDisplayVariantType();
+            String classificationName = variant.getClassificationName();
+            String oncogenicClassificationName = variant.getOncogenicClassificationName();
+            if (variantType != null) {
                 switch (variantType) {
                     case "SNV":
                         log.info("SNV found");
-                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularListMolUntersuchung.add(unterformularSV);
-                        log.info("New formular created and add to the list of unterformular");
-                        startExportIDUNterformular++;
+                        if(oncogenicClassificationName != null && !oncogenicClassificationName.isEmpty()) {
+                            if(oncogenicClassificationNameList.contains(oncogenicClassificationName)){
+                                var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularSV);
+                                log.info("New subform created for SNV and add to the list of unterformular");
+                                startExportIDUNterformular++;
+                            }
+                        } else if (oncogenicClassificationName == null && classificationName != null && !classificationName.isEmpty()) {
+                            if (classificationNameList.contains(classificationName)) {
+                                var unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularSV);
+                                log.info("New subform created for SNV and add to the list of unterformular");
+                                startExportIDUNterformular++;
+                            }
+                        }
                         break;
                     case "CNV":
                         log.info("CNV found");
-                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularListMolUntersuchung.add(unterformularCNV);
-                        log.info("New formular created and add to the list of unterformular");
-                        startExportIDUNterformular++;
+
+                        if(oncogenicClassificationName != null && !oncogenicClassificationName.isEmpty()) {
+                            if(oncogenicClassificationNameList.contains(oncogenicClassificationName)){
+                                var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularCNV);
+                                log.info("New subform created for CNV and add to the list of unterformular");
+                                startExportIDUNterformular++;
+
+                            }
+                        } else if (oncogenicClassificationName == null && classificationName != null && !classificationName.isEmpty()) {
+                            if (classificationNameList.contains(classificationName)) {
+                                var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularCNV);
+                                log.info("New subform created for CNV and add to the list of unterformular");
+                                startExportIDUNterformular++;
+                            }
+                        }
                         break;
                     case "fusion":
-                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo,variantLongList, dokumentierendeFachabteilung, startExportIDUNterformular);
-                        unterformularListMolUntersuchung.add(unterformularRNAFusion);
-                        startExportIDUNterformular++;
+                        if(oncogenicClassificationName != null && !oncogenicClassificationName.isEmpty()) {
+                            if(oncogenicClassificationNameList.contains(oncogenicClassificationName)){
+                                var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularRNAFusion);
+                                log.info("New subform created for RNV Fusion and add to the list of unterformular");
+                                startExportIDUNterformular++;
+                            }
+                        } else if (oncogenicClassificationName == null && classificationName != null && !classificationName.isEmpty()) {
+                            if (classificationNameList.contains(classificationName)) {
+                                var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                                unterformularListMolUntersuchung.add(unterformularRNAFusion);
+                                startExportIDUNterformular++;
+                                log.info("New subform created for RNV Fusion and add to the list of unterformular");
+                            }
+                        }
                         break;
                     case "TMB":
                         log.info("TMB found");
-                        var unterformularKomplexBiomarkerTMB = unterformularKomplexBiomarkerMapperTMB.createXmlUnterformularKBiomarkerTMB(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
+                        var unterformularKomplexBiomarkerTMB = unterformularKomplexBiomarkerMapperTMB.createXmlUnterformularKBiomarkerTMB(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
                         unterformularListKBiomarker.add(unterformularKomplexBiomarkerTMB);
+                        log.info("New subform created for complex biomarker MSI and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
                     case "MSI":
                         log.info("MSI found");
-                        var variantSymbol = variantLongList.getVariantSymbol();
+                        var variantSymbol = variant.getVariantSymbol();
                         if (variantSymbol.equals("MSS")){
                             // This need to be make clear
                             //ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
-                            var unterformularKomplexBiomarkerMSI = unterformularKomplexBiomarkerMapperMSI.createXmlUnterformularKBiomarkerMSI(mtbPatientInfo,variantLongList,dokumentierendeFachabteilung,startExportIDUNterformular);
+                            var unterformularKomplexBiomarkerMSI = unterformularKomplexBiomarkerMapperMSI.createXmlUnterformularKBiomarkerMSI(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
                             unterformularListKBiomarker.add(unterformularKomplexBiomarkerMSI);
+                            log.info("New subform created for complex biomarker TMB and add to the list of unterformular");
                             startExportIDUNterformular++;
                         }
                         break;
                 }
             }else {
-                log.warn(String.format("CASE_UUID: {%s}: MH Guide variation list element with DETECTED_VAR_ID: {%s} has empty CHROMOSOMAL_VARIANT_TYPE", mhGuideInfo.getGeneralInfo().getCaseUuid(), variantLongList.getDetectedVarId()));
+                log.warn(String.format("CASE_UUID: {%s}: MH Guide variation list element with DETECTED_VAR_ID: {%s} has empty CHROMOSOMAL_VARIANT_TYPE", mhGuideInfo.getGeneralInfo().getCaseUuid(), variant.getDetectedVarId()));
             }
         }
-        log.info("Total number of unterformular MolekulargenetischeUntersuchung " + unterformularListMolUntersuchung.size());
+        log.info("Total number of created subform for  MolekulargenetischeUntersuchung: {}", unterformularListMolUntersuchung.size());
         eintragMolekulargenetischeUntersuchung.setUnterformulars(unterformularListMolUntersuchung);
 
-        log.info("Total number of unterformular KomplexeBiomarker" + unterformularListKBiomarker.size());
+        log.info("Total number of created subform for KomplexeBiomarker: {}", unterformularListKBiomarker.size());
         eintragKBiomarker.setUnterformulars(unterformularListKBiomarker);
 
         // TudokEintrag: Eintrag : Panel
         Eintrag panelEintrag = new Eintrag();
         panelEintrag.setFeldname("Panel");
 
-
         // TudokEintrag: Eintrag : ProbeID
         Eintrag probeID = new Eintrag();
         probeID.setFeldname("ProbeID");
 
-        // TudokEintrag: Eintrag : Probenmaterial
+        //TudokEintrag: Eintrag : Probenmaterial
         // Used for new version of onkostar
-        //Eintrag probenmaterial = new Eintrag();
-        //probenmaterial.setFeldname("Probenmaterial");
+        Eintrag probenmaterial = new Eintrag();
+        probenmaterial.setFeldname("Probenmaterial");
+        probenmaterial.setWert("");
+        probenmaterial.setVersion("OS.Probenmaterial.v1");
+        probenmaterial.setKurztext("");
+
 
         // TudokEintrag: Eintrag : Projekt
         Eintrag projekt = new Eintrag();
         projekt.setFeldname("Projekt");
-        projekt.setWert("");
+        projekt.setWert("ZPM,");
+        projekt.setVersion("OS.MolDiag.Projekte.v1");
 
         // TudokEintrag: Eintrag : ReferenzGenom
         Eintrag referenzGenom = new Eintrag();
         referenzGenom.setFeldname("ReferenzGenom");
         referenzGenom.setWert(referenceGenome);
+        referenzGenom.setVersion("OS.MolSeqGenom.v1");
+        referenzGenom.setKurztext(referenceGenome);
 
         // TudokEintrag: Eintrag : SeqKitHersteller
         Eintrag seqKitHersteller = new Eintrag();
         seqKitHersteller.setFeldname("SeqKitHersteller");
         seqKitHersteller.setWert(kitManufacturer);
+        seqKitHersteller.setVersion("OS.MolDiag.KitHersteller.v1");
+        seqKitHersteller.setKurztext("Archer");
 
         // TudokEintrag: Eintrag : SeqKitTyp
         // Is not clear what is difference to panel
@@ -368,15 +431,36 @@ public class TudokMapper {
         Eintrag sequenziergeraet = new Eintrag();
         sequenziergeraet.setFeldname("Sequenziergeraet");
         sequenziergeraet.setWert(sequencer);
+        sequenziergeraet.setVersion("OS.MolDiag.Sequenziergerät.v1");
+        sequenziergeraet.setKurztext("Illumina NovaSeq 6000");
+
 
         // TudokEintrag: Eintrag : Tumorzellgehalt
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
                 durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragMolekulargenetischeUntersuchung,
-                panelEintrag, probeID, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorzellgehalt));
+                panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(2);
         return tudokEintrag;
     }
+
+    // Actual not in use
+    public List<Variant> filterBiomarkers(List<Variant> variants) {
+        List<String> classificationNameList  = Arrays.asList(classificationName.split(",\\s*"));
+        List<String>  oncogenicClassificationNameList = Arrays.asList(oncogenicClassificationName.split(",\\s*"));
+        return variants.stream().filter(variantLongList -> {
+                    String classificationName = variantLongList.getClassificationName();
+                    String oncogenicClassificationName = variantLongList.getOncogenicClassificationName();
+                    if (oncogenicClassificationName != null && !oncogenicClassificationName.isEmpty()) {
+
+                        return  oncogenicClassificationNameList.contains(oncogenicClassificationName);
+                    }
+                    return classificationName != null && !classificationName.isEmpty() && classificationNameList.contains(classificationName);
+        }).collect(Collectors.toList());
+    }
+
+
+
 }

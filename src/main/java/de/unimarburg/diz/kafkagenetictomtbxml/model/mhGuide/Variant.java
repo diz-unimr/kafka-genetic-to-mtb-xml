@@ -1,12 +1,13 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class VariantLongList implements Serializable {
+public class Variant implements Serializable {
     @JsonProperty("DETECTED_VAR_ID")
     private String detectedVarId;
 
@@ -60,5 +61,13 @@ public class VariantLongList implements Serializable {
 
     @JsonProperty("SUPPORTING_READ_PAIRS_IN_FUSION_GENE")
     private String supportingReadPairsInFusionGene;
+
+    @JsonProperty("CLASSIFICATION_NAME")
+    private String classificationName;
+
+    // Exist only for new specimen
+    @Nullable
+    @JsonProperty("ONCOGENIC_CLASSIFICATION_NAME")
+    private String oncogenicClassificationName;
 
 }

@@ -3,7 +3,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.VariantLongList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularRNAFusion;
@@ -51,7 +51,7 @@ public class UnterformularRNAFusionMapper {
     }
 
 
-    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPatientInfo mtbPatientInfo, VariantLongList variantLongList, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) throws JsonProcessingException {
+    public UnterformularRNAFusion createXmlUnterformularRANFusion (MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) throws JsonProcessingException {
         UnterformularRNAFusion unterformularRNAFusion = new UnterformularRNAFusion();
         // To find the export ID a function need to implement, that track the number of unterformular and add the number TODO
         unterformularRNAFusion.setExportID(startExportIDUNterformular);
@@ -71,7 +71,7 @@ public class UnterformularRNAFusionMapper {
         // Common-Attribute-Unterformular: Eintrag: Allelfrequenz
         Eintrag allelfrequenz = new Eintrag();
         allelfrequenz.setFeldname("Allelfrequenz");
-        allelfrequenz.setWert(variantLongList.getVariantAlleleFrequencyInTumor());
+        allelfrequenz.setWert(variant.getVariantAlleleFrequencyInTumor());
 
         // Common-Attribute-Unterformular: Eintrag: Allelzahl
         Eintrag allelzahl = new Eintrag();
@@ -198,7 +198,7 @@ public class UnterformularRNAFusionMapper {
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3ExonID
         Eintrag fusionRNA3ExonID = new Eintrag();
         fusionRNA3ExonID.setFeldname("FusionRNA3ExonID");
-        fusionRNA3ExonID.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "MH_EXON_NUMBER_2"));
+        fusionRNA3ExonID.setWert(extractStringFromJson(variant.getAnnotationJson(), "MH_EXON_NUMBER_2"));
 
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3HGNCID
@@ -214,23 +214,23 @@ public class UnterformularRNAFusionMapper {
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3HGNCSymbol
         Eintrag fusionRNA3HGNCSymbol = new Eintrag();
         fusionRNA3HGNCSymbol.setFeldname("FusionRNA3HGNCSymbol");
-        fusionRNA3HGNCSymbol.setWert(parseFusionPart3(variantLongList.getDisplayModifiedObject()));
+        fusionRNA3HGNCSymbol.setWert(parseFusionPart3(variant.getDisplayModifiedObject()));
 
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3Strand
         Eintrag fusionRNA3Strand = new Eintrag();
         fusionRNA3Strand.setFeldname("FusionRNA3Strand");
-        fusionRNA3Strand.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "SEGMENT_2_ALIGNMENT_STRAND"));
+        fusionRNA3Strand.setWert(extractStringFromJson(variant.getAnnotationJson(), "SEGMENT_2_ALIGNMENT_STRAND"));
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3TransPosition
         Eintrag  fusionRNA3TransPosition  = new Eintrag();
         fusionRNA3TransPosition.setFeldname("FusionRNA3TransPosition");
-        fusionRNA3TransPosition.setWert(parseFusionPart3(variantLongList.getChromosomeModification()));
+        fusionRNA3TransPosition.setWert(parseFusionPart3(variant.getChromosomeModification()));
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA3TranscriptID
         Eintrag fusionRNA3TranscriptID = new Eintrag();
         fusionRNA3TranscriptID.setFeldname("FusionRNA3TranscriptID");
-        fusionRNA3Strand.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "SEGMENT_2_ALIGNMENT_STRAND"));
+        fusionRNA3Strand.setWert(extractStringFromJson(variant.getAnnotationJson(), "SEGMENT_2_ALIGNMENT_STRAND"));
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -243,7 +243,7 @@ public class UnterformularRNAFusionMapper {
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA5ExonID
         Eintrag fusionRNA5ExonID = new Eintrag();
         fusionRNA5ExonID.setFeldname("FusionRNA5ExonID");
-        fusionRNA5ExonID.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "MH_EXON_NUMBER_1"));
+        fusionRNA5ExonID.setWert(extractStringFromJson(variant.getAnnotationJson(), "MH_EXON_NUMBER_1"));
 
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA5HGNCID
@@ -261,24 +261,24 @@ public class UnterformularRNAFusionMapper {
 
         Eintrag fusionRNA5HGNCSymbol = new Eintrag();
         fusionRNA5HGNCSymbol.setFeldname("FusionRNA5HGNCSymbol");
-        fusionRNA5HGNCSymbol.setWert(parseFusionPart5(variantLongList.getDisplayModifiedObject()));
+        fusionRNA5HGNCSymbol.setWert(parseFusionPart5(variant.getDisplayModifiedObject()));
 
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA5Strand
         Eintrag fusionRNA5Strand = new Eintrag();
         fusionRNA5Strand.setFeldname("FusionRNA5Strand");
-        fusionRNA5Strand.setWert(extractStringFromJson(variantLongList.getAnnotationJson(), "SEGMENT_1_ALIGNMENT_STRAND"));
+        fusionRNA5Strand.setWert(extractStringFromJson(variant.getAnnotationJson(), "SEGMENT_1_ALIGNMENT_STRAND"));
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA5TransPosition
         // Parse the first part
         Eintrag fusionRNA5TransPosition = new Eintrag();
         fusionRNA5TransPosition.setFeldname("FusionRNA5TransPosition");
-        fusionRNA5TransPosition.setWert(parseFusionPart5(variantLongList.getChromosomeModification()));
+        fusionRNA5TransPosition.setWert(parseFusionPart5(variant.getChromosomeModification()));
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNA5TranscriptID
         Eintrag fusionRNA5TranscriptID = new Eintrag();
         fusionRNA5TranscriptID.setFeldname("FusionRNA5TranscriptID");
-        fusionRNA5TranscriptID.setWert(extractStringFromJson(variantLongList.getAnnotationJson(),"SEGMENT_1_DISPLAY_TRANSCRIPT_ID"));
+        fusionRNA5TranscriptID.setWert(extractStringFromJson(variant.getAnnotationJson(),"SEGMENT_1_DISPLAY_TRANSCRIPT_ID"));
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNACosmicID
         // NA
@@ -288,12 +288,12 @@ public class UnterformularRNAFusionMapper {
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNAEffect
         Eintrag fusionRNAEffect = new Eintrag();
         fusionRNAEffect.setFeldname("FusionRNAEffect");
-        fusionRNAEffect.setFeldname(variantLongList.getVariantEffect());
+        fusionRNAEffect.setFeldname(variant.getVariantEffect());
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusionRNAReportedNumRead
         Eintrag fusionRNAReportedNumRead = new Eintrag();
         fusionRNAReportedNumRead.setFeldname("FusionRNAReportedNumRead");
-        fusionRNAReportedNumRead.setWert(variantLongList.getVariantEffect());
+        fusionRNAReportedNumRead.setWert(variant.getVariantEffect());
 
 
         // RNAFusion-Unterformular: Eintrag: Feldname = FusioniertesGen
@@ -305,10 +305,10 @@ public class UnterformularRNAFusionMapper {
         //
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");
-        untersucht.setWert(variantLongList.getGeneSymbol());
+        untersucht.setWert(variant.getGeneSymbol());
         untersucht.setFilterkategorie("{}");
         untersucht.setVersion("OS.Molekulargenetik.v1");
-        untersucht.setKurztext(variantLongList.getGeneSymbol());
+        untersucht.setKurztext(variant.getGeneSymbol());
 
 
 

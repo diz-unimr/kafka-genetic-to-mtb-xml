@@ -1,5 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeneralInfo implements Serializable {
     @JsonProperty("OU_CUSTOMER")
     private String oUCustomer;

@@ -37,7 +37,9 @@ public class GenDataBiConsumer {
     // Functions for creating sub element in xml
     // Use of K-Table
     // Create Double Result
-    public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPatientInfo>> process2() {
+
+    //@Bean
+    public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPatientInfo>> process1() {
         return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) ->  {
             try {
                 OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
@@ -48,8 +50,9 @@ public class GenDataBiConsumer {
         });
     }
 
+
     @Bean
-    public BiConsumer<KStream<String, MHGuide>, KStream<String,MtbPatientInfo>> process(Serde<MHGuide> mhGuideSerde, Serde<MtbPatientInfo> mtbPatientInfoSerde) {
+    public BiConsumer<KStream<String, MHGuide>, KTable<String,MtbPatientInfo>> process() {
         return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) -> {
             try {
                 OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
@@ -57,7 +60,7 @@ public class GenDataBiConsumer {
             } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }
-        }, JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(5)),StreamJoined.with(Serdes.String(), mhGuideSerde, mtbPatientInfoSerde));
+        });
     }
 }
 

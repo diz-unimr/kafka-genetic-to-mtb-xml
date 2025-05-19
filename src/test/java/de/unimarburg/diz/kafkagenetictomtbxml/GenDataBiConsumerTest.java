@@ -47,7 +47,8 @@ public class GenDataBiConsumerTest {
         final KStream<String, MtbPatientInfo> inputStreamPID =
                 builder.stream("input_mtbPidInfo", Consumed.with(Serdes.String(), mtbPatientInfoSerde));
 
-        genDataBiConsumer.process(mhGuideSerde,mtbPatientInfoSerde).accept(inputStreamMH, inputStreamPID);
+        //genDataBiConsumer.process(mhGuideSerde,mtbPatientInfoSerde).accept(inputStreamMH, inputStreamPID);
+        genDataBiConsumer.process();
         Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "test");
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234");

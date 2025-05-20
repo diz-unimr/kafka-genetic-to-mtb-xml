@@ -1,4 +1,5 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MtbPatientInfo implements Serializable {
     @JsonProperty("patienten_id")
     private String patientenId;

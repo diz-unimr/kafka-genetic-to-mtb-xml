@@ -52,8 +52,8 @@ public class GenDataBiConsumer {
 
 
     @Bean
-    public BiConsumer<KStream<String, MHGuide>, KTable<String,MtbPatientInfo>> process() {
-        return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) -> {
+    public BiConsumer<KStream<String, MtbPatientInfo>, KTable<String,MHGuide>> process() {
+        return (mtbPidInfo, mhGuideInfo) -> mtbPidInfo.join(mhGuideInfo, (mtbPid,mhGuide) -> {
             try {
                 OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
                 return restClientMtbSender.sendRequestToMtb(onkostarDaten);

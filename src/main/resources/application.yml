@@ -15,9 +15,9 @@ spring:
     stream:
       bindings:
         process-in-0:
-          destination: ${KAFKA_TOPIC_GEN_MH_GUIDE_INFO:mh-guide-gen-info}
-        process-in-1:
           destination: ${KAFKA_TOPIC_MTB_PATIENT_INFO:mtb-patient-info}
+        process-in-1:
+          destination: ${KAFKA_TOPIC_GEN_MH_GUIDE_INFO:mh-guide-gen-info}
 
       kafka:
         streams:

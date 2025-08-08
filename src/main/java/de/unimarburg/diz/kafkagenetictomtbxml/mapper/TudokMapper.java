@@ -2,9 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.*;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ public class TudokMapper {
     private final UnterformularRNAFusionMapper unterformularRANFusionMapper;
     private final UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI;
     private final UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB;
+    private final UnterformularDelMapper unterformularDelMapper;
     private final String kitManufacturer;
     private final String sequencer;
     private final String referenceGenome;
@@ -44,9 +43,10 @@ public class TudokMapper {
     private final String oncogenicClassificationName;
 
 
+
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
     public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
-                       UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI, UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB,
+                       UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI, UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB, UnterformularDelMapper unterformularDelMapper,
                        @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
                        @Value("${metadata.ngsReports.sequencer}") String sequencer,
                        @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
@@ -72,6 +72,7 @@ public class TudokMapper {
         this.unterformularRANFusionMapper = unterformularRANFusionMapper;
         this.unterformularKomplexBiomarkerMapperMSI = unterformularKomplexBiomarkerMapperMSI;
         this.unterformularKomplexBiomarkerMapperTMB = unterformularKomplexBiomarkerMapperTMB;
+        this.unterformularDelMapper = unterformularDelMapper;
         this.kitManufacturer = kitManufacturer;
         this.sequencer = sequencer;
         this.referenceGenome = referenceGenome;
@@ -253,6 +254,13 @@ public class TudokMapper {
         eintragKBiomarker.setFeldname("KomplexeBiomarker");
         List<Unterformular> unterformularListKBiomarker = new ArrayList<>();
 
+        // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
+        Eintrag eintragDel = new Eintrag();
+        eintragDel.setFeldname("GenetischeVeraenderung");
+        List<Unterformular> unterformularListDel = new ArrayList<>();
+
+
+
         Eintrag materialfixierung = new Eintrag();
         materialfixierung.setFeldname("Materialfixierung");
         materialfixierung.setWert("3");
@@ -264,16 +272,23 @@ public class TudokMapper {
         // UnterformaularTyp: SimpleVariant (SV)
 
         List<Variant> variantLongListsAll = mhGuideInfo.getVariant();
-        // length of variantlong list
-        var  lengthVariantLongList = variantLongListsAll.size();
-        log.info("Length of current variantList: {}", lengthVariantLongList);
+        // Extract Notable-Biomarkers
+        List<NotableBiomarker> notableBiomarkers = mhGuideInfo.getBiomarkerData().getNotableBiomarkerList();
+        List<Integer> variationIdList = new ArrayList<>();
+        for (NotableBiomarker notableBiomarker : notableBiomarkers) {
+            for (BioMarker biomarker : notableBiomarker.getBiomarkers()) {
+                variationIdList.add(biomarker.getDetectedVarId());
+                }
+        }
+        // length of variantlong lis
+        log.info("Length of current variantList: {}", variantLongListsAll.size());
+        log.info("Length of notable biomarkers: {}",variationIdList.size());
         var startExportIDUNterformular = 4;
         //TODO: Need to implement for filtering only notable biomarkers
         //List<Variant> variantFiltered = filterBiomarkers(variantLongListsAll);
-        List<String> classificationNameList  = Arrays.asList(classificationName.split(",\\s*"));
-        List<String>  oncogenicClassificationNameList = Arrays.asList(oncogenicClassificationName.split(",\\s*"));
-
-        for (Variant variant : variantLongListsAll) {
+        //List<String> classificationNameList  = Arrays.asList(classificationName.split(",\\s*"));
+        //List<String>  oncogenicClassificationNameList = Arrays.asList(oncogenicClassificationName.split(",\\s*"));
+        /*for (Variant variant : variantLongListsAll) {
             var variantType = variant.getDisplayVariantType();
             String classificationName = variant.getClassificationName();
             String oncogenicClassificationName = variant.getOncogenicClassificationName();
@@ -357,12 +372,75 @@ public class TudokMapper {
             }else {
                 log.warn(String.format("CASE_UUID: {%s}: MH Guide variation list element with DETECTED_VAR_ID: {%s} has empty CHROMOSOMAL_VARIANT_TYPE", mhGuideInfo.getGeneralInfo().getCaseUuid(), variant.getDetectedVarId()));
             }
+        }*/
+        // Only notable biomarkers are saved to xml
+        for (Variant variant : variantLongListsAll) {
+            var variantID = variant.getDetectedVarId();
+            var variantType = variant.getDisplayVariantType();
+            if(!variationIdList.isEmpty() && variationIdList.contains(variantID)) {
+                switch (variantType) {
+                    case "SNV":
+                        log.info("SNV found");
+                        var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        unterformularListMolUntersuchung.add(unterformularSV);
+                        log.info("New subform created for SNV and add to the list of unterformular");
+                        startExportIDUNterformular++;
+                        break;
+                    case "CNV":
+                        log.info("CNV found");
+                        var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        unterformularListMolUntersuchung.add(unterformularCNV);
+                        log.info("New subform created for CNV and add to the list of unterformular");
+                        startExportIDUNterformular++;
+                        break;
+                    case "fusion":
+                        var  unterformularRNAFusion = unterformularRANFusionMapper.createXmlUnterformularRANFusion(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
+                        unterformularListMolUntersuchung.add(unterformularRNAFusion);
+                        log.info("New subform created for RNV Fusion and add to the list of unterformular");
+                        startExportIDUNterformular++;
+                        break;
+                    case "TMB":
+                        log.info("TMB found");
+                        var unterformularKomplexBiomarkerTMB = unterformularKomplexBiomarkerMapperTMB.createXmlUnterformularKBiomarkerTMB(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
+                        unterformularListKBiomarker.add(unterformularKomplexBiomarkerTMB);
+                        log.info("New subform created for complex biomarker MSI and add to the list of unterformular");
+                        startExportIDUNterformular++;
+                        break;
+                    case "MSI":
+                        log.info("MSI found");
+                        var variantSymbol = variant.getVariantSymbol();
+                        if (variantSymbol.equals("MSS")){
+                            // This need to be make clear
+                            //ergebnisMSI.setWert(variantLongList.getGenomicExtraData());
+                            var unterformularKomplexBiomarkerMSI = unterformularKomplexBiomarkerMapperMSI.createXmlUnterformularKBiomarkerMSI(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
+                            unterformularListKBiomarker.add(unterformularKomplexBiomarkerMSI);
+                            log.info("New subform created for complex biomarker TMB and add to the list of unterformular");
+                            startExportIDUNterformular++;
+                        }
+                        break;
+                    case "del":
+                        log.info("del found");
+                        var unterformularDel = unterformularDelMapper.createXmlUnterformularDel(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
+                        unterformularListDel.add(unterformularDel);
+                        log.info("New subform created for complex biomarker del and add to the list of unterformular");
+                        startExportIDUNterformular++;
+                }
+            }else {
+                log.warn("Notable Biomarkers not available");
+            }
         }
+
         log.info("Total number of created subform for  MolekulargenetischeUntersuchung: {}", unterformularListMolUntersuchung.size());
         eintragMolekulargenetischeUntersuchung.setUnterformulars(unterformularListMolUntersuchung);
 
         log.info("Total number of created subform for KomplexeBiomarker: {}", unterformularListKBiomarker.size());
         eintragKBiomarker.setUnterformulars(unterformularListKBiomarker);
+
+        log.info("Total number of created subform for Veraenderung: {}", unterformularListDel.size());
+        eintragDel.setUnterformulars(unterformularListDel);
+
+
+
 
         // TudokEintrag: Eintrag : Panel
         Eintrag panelEintrag = new Eintrag();
@@ -439,7 +517,7 @@ public class TudokMapper {
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
         tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
-                durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragMolekulargenetischeUntersuchung,
+                durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragDel, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorzellgehalt));
         tudokEintrag.setRevision(1);
         tudokEintrag.setBearbeitungStatus(2);

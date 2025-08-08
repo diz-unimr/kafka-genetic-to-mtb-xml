@@ -20,8 +20,9 @@ public class UnterformularKomplexBiomarkerMapperMSI {
     }
 
     public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerMSI(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
-        UnterformularKomplexBiomarker unterformularKBiomarker = new UnterformularKomplexBiomarker();
 
+
+        UnterformularKomplexBiomarker unterformularKBiomarker = new UnterformularKomplexBiomarker();
         unterformularKBiomarker.setExportID(startExportIDUNterformular);
         unterformularKBiomarker.setTumorId(mtbPatientInfo.getTumorId());
         unterformularKBiomarker.setErkrankungExportID(2);

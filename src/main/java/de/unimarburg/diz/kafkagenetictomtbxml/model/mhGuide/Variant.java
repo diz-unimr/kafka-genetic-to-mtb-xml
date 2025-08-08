@@ -11,7 +11,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Variant implements Serializable {
     @JsonProperty("DETECTED_VAR_ID")
-    private String detectedVarId;
+    private Integer detectedVarId;
 
     @JsonProperty("VARIANT_SYMBOL")
     private String variantSymbol;

@@ -5,8 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import java.util.List;
 
-public class UnterformularKomplexBiomarker extends Unterformular {
-
+public class UnterformularDel extends Unterformular {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Eintrag")
     private List<Eintrag> eintraege;
@@ -20,10 +19,10 @@ public class UnterformularKomplexBiomarker extends Unterformular {
     @JacksonXmlProperty(localName = "BearbeitungStatus")
     private int bearbeitungStatus;
 
-    public UnterformularKomplexBiomarker() {
+    public UnterformularDel() {
 
     }
-    public UnterformularKomplexBiomarker(int exportID, int erkrankungExportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
+    public UnterformularDel (int exportID, int erkrankungExportID, String tumorId, DokumentierendeFachabteilung dokumentierendeFachabteilung,
                                          String startDatum, String formularName, int formularVersion, String prozedurtyp, List<Eintrag> eintraege, int hauptTudokEintragExportID, int revision, int bearbeitungStatus ) {
         super(exportID,erkrankungExportID, tumorId,dokumentierendeFachabteilung,startDatum,formularName,formularVersion,prozedurtyp);
 
@@ -58,4 +57,5 @@ public class UnterformularKomplexBiomarker extends Unterformular {
     public void setBearbeitungStatus(int bearbeitungStatus) {
         this.bearbeitungStatus = bearbeitungStatus;
     }
+
 }

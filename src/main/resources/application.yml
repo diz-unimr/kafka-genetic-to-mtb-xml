@@ -52,7 +52,7 @@ spring:
 services:
   mtbSender:
     #TODO http://127.0.0.1:5000/MTBFile:
-    post_url: ${URL_MTB_POST:http://localhost:8080}
+    post_url: ${URL_MTB_POST:http://127.0.0.1:5000/MTBFile}
     mtb-username: ${MTB_USERNAME:test}
     mtb-password: ${MTB_PASSWORD:mypass}
 

@@ -5,11 +5,23 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Erkrankung;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 
 @Component
 public class ErkrankungMapper {
 
     public Erkrankung createErkrankung(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo){
+        if (mtbPatientInfo.getGuid() == null || mtbPatientInfo.getGuid().isBlank()) {
+            throw new IllegalArgumentException("Invalid GUID in MtbPatientInfo");
+        }
+
+        try {
+            UUID.fromString(mtbPatientInfo.getGuid());
+        } catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid GUID in MtbPatientInfo");
+        }
+
         Erkrankung erkrankung = new Erkrankung();
         erkrankung.setExportId(2);
         erkrankung.setTumorId(mtbPatientInfo.getTumorId());

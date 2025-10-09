@@ -31,7 +31,7 @@ class ErkrankungMapperTest {
         erkrankung.setGuid("00000000-0001-9999-ffff-000000000001");
         erkrankung.setRevision("3");
         erkrankung.setMigReferenzTumorId("4");
-        var actual = mapper.createErkrankung(null, mtbPatientInfo);
+        var actual = mapper.createErkrankung(mtbPatientInfo);
         assertThat(actual).isEqualTo(erkrankung);
     }
 
@@ -45,7 +45,7 @@ class ErkrankungMapperTest {
         mtbPatientInfo.setRevision("3");
         mtbPatientInfo.setMigReferenzTumorId("4");
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> mapper.createErkrankung(null, mtbPatientInfo));
+        var exception = assertThrows(IllegalArgumentException.class, () -> mapper.createErkrankung(mtbPatientInfo));
         assertThat(exception.getMessage()).isEqualTo("Invalid GUID in MtbPatientInfo");
     }
 

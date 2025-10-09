@@ -54,7 +54,7 @@ public class OnkostarDataMapper {
         // PatientenDaten: Dokumentation
         Dokumentation dokumentation = new Dokumentation();
         // Dokumentation: Erkrankung
-        Erkrankung erkrankung = erkrankungMapper.createErkrankung(mhGuideInfo, mtbPatientInfo);
+        Erkrankung erkrankung = erkrankungMapper.createErkrankung(mtbPatientInfo);
         dokumentation.setErkrankung(erkrankung);
         // Dokumentation: TudokEintrag
         TudokEintrag tudokEintrag = tudokMapper.createTudokEintrag(mhGuideInfo, mtbPatientInfo);

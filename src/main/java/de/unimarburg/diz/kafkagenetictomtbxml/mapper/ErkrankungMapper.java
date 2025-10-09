@@ -1,7 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Erkrankung;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import java.util.UUID;
 @Component
 public class ErkrankungMapper {
 
-    public Erkrankung createErkrankung(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo){
+    public Erkrankung createErkrankung(final MtbPatientInfo mtbPatientInfo){
         if (mtbPatientInfo.getGuid() == null || mtbPatientInfo.getGuid().isBlank()) {
             throw new IllegalArgumentException("Invalid GUID in MtbPatientInfo");
         }

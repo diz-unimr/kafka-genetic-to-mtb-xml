@@ -44,6 +44,7 @@ tasks.register('integrationTest', Test) {
 
 ext {
 	set('springCloudVersion', "2024.0.2")
+    set('apacheCommonsCsv', "1.14.1")
 }
 
 dependencies {
@@ -66,6 +67,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
+
+    implementation("org.apache.commons:commons-csv:${apacheCommonsCsv}")
 
 	// unit tests
 	testImplementation 'org.springframework.cloud:spring-cloud-stream'

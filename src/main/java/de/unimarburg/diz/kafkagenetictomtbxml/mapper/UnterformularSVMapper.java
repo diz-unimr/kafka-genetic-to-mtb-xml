@@ -1,5 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
+import de.unimarburg.diz.kafkagenetictomtbxml.hgnc.GeneList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
@@ -18,8 +20,14 @@ import java.util.Arrays;
 public class UnterformularSVMapper {
 
     private String interpolationSystem;
-    public  UnterformularSVMapper(@Value("${metadata.ngsReports.interpolationSystem}") String interpolationSystem){
+    private HgncConfigurationProperties hgncConfigurationProperties;
+
+    public  UnterformularSVMapper(
+            @Value("${metadata.ngsReports.interpolationSystem}") String interpolationSystem,
+            HgncConfigurationProperties hgncConfigurationProperties
+    ){
         this.interpolationSystem = interpolationSystem;
+        this.hgncConfigurationProperties = hgncConfigurationProperties;
     }
 
     public String parseStartEnd(String chromosomalModi){
@@ -158,6 +166,11 @@ public class UnterformularSVMapper {
         Eintrag eVENSEMBLID = new Eintrag();
         eVENSEMBLID.setFeldname("EVENSEMBLID");
         eVENSEMBLID.setWert("");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                eVENSEMBLID.setWert(value.getEnsemblId());
+            });
+        }
 
         // SV-Unterformular: Eintrag: EVEnde
         Eintrag eVEnde = new Eintrag();
@@ -168,9 +181,20 @@ public class UnterformularSVMapper {
         Eintrag eVHGNCID = new Eintrag();
         eVHGNCID.setFeldname("EVHGNCID");
         eVHGNCID.setWert("");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                eVHGNCID.setWert(value.getHgncId());
+            });
+        }
+
         // SV-Unterformular: Eintrag: EVHGNCName
         Eintrag eVHGNCName = new Eintrag();
         eVHGNCName.setFeldname("EVHGNCName");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                eVHGNCName.setWert(value.getName());
+            });
+        }
 
         // SV-Unterformular: Eintrag: EVHGNCSymbol
         Eintrag eVHGNCSymbol = new Eintrag();

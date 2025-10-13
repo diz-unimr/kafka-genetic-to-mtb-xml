@@ -1,26 +1,30 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
+
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.OnkostarDaten;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
+import org.springframework.retry.RetryListener;
 import org.springframework.retry.RetryPolicy;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
+import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
-import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.retry.RetryListener;
+
 import java.util.HashMap;
 
 @Component
@@ -28,22 +32,23 @@ public class RestClientMtbSender {
 
     private static final Logger log = LoggerFactory.getLogger(RestClientMtbSender.class);
 
-    RestTemplate restTemplate = new RestTemplate();
     XmlMapper xmlMapper = new XmlMapper();
     private final String postUrl;
-    private final String username;
-    private final String password;
 
-    private final RetryTemplate retryTemplate = defaultTemplate();
+    private final RestTemplate restTemplate;
+    private final RetryTemplate retryTemplate;
 
-    public RestClientMtbSender(@Value("${services.mtbSender.post_url}") String postUrl, @Value("${services.mtbSender.mtb-username}") String username, @Value("${services.mtbSender.mtb-password}") String password ) {
+    public RestClientMtbSender(
+            @Value("${services.mtbSender.post_url}") final String postUrl,
+            final RestTemplate restTemplate
+    ) {
         this.postUrl = postUrl;
-        this.username = username;
-        this.password = password;
+        this.restTemplate = restTemplate;
+        this.retryTemplate = defaultTemplate();
     }
 
     public static RetryTemplate defaultTemplate() {
-        RetryTemplate retryTemplate = new RetryTemplate();
+        var retryTemplate = new RetryTemplate();
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setInitialInterval(5000);
         backOffPolicy.setMultiplier(1.25);
@@ -68,10 +73,8 @@ public class RestClientMtbSender {
         String xmlOnkostarDaten = xmlMapper.writeValueAsString(onkostarDaten);
         log.info("Current mtb xml file");
         log.info(xmlOnkostarDaten);
-        String authHeaderValue = "Basic " + java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("Authorization", authHeaderValue);
         ByteArrayResource xmlResource = new ByteArrayResource(xmlOnkostarDaten.getBytes()) {
             @Override
             public String getFilename() {
@@ -91,6 +94,6 @@ public class RestClientMtbSender {
         } catch (RestClientException e) {
             log.debug(e.getMessage());
         }
-    return null;
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.hgnc.GeneList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
@@ -10,6 +9,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeF
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularCNV;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
+import de.unimarburg.diz.kafkagenetictomtbxml.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,14 +31,11 @@ public class UnterformularCNVMapper {
         this.hgncConfigurationProperties = hgncConfigurationProperties;
     }
 
-    public  String extractStringFromJson(String jsonAnotation, String keyToExtract) throws JsonProcessingException {
-        // TODO: Remove all colons at any place in source code bc. jsonNode.get() will not find any element if key contains ":"
-        keyToExtract = keyToExtract.replaceAll(":", "");
-        ObjectMapper objectMapper = new ObjectMapper();
-        var jsonNode = objectMapper.readTree(jsonAnotation);
-        return jsonNode.get(keyToExtract).asText();
+    public String extractFromJsonString(String jsonString, String keyToExtract) throws JsonProcessingException {
+        return JsonUtils.extractFromJson(jsonString, keyToExtract, String.class);
     }
-    public UnterformularCNV createXmlUnterformularCNV (MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
+
+    public UnterformularCNV createXmlUnterformularCNV(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int exportIDUnterformular) throws JsonProcessingException {
         // MolekulargenetischeUntersuchung: List: Unterformular
         // CNV
         UnterformularCNV unterformularCNV = new UnterformularCNV();
@@ -158,7 +155,7 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVTotalCN
         Eintrag cNVTotalCN = new Eintrag();
         cNVTotalCN.setFeldname("CNVTotalCN");
-        cNVTotalCN.setWert(extractStringFromJson(variant.getAnnotationJson(), "GSP2 Count:" ));
+        cNVTotalCN.setWert(extractFromJsonString(variant.getAnnotationJson(), "GSP2 Count"));
 
         // CNV-Unterformular: Eintrag: CNVTotalCNDouble
         Eintrag cNVTotalCNDouble = new Eintrag();
@@ -173,8 +170,7 @@ public class UnterformularCNVMapper {
         copyNumberVariation.setFeldname("CopyNumberVariation");
         if (Integer.parseInt(relCopyNumber) > 1) {
             copyNumberVariation.setWert("high-level gain");
-        }
-        else if (Integer.parseInt(relCopyNumber) < 1) {
+        } else if (Integer.parseInt(relCopyNumber) < 1) {
             copyNumberVariation.setWert("high-level loss");
         }
 
@@ -289,7 +285,7 @@ public class UnterformularCNVMapper {
                 cNVHGNCSymbol, cNVNeutralLoH, cNVRelativeCN, cNVReportedFocality, cNVStartRange, cNVTotalCN, cNVTotalCNDouble, codon,
                 copyNumberVariation, coverage, datumCNV, dokumentationUnterformular, untersucht, ergebnisEintragCNV,
                 exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,
-                neuanlage, pathogenitaetsklasse, proteinebeneNomenklatur, translation, zygositaet,cDNANomenklatur));
+                neuanlage, pathogenitaetsklasse, proteinebeneNomenklatur, translation, zygositaet, cDNANomenklatur));
 
         unterformularCNV.setHauptTudokEintragExportID(3);
         unterformularCNV.setRevision(1);

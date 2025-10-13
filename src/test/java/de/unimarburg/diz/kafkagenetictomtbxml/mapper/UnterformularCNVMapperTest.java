@@ -28,7 +28,7 @@ class UnterformularCNVMapperTest {
 
         @Test
         @DisplayName("Mapping should not use values from HGNC list if disabled")
-        void mappingShouldNotUseGeneList() throws Exception{
+        void mappingShouldNotUseGeneList() throws Exception {
             var actual = mapper.createXmlUnterformularCNV(
                     defaultMtbPatientInfo(),
                     createVariant("BRAF"),
@@ -80,7 +80,7 @@ class UnterformularCNVMapperTest {
 
         @Test
         @DisplayName("Mapping should not use unknown gene")
-        void mappingShouldUseUnknownGeneValues() throws  Exception {
+        void mappingShouldUseUnknownGeneValues() throws Exception {
             var actual = mapper.createXmlUnterformularCNV(
                     defaultMtbPatientInfo(),
                     createVariant("UNKNOWNGENEFORTEST"),

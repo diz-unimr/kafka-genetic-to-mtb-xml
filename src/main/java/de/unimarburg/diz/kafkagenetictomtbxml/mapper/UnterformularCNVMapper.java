@@ -2,6 +2,8 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
+import de.unimarburg.diz.kafkagenetictomtbxml.hgnc.GeneList;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
@@ -18,15 +20,20 @@ public class UnterformularCNVMapper {
 
 
     private String  reportedFocality;
+    private HgncConfigurationProperties hgncConfigurationProperties;
 
 
-    public  UnterformularCNVMapper (@Value("${metadata.ngsReports.reportedFocality}") String reportedFocality){
-
+    public  UnterformularCNVMapper (
+            @Value("${metadata.ngsReports.reportedFocality}") String reportedFocality,
+            HgncConfigurationProperties hgncConfigurationProperties
+    ){
         this.reportedFocality = reportedFocality;
+        this.hgncConfigurationProperties = hgncConfigurationProperties;
     }
 
     public  String extractStringFromJson(String jsonAnotation, String keyToExtract) throws JsonProcessingException {
-
+        // TODO: Remove all colons at any place in source code bc. jsonNode.get() will not find any element if key contains ":"
+        keyToExtract = keyToExtract.replaceAll(":", "");
         ObjectMapper objectMapper = new ObjectMapper();
         var jsonNode = objectMapper.readTree(jsonAnotation);
         return jsonNode.get(keyToExtract).asText();
@@ -94,6 +101,11 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVENSEMBLID
         Eintrag cNVENSEMBLID = new Eintrag();
         cNVENSEMBLID.setFeldname("CNVENSEMBLID");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                cNVENSEMBLID.setWert(value.getEnsemblId());
+            });
+        }
 
         // CNV-Unterformular: Eintrag: CNVEndRange
         Eintrag cNVEndRange = new Eintrag();
@@ -103,14 +115,25 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVHGNCID
         Eintrag cNVHGNCID = new Eintrag();
         cNVHGNCID.setFeldname("CNVHGNCID");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                cNVHGNCID.setWert(value.getHgncId());
+            });
+        }
 
         // CNV-Unterformular: Eintrag: CNVHGNCName
         Eintrag cNVHGNCName = new Eintrag();
         cNVHGNCName.setFeldname("CNVHGNCName");
+        if (this.hgncConfigurationProperties.isEnabled()) {
+            GeneList.findBySymbol(variant.getGeneSymbol()).ifPresent(value -> {
+                cNVHGNCName.setWert(value.getName());
+            });
+        }
 
         // CNV-Unterformular: Eintrag: CNVHGNCSymbol
         Eintrag cNVHGNCSymbol = new Eintrag();
         cNVHGNCSymbol.setFeldname("CNVHGNCSymbol");
+        cNVHGNCSymbol.setWert(variant.getGeneSymbol());
 
         // CNV-Unterformular: Eintrag: CNVNeutralLoH
         Eintrag cNVNeutralLoH = new Eintrag();

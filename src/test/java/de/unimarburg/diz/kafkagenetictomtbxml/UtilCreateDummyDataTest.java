@@ -14,7 +14,6 @@ public class UtilCreateDummyDataTest {
 
     public static MtbPatientInfo getDummyMtbPID(){
         return new MtbPatientInfo();
-
     }
 
 

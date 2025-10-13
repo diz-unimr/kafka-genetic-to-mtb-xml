@@ -1,11 +1,9 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-
+@Data
 public class Erkrankung {
     @JacksonXmlProperty(localName = "ExportID")
     private int exportId;

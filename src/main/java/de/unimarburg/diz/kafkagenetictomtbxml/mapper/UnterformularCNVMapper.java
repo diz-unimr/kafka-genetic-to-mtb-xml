@@ -168,11 +168,11 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CopyNumberVariation
         Eintrag copyNumberVariation = new Eintrag();
         copyNumberVariation.setFeldname("CopyNumberVariation");
-        if (variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) >= 3) {
+        if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) >= 3) {
             copyNumberVariation.setWert("high-level gain");
-        } else if (variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) < 3) {
+        } else if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) < 3) {
             copyNumberVariation.setWert("low-level gain");
-        } else if (variant.getVariantEffect().equalsIgnoreCase("copy loss")) {
+        } else if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy loss")) {
             copyNumberVariation.setWert("loss");
         }
 

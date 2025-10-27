@@ -1,24 +1,18 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
 
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.configuration.KafkaConfiguration;
 import de.unimarburg.diz.kafkagenetictomtbxml.mapper.OnkostarDataMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
-import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.kstream.*;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.OnkostarDaten;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 @Service
@@ -34,23 +28,6 @@ public class GenDataBiConsumer {
 
     }
 
-    // Functions for creating sub element in xml
-    // Use of K-Table
-    // Create Double Result
-
-    //@Bean
-    public BiConsumer<KTable<String, MHGuide>, KTable<String, MtbPatientInfo>> process1() {
-        return (mhGuideInfo,mtbPidInfo) -> mhGuideInfo.join(mtbPidInfo, (mhGuide, mtbPid) ->  {
-            try {
-                OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);
-                return restClientMtbSender.sendRequestToMtb(onkostarDaten);
-            } catch (JacksonException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-
     @Bean
     public BiConsumer<KStream<String, MtbPatientInfo>, KTable<String,MHGuide>> process() {
         return (mtbPidInfo, mhGuideInfo) -> mtbPidInfo.join(mhGuideInfo, (mtbPid,mhGuide) -> {
@@ -59,6 +36,9 @@ public class GenDataBiConsumer {
                 return restClientMtbSender.sendRequestToMtb(onkostarDaten);
             } catch (JacksonException e) {
                 throw new RuntimeException(e);
+            } catch (IllegalArgumentException e) {
+                log.warn("Ignoring incoming message due to: {}", e.getMessage());
+                return "Ignoring incoming message";
             }
         });
     }

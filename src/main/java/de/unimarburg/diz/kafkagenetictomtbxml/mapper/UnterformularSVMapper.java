@@ -31,6 +31,9 @@ public class UnterformularSVMapper {
     }
 
     public String parseStartEnd(String chromosomalModi){
+        if (null == chromosomalModi) {
+            return null;
+        }
 
         String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
         Pattern pattern = Pattern.compile(regex);
@@ -44,6 +47,9 @@ public class UnterformularSVMapper {
     }
 
     public String parserRefAlle(String chromosomalModi){
+        if (null == chromosomalModi) {
+            return null;
+        }
 
         String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
         Pattern pattern = Pattern.compile(regex);
@@ -57,6 +63,9 @@ public class UnterformularSVMapper {
     }
 
     public String parseAltAlle(String chromosomalModi){
+        if (null == chromosomalModi) {
+            return null;
+        }
 
         String regex = "g\\.(\\d+)([A-Za-z])>([A-Za-z])";
         Pattern pattern = Pattern.compile(regex);
@@ -69,6 +78,10 @@ public class UnterformularSVMapper {
     }
 
     public String parseDnaChange(String chromosomalModi){
+        if (null == chromosomalModi) {
+            return null;
+        }
+
         String regex = "g\\.(\\d+)([A-Za-z].*)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(chromosomalModi);
@@ -81,6 +94,10 @@ public class UnterformularSVMapper {
     }
 
     public String parseAminoAcidChange(String chromosomalModi){
+        if (null == chromosomalModi) {
+            return null;
+        }
+
         String regex = "p\\.([A-Za-z].*)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(chromosomalModi);

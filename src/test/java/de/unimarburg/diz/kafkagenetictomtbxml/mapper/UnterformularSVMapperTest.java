@@ -13,6 +13,39 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UnterformularSVMapperTest {
 
+    private UnterformularSVMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        var hgncConfigProperties = new HgncConfigurationProperties();
+        this.mapper = new UnterformularSVMapper("", hgncConfigProperties);
+    }
+
+    @Test
+    void shouldParseStartEndWithNullValue() {
+        assertThat(mapper.parseStartEnd(null)).isNull();
+    }
+
+    @Test
+    void shouldParseRefAlleWithNullValue() {
+        assertThat(mapper.parserRefAlle(null)).isNull();
+    }
+
+    @Test
+    void shouldParseAltAlleWithNullValue() {
+        assertThat(mapper.parseAltAlle(null)).isNull();
+    }
+
+    @Test
+    void shouldParseDnaChangeWithNullValue() {
+        assertThat(mapper.parseDnaChange(null)).isNull();
+    }
+
+    @Test
+    void shouldParseAminoAcidChangeWithNullValue() {
+        assertThat(mapper.parseAminoAcidChange(null)).isNull();
+    }
+
     @Nested
     @DisplayName("Tests with disabled HGNC list")
     class DisabledHgncList {

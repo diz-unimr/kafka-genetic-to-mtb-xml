@@ -26,6 +26,10 @@ public class OnkostarDataMapper {
     }
 
     public OnkostarDaten createOnkostarDaten(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
+        if (null == mtbPatientInfo || !mtbPatientInfo.isValid()) {
+            throw new IllegalArgumentException("MtbPatientInfo invalid");
+        }
+
         // Onkostar
         OnkostarDaten onkostarDaten = new OnkostarDaten();
         // Sende Organisation

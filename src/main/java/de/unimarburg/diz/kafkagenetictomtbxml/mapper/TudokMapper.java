@@ -380,12 +380,14 @@ public class TudokMapper {
             if(!variationIdList.isEmpty() && variationIdList.contains(variantID)) {
                 switch (variantType) {
                     case "SNV":
-                        log.info("SNV found");
+                    case "del":
+                        log.info("SNV or del found");
                         var  unterformularSV = unterformularSVMapper.createXmlUnterformularSV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
                         unterformularListMolUntersuchung.add(unterformularSV);
                         log.info("New subform created for SNV and add to the list of unterformular");
                         startExportIDUNterformular++;
                         break;
+
                     case "CNV":
                         log.info("CNV found");
                         var  unterformularCNV = unterformularCNVMapper.createXmlUnterformularCNV(mtbPatientInfo, variant, dokumentierendeFachabteilung, startExportIDUNterformular);
@@ -418,12 +420,6 @@ public class TudokMapper {
                             startExportIDUNterformular++;
                         }
                         break;
-                    case "del":
-                        log.info("del found");
-                        var unterformularDel = unterformularDelMapper.createXmlUnterformularDel(mtbPatientInfo, variant,dokumentierendeFachabteilung,startExportIDUNterformular);
-                        unterformularListDel.add(unterformularDel);
-                        log.info("New subform created for complex biomarker del and add to the list of unterformular");
-                        startExportIDUNterformular++;
                 }
             }else {
                 log.warn("Notable Biomarkers not available");

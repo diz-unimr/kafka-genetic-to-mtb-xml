@@ -119,6 +119,13 @@ public class TudokMapper {
         tudokEintrag.setProzedurtyp("Beobachtung");
         // TudokEintrag :
 
+        Eintrag dokumentation = new Eintrag();
+        dokumentation.setFeldname("Dokumentation");
+        dokumentation.setWert("ERW");
+        dokumentation.setFilterkategorie("{}");
+        dokumentation.setVersion("OS.MolDokumentation.v1");
+        dokumentation.setKurztext("Erweitert");
+
         // TudokEintrag: Eintrag: Feldname = AnalyseID
         Eintrag analyseID = new Eintrag();
         analyseID.setFeldname("AnalyseID");
@@ -512,7 +519,7 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : Tumorzellgehalt
         Eintrag tumorzellgehalt = new Eintrag();
         tumorzellgehalt.setFeldname("Tumorzellgehalt");
-        tudokEintrag.setEintraege(Arrays.asList(analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
+        tudokEintrag.setEintraege(Arrays.asList(dokumentation, analyseID, analyseMethode, analyseMethoden, artDerSequenzierung, artinsituHybridisierung, befund, bemerkung, blocknummer, datum, doc,
                 durchfuehrendeOEFeld, einsendenummer, entnahmedatum, entnahmemethode, ergebnisMSI,  genetischeVeraenderung, genexpressionstests, hRD, iCDO3Lokalisation, internExtern, eintragKBiomarker, eintragDel, eintragMolekulargenetischeUntersuchung,
                 panelEintrag, probeID, probenmaterial, projekt, referenzGenom, seqKitHersteller, seqKitTyp, seqPipeline, sequenziergeraet, tumorzellgehalt));
         tudokEintrag.setRevision(1);

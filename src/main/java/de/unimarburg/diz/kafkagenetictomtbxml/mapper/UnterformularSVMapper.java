@@ -330,6 +330,7 @@ public class UnterformularSVMapper {
         // Common-Attribute-Unterformular: Eintrag: cDNANomenklatur
         Eintrag cDNANomenklatur = new Eintrag();
         cDNANomenklatur.setFeldname("cDNANomenklatur");
+        cDNANomenklatur.setWert(variant.getTranscriptHgvsModifiedObject());
 
 
         unterformularSV.setEintraege(Arrays.asList(aktivierend,

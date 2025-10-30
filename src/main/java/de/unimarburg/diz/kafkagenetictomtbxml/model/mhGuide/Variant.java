@@ -72,4 +72,8 @@ public class Variant implements Serializable {
     @JsonProperty("ONCOGENIC_CLASSIFICATION_NAME")
     private String oncogenicClassificationName;
 
+    @Nullable
+    @JsonProperty("TRANSCRIPT_HGVS_MODIFIED_OBJECT")
+    private String transcriptHgvsModifiedObject;
+
 }

@@ -330,7 +330,11 @@ public class UnterformularSVMapper {
         // Common-Attribute-Unterformular: Eintrag: cDNANomenklatur
         Eintrag cDNANomenklatur = new Eintrag();
         cDNANomenklatur.setFeldname("cDNANomenklatur");
-        cDNANomenklatur.setWert(variant.getTranscriptHgvsModifiedObject());
+        if (null != variant.getTranscriptHgvsModifiedObject() && !variant.getTranscriptHgvsModifiedObject().isBlank()) {
+            cDNANomenklatur.setWert(variant.getTranscriptHgvsModifiedObject());
+        } else if (null != variant.getTranscriptHgvs() &&  !variant.getTranscriptHgvs().isBlank()) {
+            cDNANomenklatur.setWert(extractCDnaNomenklatur(variant.getTranscriptHgvs()));
+        }
 
 
         unterformularSV.setEintraege(Arrays.asList(aktivierend,
@@ -344,5 +348,17 @@ public class UnterformularSVMapper {
         unterformularSV.setRevision(1);
         unterformularSV.setBearbeitungStatus(2);
         return unterformularSV;
+    }
+
+    private static String extractCDnaNomenklatur(String input) {
+        if (null == input) {
+            return null;
+        }
+        var pattern = Pattern.compile("\\s(?<cdna>.+)$");
+        var matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            return matcher.group("cdna");
+        }
+        return null;
     }
 }

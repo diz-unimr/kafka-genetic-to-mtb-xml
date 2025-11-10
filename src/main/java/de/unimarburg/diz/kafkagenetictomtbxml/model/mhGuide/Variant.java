@@ -76,4 +76,8 @@ public class Variant implements Serializable {
     @JsonProperty("TRANSCRIPT_HGVS_MODIFIED_OBJECT")
     private String transcriptHgvsModifiedObject;
 
+    @Nullable
+    @JsonProperty("TRANSCRIPT_HGVS")
+    private String transcriptHgvs;
+
 }

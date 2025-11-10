@@ -152,14 +152,6 @@ public class UnterformularSVMapper {
         datumSV.setFeldname("Datum");
         datumSV.setWert("");
 
-        // SV-Unterformular: Eintrag: Dokumentation
-        Eintrag dokumentationUnterformular = new Eintrag();
-        dokumentationUnterformular.setFeldname("Dokumentation");
-        dokumentationUnterformular.setWert("ERW");
-        dokumentationUnterformular.setFilterkategorie("{}");
-        dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
-        dokumentationUnterformular.setKurztext("Erweitert");
-
         // SV-Unterformular: Eintrag: "EVAltNucleotide
         // NA
         Eintrag eVAltNucleotide  = new Eintrag();
@@ -338,7 +330,7 @@ public class UnterformularSVMapper {
 
 
         unterformularSV.setEintraege(Arrays.asList(aktivierend,
-                allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, dokumentationUnterformular, eVAltNucleotide,
+                allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, eVAltNucleotide,
                 eVCOSMICID, eVChromosom, eVENSEMBLID,
                 eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht, eVdbSNPID,
                 ergebnisEintragSV, exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,

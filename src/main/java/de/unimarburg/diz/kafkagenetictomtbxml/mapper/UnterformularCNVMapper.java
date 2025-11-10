@@ -187,15 +187,6 @@ public class UnterformularCNVMapper {
         datumCNV.setFeldname("Datum");
         datumCNV.setWert("");
 
-        // Unterformular: Eintrag: Dokumentation
-        Eintrag dokumentationUnterformular = new Eintrag();
-        dokumentationUnterformular.setFeldname("Dokumentation");
-        dokumentationUnterformular.setWert("ERW");
-        dokumentationUnterformular.setFilterkategorie("{}");
-        dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
-        dokumentationUnterformular.setKurztext("Erweitert");
-
-
         // CNV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");
@@ -285,7 +276,7 @@ public class UnterformularCNVMapper {
                 allelfrequenz, allelzahl, analysemethode, bemerkung, cNVBetroffeneGene, cNVCNA,
                 cNVCNB, cNVChromosom, cNVENSEMBLID, cNVEndRange, cNVHGNCID, cNVHGNCName,
                 cNVHGNCSymbol, cNVNeutralLoH, cNVRelativeCN, cNVReportedFocality, cNVStartRange, cNVTotalCN, cNVTotalCNDouble, codon,
-                copyNumberVariation, coverage, datumCNV, dokumentationUnterformular, untersucht, ergebnisEintragCNV,
+                copyNumberVariation, coverage, datumCNV, untersucht, ergebnisEintragCNV,
                 exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,
                 neuanlage, pathogenitaetsklasse, proteinebeneNomenklatur, translation, zygositaet, cDNANomenklatur));
 

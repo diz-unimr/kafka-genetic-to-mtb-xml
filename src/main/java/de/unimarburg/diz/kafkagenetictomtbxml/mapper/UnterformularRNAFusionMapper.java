@@ -94,14 +94,6 @@ public class UnterformularRNAFusionMapper {
         datumFusion.setFeldname("Datum");
         datumFusion.setWert("");
 
-        // Common-Attribute-Unterformular: Eintrag: Dokumentation
-        Eintrag dokumentationUnterformular = new Eintrag();
-        dokumentationUnterformular.setFeldname("Dokumentation");
-        dokumentationUnterformular.setWert("ERW");
-        dokumentationUnterformular.setFilterkategorie("{}");
-        dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
-        dokumentationUnterformular.setKurztext("Erweitert");
-
         // Newly added on 07102024
         // Common-Attribute-Unterformular: Eintrag: Exon
         Eintrag exon = new Eintrag();
@@ -315,7 +307,7 @@ public class UnterformularRNAFusionMapper {
 
         // Add all the eintrags
         unterformularRNAFusion.setEintraege(Arrays.asList(aktivierend,
-                allelfrequenz, allelzahl, analysemethode, bemerkung, datumFusion, dokumentationUnterformular, ergebnisEintragRNAFusion,
+                allelfrequenz, allelzahl, analysemethode, bemerkung, datumFusion, ergebnisEintragRNAFusion,
                 fusionArt, fusionRNA3ENSEMBLID, fusionRNA3ExonID, fusionRNA3HGNCID, fusionRNA3HGNCName, fusionRNA3HGNCSymbol,
                 fusionRNA3Strand, fusionRNA3TransPosition, fusionRNA3TranscriptID, fusionRNA5ENSEMBLID, fusionRNA5ExonID,
                 fusionRNA5HGNCID, fusionRNA5HGNCName, fusionRNA5HGNCSymbol, fusionRNA5Strand,

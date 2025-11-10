@@ -181,14 +181,6 @@ public class TudokMapper {
         datum.setWert(generalInfo.getOrderDate());
         datum.setGenauigkeit("exact");
 
-        // TudokEintrag: Eintrag: Feldname = Dokumentation
-        Eintrag doc = new Eintrag();
-        doc.setFeldname("Dokumentation");
-        doc.setWert("BAS");
-        doc.setFilterkategorie("{}");
-        doc.setVersion("OS.MolDokumentation.v1");
-        doc.setKurztext("Basis");
-
         // TudokEintrag: Eintrag: Feldname = DurchfuehrendeOE
         Eintrag durchfuehrendeOEFeld = new Eintrag();
         durchfuehrendeOEFeld.setFeldname("DurchfuehrendeOE");

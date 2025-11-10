@@ -149,6 +149,42 @@ class UnterformularSVMapperTest {
         assertThat(cDnaEintrag).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo("c.123A>G"));
     }
 
+    @Test
+    @DisplayName("Mapping should include cDNA Nomenklatur")
+    void mappingShouldUseCDnaNomenklaturTranscriptHgvsModifiedObject() {
+        var variant = createVariant("UNKNOWNGENEFORTEST");
+        variant.setTranscriptHgvsModifiedObject("c.123A>G");
+
+        var actual = mapper.createXmlUnterformularSV(
+                defaultMtbPatientInfo(),
+                variant,
+                defaultDokumentierendeFachabteilung(),
+                1
+        );
+
+        var cDnaEintrag = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("cDNANomenklatur")).findFirst();
+
+        assertThat(cDnaEintrag).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo("c.123A>G"));
+    }
+
+    @Test
+    @DisplayName("Mapping should include cDNA Nomenklatur")
+    void mappingShouldUseCDnaNomenklaturFromTranscriptHgvs() {
+        var variant = createVariant("UNKNOWNGENEFORTEST");
+        variant.setTranscriptHgvs("ENST000012345.6 c.123A>G");
+
+        var actual = mapper.createXmlUnterformularSV(
+                defaultMtbPatientInfo(),
+                variant,
+                defaultDokumentierendeFachabteilung(),
+                1
+        );
+
+        var cDnaEintrag = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("cDNANomenklatur")).findFirst();
+
+        assertThat(cDnaEintrag).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo("c.123A>G"));
+    }
+
     private static MtbPatientInfo defaultMtbPatientInfo() {
         MtbPatientInfo info = new MtbPatientInfo();
         // add additional default values here

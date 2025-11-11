@@ -57,7 +57,7 @@ dependencies {
 	// spring boot
 	implementation "org.springframework.boot:spring-boot-starter-web"
 	implementation "org.springframework.boot:spring-boot-starter-actuator"
-	implementation 'org.yaml:snakeyaml:2.2'
+	implementation 'org.yaml:snakeyaml:2.5'
 
 	// metrics
 	implementation 'io.micrometer:micrometer-registry-prometheus'

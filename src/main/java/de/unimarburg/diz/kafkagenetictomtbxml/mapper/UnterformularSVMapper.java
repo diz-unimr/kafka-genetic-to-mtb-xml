@@ -2,6 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.hgnc.GeneList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.DnaChange;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
@@ -160,12 +161,6 @@ public class UnterformularSVMapper {
         dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
         dokumentationUnterformular.setKurztext("Erweitert");
 
-        // SV-Unterformular: Eintrag: "EVAltNucleotide
-        // NA
-        Eintrag eVAltNucleotide  = new Eintrag();
-        eVAltNucleotide.setFeldname("EVAltNucleotide");
-        eVAltNucleotide.setWert("");
-
         // SV-Unterformular: Eintrag: EVCOSMICID
         // NA
         Eintrag eVCOSMICID = new Eintrag();
@@ -230,6 +225,10 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVRefNucleotide
         Eintrag eVRefNucleotide = new Eintrag();
         eVRefNucleotide.setFeldname("EVRefNucleotide");
+
+        // SV-Unterformular: Eintrag: "EVAltNucleotide
+        Eintrag eVAltNucleotide  = new Eintrag();
+        eVAltNucleotide.setFeldname("EVAltNucleotide");
 
         // SV-Unterformular: Eintrag: EVStart
         Eintrag eVStart = new Eintrag();
@@ -334,6 +333,17 @@ public class UnterformularSVMapper {
             cDNANomenklatur.setWert(variant.getTranscriptHgvsModifiedObject());
         } else if (null != variant.getTranscriptHgvs() &&  !variant.getTranscriptHgvs().isBlank()) {
             cDNANomenklatur.setWert(extractCDnaNomenklatur(variant.getTranscriptHgvs()));
+
+            // Parse value into DNA change
+            final var dnaChange = DnaChange.parse(cDNANomenklatur.getWert());
+            if (null != dnaChange) {
+                // Set missing values
+                eVRefNucleotide.setWert(dnaChange.getRefAllele());
+                eVAltNucleotide.setWert(dnaChange.getAltAllele());
+
+                eVStart.setWert(dnaChange.getStart());
+                eVEnde.setWert(dnaChange.getEnd());
+            }
         }
 
 

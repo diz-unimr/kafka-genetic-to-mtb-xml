@@ -2,6 +2,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.hgnc.GeneList;
+import de.unimarburg.diz.kafkagenetictomtbxml.model.DnaChange;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
@@ -160,12 +161,6 @@ public class UnterformularSVMapper {
         dokumentationUnterformular.setVersion("OS.MolDokumentation.v1");
         dokumentationUnterformular.setKurztext("Erweitert");
 
-        // SV-Unterformular: Eintrag: "EVAltNucleotide
-        // NA
-        Eintrag eVAltNucleotide  = new Eintrag();
-        eVAltNucleotide.setFeldname("EVAltNucleotide");
-        eVAltNucleotide.setWert("");
-
         // SV-Unterformular: Eintrag: EVCOSMICID
         // NA
         Eintrag eVCOSMICID = new Eintrag();
@@ -188,11 +183,6 @@ public class UnterformularSVMapper {
                 eVENSEMBLID.setWert(value.getEnsemblId());
             });
         }
-
-        // SV-Unterformular: Eintrag: EVEnde
-        Eintrag eVEnde = new Eintrag();
-        eVEnde.setFeldname("EVEnde");
-        eVEnde.setWert("");
 
         // SV-Unterformular: Eintrag: EVHGNCID
         Eintrag eVHGNCID = new Eintrag();
@@ -231,11 +221,28 @@ public class UnterformularSVMapper {
         Eintrag eVRefNucleotide = new Eintrag();
         eVRefNucleotide.setFeldname("EVRefNucleotide");
 
+        // SV-Unterformular: Eintrag: "EVAltNucleotide
+        Eintrag eVAltNucleotide  = new Eintrag();
+        eVAltNucleotide.setFeldname("EVAltNucleotide");
+
         // SV-Unterformular: Eintrag: EVStart
         Eintrag eVStart = new Eintrag();
         eVStart.setFeldname("EVStart");
-        String evStartString = parseStartEnd(variant.getChromosomeModification());
-        eVStart.setWert(evStartString);
+
+        // SV-Unterformular: Eintrag: EVEnde
+        Eintrag eVEnde = new Eintrag();
+        eVEnde.setFeldname("EVEnde");
+
+        // Parse value into DNA change
+        final var dnaChange = DnaChange.parse(variant.getChromosomeModification());
+        if (null != dnaChange) {
+            // Set missing values
+            eVRefNucleotide.setWert(dnaChange.getRefAllele());
+            eVAltNucleotide.setWert(dnaChange.getAltAllele());
+
+            eVStart.setWert(dnaChange.getStart());
+            eVEnde.setWert(dnaChange.getEnd());
+        }
 
         // SV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();

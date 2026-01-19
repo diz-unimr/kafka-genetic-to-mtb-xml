@@ -11,7 +11,9 @@ class DnaChangeTest {
     @ParameterizedTest
     @CsvSource({
             "c.123A>G,123,,A,G",
+            "c.-123A>G,-123,,A,G",
             "c.123_456del,123,456,,,",
+            "c.-123_123del,-123,123,,,",
             "c.123_124insACGT,123,124,,ACGT"
     })
     void shouldParseCdnaString(

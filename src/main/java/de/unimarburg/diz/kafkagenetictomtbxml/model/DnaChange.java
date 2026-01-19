@@ -18,9 +18,11 @@ public class DnaChange {
     private String altAllele;
 
     private Type type;
+    private AlterationType alterationType;
 
-    public DnaChange(Type type, String start, String end, String refAllele, String altAllele) {
+    public DnaChange(Type type, AlterationType alterationType, String start, String end, String refAllele, String altAllele) {
         this.type = type;
+        this.alterationType = alterationType;
         this.start = start;
         this.end = end;
         this.refAllele = refAllele;
@@ -43,9 +45,9 @@ public class DnaChange {
         }
 
         final var rules = Map.of(
-                AlterationType.SUBSTITUTION, Pattern.compile("(?<type>[cg])\\.(?<start>\\d+)(?<ref>[ACGT])>(?<alt>[ACGT])"),
-                AlterationType.DELETION, Pattern.compile("(?<type>[cg])\\.(?<start>\\d+)(?:_(?<end>\\d+))?del"),
-                AlterationType.INSERTION, Pattern.compile("(?<type>[cg])\\.(?<start>\\d+)_(?<end>\\d+)ins(?<alt>[ACGT]+)")
+                AlterationType.SUBSTITUTION, Pattern.compile("(?<type>[cg])\\.(?<start>-?\\d+)(?<ref>[ACGT])>(?<alt>[ACGT])"),
+                AlterationType.DELETION, Pattern.compile("(?<type>[cg])\\.(?<start>-?\\d+)(?:_(?<end>-?\\d+))?del"),
+                AlterationType.INSERTION, Pattern.compile("(?<type>[cg])\\.(?<start>-?\\d+)_-?(?<end>-?\\d+)ins(?<alt>[ACGT]+)")
         );
 
         for (var rule : rules.entrySet()) {
@@ -55,6 +57,7 @@ public class DnaChange {
                     case SUBSTITUTION:
                         return new DnaChange(
                                 matcher.group("type").equals("g") ? Type.GENOMIC : Type.CDNA,
+                                AlterationType.SUBSTITUTION,
                                 matcher.group("start"),
                                 null,
                                 matcher.group("ref"),
@@ -64,6 +67,7 @@ public class DnaChange {
                         log.warn("Parsing deletion variant: {} - No 'refAllele' possible but may be required", input);
                         return new DnaChange(
                                 matcher.group("type").equals("g") ? Type.GENOMIC : Type.CDNA,
+                                AlterationType.DELETION,
                                 matcher.group("start"),
                                 matcher.group("end"),
                                 null,
@@ -72,6 +76,7 @@ public class DnaChange {
                     case INSERTION:
                         return new DnaChange(
                                 matcher.group("type").equals("g") ? Type.GENOMIC : Type.CDNA,
+                                AlterationType.INSERTION,
                                 matcher.group("start"),
                                 matcher.group("end"),
                                 null,

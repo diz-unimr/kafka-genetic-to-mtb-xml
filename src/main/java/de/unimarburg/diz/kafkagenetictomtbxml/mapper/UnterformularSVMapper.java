@@ -184,11 +184,6 @@ public class UnterformularSVMapper {
             });
         }
 
-        // SV-Unterformular: Eintrag: EVEnde
-        Eintrag eVEnde = new Eintrag();
-        eVEnde.setFeldname("EVEnde");
-        eVEnde.setWert("");
-
         // SV-Unterformular: Eintrag: EVHGNCID
         Eintrag eVHGNCID = new Eintrag();
         eVHGNCID.setFeldname("EVHGNCID");
@@ -233,8 +228,21 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVStart
         Eintrag eVStart = new Eintrag();
         eVStart.setFeldname("EVStart");
-        String evStartString = parseStartEnd(variant.getChromosomeModification());
-        eVStart.setWert(evStartString);
+
+        // SV-Unterformular: Eintrag: EVEnde
+        Eintrag eVEnde = new Eintrag();
+        eVEnde.setFeldname("EVEnde");
+
+        // Parse value into DNA change
+        final var dnaChange = DnaChange.parse(variant.getChromosomeModification());
+        if (null != dnaChange) {
+            // Set missing values
+            eVRefNucleotide.setWert(dnaChange.getRefAllele());
+            eVAltNucleotide.setWert(dnaChange.getAltAllele());
+
+            eVStart.setWert(dnaChange.getStart());
+            eVEnde.setWert(dnaChange.getEnd());
+        }
 
         // SV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
@@ -333,17 +341,6 @@ public class UnterformularSVMapper {
             cDNANomenklatur.setWert(variant.getTranscriptHgvsModifiedObject());
         } else if (null != variant.getTranscriptHgvs() &&  !variant.getTranscriptHgvs().isBlank()) {
             cDNANomenklatur.setWert(extractCDnaNomenklatur(variant.getTranscriptHgvs()));
-
-            // Parse value into DNA change
-            final var dnaChange = DnaChange.parse(cDNANomenklatur.getWert());
-            if (null != dnaChange) {
-                // Set missing values
-                eVRefNucleotide.setWert(dnaChange.getRefAllele());
-                eVAltNucleotide.setWert(dnaChange.getAltAllele());
-
-                eVStart.setWert(dnaChange.getStart());
-                eVEnde.setWert(dnaChange.getEnd());
-            }
         }
 
 

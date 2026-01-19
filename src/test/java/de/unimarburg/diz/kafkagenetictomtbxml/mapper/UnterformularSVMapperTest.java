@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -183,6 +185,41 @@ class UnterformularSVMapperTest {
         var cDnaEintrag = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("cDNANomenklatur")).findFirst();
 
         assertThat(cDnaEintrag).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo("c.123A>G"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "g.123A>G,123,,A,G",
+            "g.123_456del,123,456,,,",
+            "g.123_124insACGT,123,124,,ACGT"
+    })
+    @DisplayName("Mapping should use genomic modification for start, end, ref/altAllele")
+    void mappingShouldUseGenomicModificationForStartEndRefAlt(
+            final String genomicModification,
+            final String expectedStart,
+            final String expectedEnd,
+            final String expectedRef,
+            final String expectedAlt
+    ) {
+        var variant = createVariant("UNKNOWNGENEFORTEST");
+        variant.setChromosomeModification(genomicModification);
+
+        var actual = mapper.createXmlUnterformularSV(
+                defaultMtbPatientInfo(),
+                variant,
+                defaultDokumentierendeFachabteilung(),
+                1
+        );
+
+        var start = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("EVStart")).findFirst();
+        var end = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("EVEnde")).findFirst();
+        var refAllele = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("EVRefNucleotide")).findFirst();
+        var altAllele = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("EVAltNucleotide")).findFirst();
+
+        assertThat(start).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(expectedStart));
+        assertThat(end).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(expectedEnd));
+        assertThat(refAllele).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(expectedRef));
+        assertThat(altAllele).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(expectedAlt));
     }
 
     private static MtbPatientInfo defaultMtbPatientInfo() {

@@ -9,27 +9,20 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.function.BiConsumer;
 
-@Service
+@Configuration
 public class GenDataBiConsumer {
     private static final Logger log = LoggerFactory.getLogger(GenDataBiConsumer.class);
-    private final RestClientMtbSender restClientMtbSender;
-    private final OnkostarDataMapper onkostarDataMapper;
-
-    @Autowired
-    public GenDataBiConsumer(RestClientMtbSender restClientMtbSender, OnkostarDataMapper onkostarDataMapper) {
-        this.restClientMtbSender = restClientMtbSender;
-        this.onkostarDataMapper = onkostarDataMapper;
-
-    }
 
     @Bean
-    public BiConsumer<KStream<String, MtbPatientInfo>, KTable<String,MHGuide>> process() {
+    public BiConsumer<KStream<String, MtbPatientInfo>, KTable<String,MHGuide>> process(
+            final RestClientMtbSender restClientMtbSender,
+            final OnkostarDataMapper onkostarDataMapper
+    ) {
         return (mtbPidInfo, mhGuideInfo) -> mtbPidInfo.join(mhGuideInfo, (mtbPid,mhGuide) -> {
             try {
                 OnkostarDaten onkostarDaten = onkostarDataMapper.createOnkostarDaten(mhGuide, mtbPid);

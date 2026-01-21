@@ -28,6 +28,7 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,6 +44,8 @@ class GenDataBiConsumerTest {
     RestClientMtbSender restClientMtbSender;
     OnkostarDataMapper onkostarDataMapper;
 
+    BiConsumer<KStream<String, MtbPatientInfo>, KTable<String,MHGuide>> bean;
+
     @BeforeEach
     void setUp(
             @Mock RestClientMtbSender restClientMtbSender,
@@ -50,6 +53,8 @@ class GenDataBiConsumerTest {
     ) {
         this.restClientMtbSender = restClientMtbSender;
         this.onkostarDataMapper = onkostarDataMapper;
+
+        this.bean = new GenDataBiConsumer().process(this.restClientMtbSender, this.onkostarDataMapper);
     }
 
     public static Stream<Arguments> joinTestData() {
@@ -81,9 +86,7 @@ class GenDataBiConsumerTest {
                         .withValueSerde(new JsonSerde<>(MHGuide.class))
         );
 
-        new GenDataBiConsumer(this.restClientMtbSender, this.onkostarDataMapper)
-                .process()
-                .accept(patientInput, mhGuideInput);
+        bean.accept(patientInput, mhGuideInput);
 
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "test-app");
@@ -112,7 +115,6 @@ class GenDataBiConsumerTest {
 
             verify(this.onkostarDataMapper, times(expectedCreateOnkostarDataCallCount)).createOnkostarDaten(any(), any());
         }
-
 
     }
 }

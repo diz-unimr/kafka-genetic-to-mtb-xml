@@ -71,7 +71,7 @@ dependencies {
     implementation("org.apache.commons:commons-csv:${apacheCommonsCsv}")
 
 	// unit tests
-	testImplementation 'org.springframework.cloud:spring-cloud-stream'
+	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
 	testImplementation 'org.apache.kafka:kafka-streams-test-utils:3.9.0'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

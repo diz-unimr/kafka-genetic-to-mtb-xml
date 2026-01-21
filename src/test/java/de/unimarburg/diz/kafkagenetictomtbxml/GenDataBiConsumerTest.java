@@ -1,71 +1,118 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
 
-import de.unimarburg.diz.kafkagenetictomtbxml.configuration.KafkaConfiguration;
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MHGuideSerializer;
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MtbPatientInfoSerializer;
+import de.unimarburg.diz.kafkagenetictomtbxml.mapper.OnkostarDataMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
-import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.kafka.streams.*;
-import org.apache.kafka.streams.kstream.*;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.TestInputTopic;
+import org.apache.kafka.streams.TopologyTestDriver;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.state.KeyValueStore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.support.serializer.JsonSerde;
-import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import java.time.Duration;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Stream;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.shouldHaveThrown;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-public class GenDataBiConsumerTest {
-    @Autowired GenDataBiConsumer genDataBiConsumer;
-    @Autowired
-    Serde<MHGuide> mhGuideSerde;
-    @Autowired
-    Serde<MtbPatientInfo> mtbPatientInfoSerde;
+@ExtendWith(MockitoExtension.class)
+class GenDataBiConsumerTest {
 
-    //@Test
-    public void test() {
-        String INPUT_TOPIC_MH = "input_mhguide";
-        String INPUT_TOPIC_PID  = "input_mtbPidInfo";
+    static final String INPUT_TOPIC_PID = "input-topic1";
+    static final String INPUT_TOPIC_MH = "input-topic2";
 
+    RestClientMtbSender restClientMtbSender;
+    OnkostarDataMapper onkostarDataMapper;
+
+    @BeforeEach
+    void setUp(
+            @Mock RestClientMtbSender restClientMtbSender,
+            @Mock OnkostarDataMapper onkostarDataMapper
+    ) {
+        this.restClientMtbSender = restClientMtbSender;
+        this.onkostarDataMapper = onkostarDataMapper;
+    }
+
+    public static Stream<Arguments> joinTestData() {
+        return Stream.of(
+                Arguments.of("PID0001", List.of("PID1234"), 0), // Do not call
+                Arguments.of("PID0001", List.of("PID0001", "PID1234"), 1),  // Call once for one equal key
+                Arguments.of("PID0001", List.of("PID0001", "PID0001"), 2)  // Call twice for each equal key
+
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("joinTestData")
+    void shouldJoinPatientInfoStreamAndMhGuideTable(
+            String mhInputKey,
+            List<String> pidInputKeys,
+            int expectedCreateOnkostarDataCallCount
+    ) throws Exception {
         StreamsBuilder builder = new StreamsBuilder();
 
-       // final KTable<String, MHGuide> inputStreamMH =
-         //       builder.table("input_mhguide", Consumed.with(Serdes.String(), new JsonSerde<>(MHGuide.class)));
-        //final KTable<String, MtbPatientInfo> inputStreamPID =
-         //       builder.table("input_mtbPidInfo", Consumed.with(Serdes.String(), new JsonSerde<>(MtbPatientInfo.class)));
+        final KStream<String, MtbPatientInfo> patientInput = builder.stream(
+                INPUT_TOPIC_PID,
+                Consumed.with(Serdes.String(), new JsonSerde<>(MtbPatientInfo.class))
+        );
+        final KTable<String, MHGuide> mhGuideInput = builder.table(
+                INPUT_TOPIC_MH,
+                Materialized.<String, MHGuide, KeyValueStore<Bytes, byte[]>>as("teststore")
+                        .withKeySerde(Serdes.String())
+                        .withValueSerde(new JsonSerde<>(MHGuide.class))
+        );
 
-        final KStream<String, MHGuide> inputStreamMH =
-                builder.stream("input_mhguide", Consumed.with(Serdes.String(), mhGuideSerde));
-        final KStream<String, MtbPatientInfo> inputStreamPID =
-                builder.stream("input_mtbPidInfo", Consumed.with(Serdes.String(), mtbPatientInfoSerde));
+        new GenDataBiConsumer(this.restClientMtbSender, this.onkostarDataMapper)
+                .process()
+                .accept(patientInput, mhGuideInput);
 
-        //genDataBiConsumer.process(mhGuideSerde,mtbPatientInfoSerde).accept(inputStreamMH, inputStreamPID);
-        genDataBiConsumer.process();
-        Properties config = new Properties();
-        config.put(StreamsConfig.APPLICATION_ID_CONFIG, "test");
-        config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234");
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "test-app");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "test:9092");
 
-        try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build(), config)){
+        try (var driver = new TopologyTestDriver(builder.build(), props)) {
 
-            TestInputTopic<String, MHGuide> inputTopic1 =
-                    testDriver.createInputTopic(
-                            INPUT_TOPIC_MH, new StringSerializer(), new MHGuideSerializer());
-            TestInputTopic<String, MtbPatientInfo> inputTopic2 =
-                    testDriver.createInputTopic(
-                            INPUT_TOPIC_PID, new StringSerializer(), new MtbPatientInfoSerializer());
+            TestInputTopic<String, MtbPatientInfo> pidInputTopic = driver.createInputTopic(
+                    INPUT_TOPIC_PID,
+                    new StringSerializer(),
+                    new MtbPatientInfoSerializer()
+            );
+            TestInputTopic<String, MHGuide> mhInputTopic = driver.createInputTopic(
+                    INPUT_TOPIC_MH,
+                    new StringSerializer(),
+                    new MHGuideSerializer()
+            );
 
-            inputTopic1.pipeInput("test", UtilCreateDummyDataTest.getDummyMHGuide());
-            inputTopic2.pipeInput("test",UtilCreateDummyDataTest.getDummyMtbPID());
+            // Send one entry to MHInput Table Topic
+            mhInputTopic.pipeInput(mhInputKey, UtilCreateDummyDataTest.getDummyMHGuide());
 
+            // Send entries to the PIDInput Stream Topic
+            pidInputKeys.forEach(key ->
+                    pidInputTopic.pipeInput(key, UtilCreateDummyDataTest.getDummyMtbPID())
+            );
+
+            verify(this.onkostarDataMapper, times(expectedCreateOnkostarDataCallCount)).createOnkostarDaten(any(), any());
         }
+
 
     }
 }

@@ -91,7 +91,7 @@ dependencies {
 	intTestImplementation 'org.awaitility:awaitility:4.2.0'
 	intTestImplementation 'org.assertj:assertj-core'
 	intTestImplementation 'org.awaitility:awaitility:4.3.0'
-	intTestImplementation 'org.assertj:assertj-core:3.27.3'
+	intTestImplementation 'org.assertj:assertj-core:3.27.7'
 }
 
 dependencyManagement {

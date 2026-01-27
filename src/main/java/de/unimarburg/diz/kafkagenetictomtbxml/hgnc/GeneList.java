@@ -27,6 +27,11 @@ public class GeneList {
 
         try {
             var inputStream = GeneList.class.getClassLoader().getResourceAsStream("hgnc.csv");
+
+            if (inputStream == null) {
+                return result;
+            }
+
             var parser = CSVFormat.RFC4180.builder()
                     .setHeader()
                     .setSkipHeaderRecord(true)
@@ -47,7 +52,7 @@ public class GeneList {
 
             return result;
         } catch (IOException e) {
-            return List.of();
+            return result;
         }
     }
 }

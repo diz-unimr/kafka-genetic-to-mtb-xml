@@ -170,7 +170,11 @@ public class UnterformularSVMapper {
         // SV-Unterformular: Eintrag: EVChromosom
         Eintrag eVChromosom = new Eintrag();
         eVChromosom.setFeldname("EVChromosom");
-        eVChromosom.setWert(variant.getChromosomeModifiedObject());
+        if (null != variant.getChromosomeModifiedObject()) {
+            eVChromosom.setWert(variant.getChromosomeModifiedObject());
+        } else {
+            eVChromosom.setWert(getChromosomeFromChromosomeHgvs(variant));
+        }
         eVChromosom.setFilterkategorie("{}");
 
         // SV-Unterformular: Eintrag: EVENSEMBLID
@@ -365,6 +369,18 @@ public class UnterformularSVMapper {
         var matcher = pattern.matcher(input);
         if (matcher.find()) {
             return matcher.group("cdna");
+        }
+        return null;
+    }
+
+    private static String getChromosomeFromChromosomeHgvs(Variant variant) {
+        if (null == variant || null == variant.getChromosomeHgvs()) {
+            return null;
+        }
+        var pattern = Pattern.compile("^(?<chromosome>chr([1-2]?[0-9]|X|Y)):g\\.");
+        var matcher = pattern.matcher(variant.getChromosomeHgvs());
+        if (matcher.find()) {
+            return matcher.group("chromosome");
         }
         return null;
     }

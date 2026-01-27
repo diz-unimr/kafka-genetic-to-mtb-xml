@@ -25,14 +25,17 @@ public class Variant implements Serializable {
     @JsonProperty("TMB_VARIANT_COUNT_PER_MEGABASE")
     private String tmbVariantCountPerMegabase;
 
+    @JsonProperty("CHROMOSOMAL_HGVS")
+    private String chromosomeHgvs;
+
+    @JsonProperty("CHROMOSOMAL_MODIFICATION")
+    private String chromosomeModification;
+
     @JsonProperty("CHROMOSOMAL_MODIFIED_OBJECT")
     private String chromosomeModifiedObject;
 
     @JsonProperty("GENE_SYMBOL")
     private String geneSymbol;
-
-    @JsonProperty("CHROMOSOMAL_MODIFICATION")
-    private String chromosomeModification;
 
     @JsonProperty("PROTEIN_MODIFICATION")
     private String proteinModification;

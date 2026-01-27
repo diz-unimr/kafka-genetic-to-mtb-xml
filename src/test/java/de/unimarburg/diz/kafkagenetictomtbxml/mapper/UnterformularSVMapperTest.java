@@ -222,6 +222,33 @@ class UnterformularSVMapperTest {
         assertThat(altAllele).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(expectedAlt));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "chr1:g.1234567A>G,chr1",
+            "chr22:g.1234567A>G,chr22",
+            "chrX:g.1234567A>G,chrX",
+            "chrY:g.1234567A>G,chrY",
+    })
+    @DisplayName("Mapping should use chromosome from chromosomalHgvs")
+    void mappingShouldUseChromosomalHgvsForChromosome(
+            final String chromosomeHgvs,
+            final String chromsome
+    ) {
+        var variant = createVariant("UNKNOWNGENEFORTEST");
+        variant.setChromosomeHgvs(chromosomeHgvs);
+
+        var actual = mapper.createXmlUnterformularSV(
+                defaultMtbPatientInfo(),
+                variant,
+                defaultDokumentierendeFachabteilung(),
+                1
+        );
+
+        var chromosome = actual.getEintraege().stream().filter(eintrag -> eintrag.getFeldname().equals("EVChromosom")).findFirst();
+
+        assertThat(chromosome).isPresent().hasValueSatisfying(eintrag -> assertThat(eintrag.getWert()).isEqualTo(chromsome));
+    }
+
     private static MtbPatientInfo defaultMtbPatientInfo() {
         MtbPatientInfo info = new MtbPatientInfo();
         // add additional default values here

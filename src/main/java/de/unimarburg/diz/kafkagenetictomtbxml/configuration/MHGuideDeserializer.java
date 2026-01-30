@@ -1,27 +1,52 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
+
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
-
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MHGuideDeserializer implements Deserializer<MHGuide> {
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Logger logger = LoggerFactory.getLogger(MHGuideDeserializer.class);
 
     @Override
     public MHGuide deserialize(String topic, byte[] data) {
         try {
             if (data == null){
-                System.out.println("Null received at deserializing");
+                logger.warn("Null received at deserializing");
                 return null;
             }
-            System.out.println("Deserializing...");
-            return objectMapper.readValue(new String(data, "UTF-8"), MHGuide.class);
+            logger.info("Deserializing...");
+
+            return objectMapper.readValue(new String(decompressInputIfRequired(data), StandardCharsets.UTF_8), MHGuide.class);
         } catch (Exception e) {
             throw new SerializationException("Error when deserializing byte[] to MessageDto");
         }
+    }
+
+    private byte[] decompressInputIfRequired(final byte[] data) throws IOException {
+        if (data.length == 0) {
+            return data;
+        }
+
+        var dataString = new String(data, StandardCharsets.UTF_8);
+
+        final var matcher = Pattern.compile("^\\s*\\{").matcher(dataString);
+        if (matcher.find()) {
+            return data;
+        }
+
+        logger.info("Decompressing...");
+        var inputStream = new GZIPInputStream(new ByteArrayInputStream(data));
+        return inputStream.readAllBytes();
     }
 }

@@ -34,19 +34,16 @@ public class MHGuideDeserializer implements Deserializer<MHGuide> {
     }
 
     private byte[] decompressInputIfRequired(final byte[] data) throws IOException {
-        if (data.length == 0) {
+        if (data.length < 3) {
             return data;
         }
 
-        var dataString = new String(data, StandardCharsets.UTF_8);
-
-        final var matcher = Pattern.compile("^\\s*\\{").matcher(dataString);
-        if (matcher.find()) {
-            return data;
+        if (data[0] == 31 && data[1] == -117 && data[2] == 8) {
+            logger.info("Decompressing...");
+            var inputStream = new GZIPInputStream(new ByteArrayInputStream(data));
+            return inputStream.readAllBytes();
         }
 
-        logger.info("Decompressing...");
-        var inputStream = new GZIPInputStream(new ByteArrayInputStream(data));
-        return inputStream.readAllBytes();
+        return data;
     }
 }

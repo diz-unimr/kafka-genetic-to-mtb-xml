@@ -6,7 +6,6 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.kafka.common.errors.SerializationException;

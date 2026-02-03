@@ -9,25 +9,20 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeF
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularSV;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import java.util.Arrays;
 
 @Component
 public class UnterformularSVMapper {
 
-    private String interpolationSystem;
     private HgncConfigurationProperties hgncConfigurationProperties;
 
     public  UnterformularSVMapper(
-            @Value("${metadata.ngsReports.interpolationSystem}") String interpolationSystem,
             HgncConfigurationProperties hgncConfigurationProperties
     ){
-        this.interpolationSystem = interpolationSystem;
         this.hgncConfigurationProperties = hgncConfigurationProperties;
     }
 

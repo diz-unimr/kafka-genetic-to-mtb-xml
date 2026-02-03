@@ -1,23 +1,24 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MetadataConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularKomplexBiomarker;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Component
 public class UnterformularKomplexBiomarkerMapperTMB {
-    private final String analyseMethodenVal;
 
-    public UnterformularKomplexBiomarkerMapperTMB(@Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal){
-        this.analyseMethodenVal = analyseMethodenVal;
+    private final MetadataConfigurationProperties metadataConfigurationProperties;
+
+    public UnterformularKomplexBiomarkerMapperTMB(final MetadataConfigurationProperties metadataConfigurationProperties){
+        this.metadataConfigurationProperties = metadataConfigurationProperties;
     }
 
     public UnterformularKomplexBiomarker createXmlUnterformularKBiomarkerTMB(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
@@ -35,7 +36,7 @@ public class UnterformularKomplexBiomarkerMapperTMB {
         // Eintrag: AnalyseMethoden
         Eintrag analyseMethoden = new Eintrag();
         analyseMethoden.setFeldname("AnalyseMethoden");
-        analyseMethoden.setWert(analyseMethodenVal);
+        analyseMethoden.setWert(metadataConfigurationProperties.getNgsReports().getAnalyseMethoden());
         analyseMethoden.setFilterkategorie("{\"OS.MolDiagMethode.v1\":\"MSI\"}");
         analyseMethoden.setVersion("OS.MolDiagMethode.v1");
         // Eintrag: Assay

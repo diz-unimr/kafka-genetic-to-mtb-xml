@@ -1,6 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MetadataConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.BiomarkerData;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.GeneralInfo;
@@ -18,33 +19,17 @@ class TudokMapperTest {
 
     @BeforeEach
     void setUp() {
+        final var metadataConfigurationProperties = MetadataConfigurationProperties.builder().ngsReports(
+                MetadataConfigurationProperties.NgsReports.builder().analyseMethoden("MSI").build()
+        ).build();
+
         this.mapper = new TudokMapper(
-                new UnterformularSVMapper("", new HgncConfigurationProperties()),
-                new UnterformularCNVMapper("", new HgncConfigurationProperties()),
+                new UnterformularSVMapper(new HgncConfigurationProperties()),
+                new UnterformularCNVMapper(new HgncConfigurationProperties()),
                 new UnterformularRNAFusionMapper(),
-                new UnterformularKomplexBiomarkerMapperMSI(""),
-                new UnterformularKomplexBiomarkerMapperTMB(""),
-                new UnterformularDelMapper(""),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+                new UnterformularKomplexBiomarkerMapperMSI(metadataConfigurationProperties),
+                new UnterformularKomplexBiomarkerMapperTMB(metadataConfigurationProperties),
+                metadataConfigurationProperties
         );
     }
 

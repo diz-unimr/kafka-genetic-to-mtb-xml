@@ -1,6 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml;
 
 import de.unimarburg.diz.kafkagenetictomtbxml.configuration.HgncConfigurationProperties;
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MetadataConfigurationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({HgncConfigurationProperties.class})
+@EnableConfigurationProperties({HgncConfigurationProperties.class, MetadataConfigurationProperties.class})
 public class Application {
 
     public static void main(String[] args) {

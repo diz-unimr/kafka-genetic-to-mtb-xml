@@ -1,23 +1,18 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
+
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.Variant;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.DokumentierendeFachabteilung;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularDel;
-import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularKomplexBiomarker;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 
 @Component
 public class UnterformularDelMapper {
 
-    private final String analyseMethodenVal;
-
-    public UnterformularDelMapper(@Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal){
-        this.analyseMethodenVal = analyseMethodenVal;
-    }
     public UnterformularDel createXmlUnterformularDel(MtbPatientInfo mtbPatientInfo, Variant variant, DokumentierendeFachabteilung dokumentierendeFachabteilung, int startExportIDUNterformular) {
         UnterformularDel unterformularDel = new UnterformularDel();
 

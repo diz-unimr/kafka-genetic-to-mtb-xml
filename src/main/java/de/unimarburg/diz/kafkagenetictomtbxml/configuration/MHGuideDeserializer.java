@@ -28,7 +28,7 @@ public class MHGuideDeserializer implements Deserializer<MHGuide> {
 
             return objectMapper.readValue(new String(decompressInputIfRequired(data), StandardCharsets.UTF_8), MHGuide.class);
         } catch (Exception e) {
-            throw new SerializationException("Error when deserializing byte[] to MessageDto");
+            throw new SerializationException("Error when deserializing byte[] to MessageDto", e);
         }
     }
 

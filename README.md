@@ -8,3 +8,12 @@ This project contains a list of 43000 genes taken from
 [https://genenames.org](https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_pub_chrom_map&col=md_ensembl_id&status=Approved&hgnc_dbtag=on&order_by=gd_app_sym_sort&format=text&submit=submit).
 
 The list of genes is available under the [Creative Commons Public Domain (CC0) License](https://creativecommons.org/public-domain/cc0/) and is used to complete genetic information.
+
+## Kafka configuration
+
+It is required to configure `max.request.size` in `application.yml` file or by setting related environment variable.
+The default value for Kafka is 1048576 bytes, which is not enough for the genetic information xml.
+The recommended value is 10485760 bytes and should be updated according to your needs.
+
+It is also required to configure `compression.type`.
+The default value for Kafka is `none`, but input will contain much larger payloads, so you should set it to `gzip`.

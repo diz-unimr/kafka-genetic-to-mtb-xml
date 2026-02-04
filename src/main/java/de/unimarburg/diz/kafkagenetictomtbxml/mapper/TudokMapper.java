@@ -1,6 +1,7 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import de.unimarburg.diz.kafkagenetictomtbxml.configuration.MetadataConfigurationProperties;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.MtbPatientInfo;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.*;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.*;
@@ -20,79 +21,19 @@ public class TudokMapper {
     private final UnterformularRNAFusionMapper unterformularRANFusionMapper;
     private final UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI;
     private final UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB;
-    private final UnterformularDelMapper unterformularDelMapper;
-    private final String kitManufacturer;
-    private final String sequencer;
-    private final String referenceGenome;
-    private final String sequencingType;
-    private final String sequencingTypeShort;
-    private final String panelVP;
-    private final String panelVPCP;
-    private final String seqKitTypVP;
-    private final String seqPipelineVP;
-    private final String seqKitTypVPCP;
-    private final String seqPipelineVPCP;
-    private final String fachabteilungKennung;
-    private final String einrichtungKennung;
-    private final String durchfuehrendeOE;
-    private final String durchfuehrendeOEKurzText;
-    private final String internExternWert;
-    private final String internExternKurztext;
-    private final String analyseMethodenVal;
-    private final String classificationName;
-    private final String oncogenicClassificationName;
-
-
+    private final MetadataConfigurationProperties metadataConfigurationProperties;
 
     DokumentierendeFachabteilung dokumentierendeFachabteilung = new DokumentierendeFachabteilung();
     public TudokMapper(UnterformularSVMapper unterformularSVMapper, UnterformularCNVMapper unterformularCNVMapper, UnterformularRNAFusionMapper unterformularRANFusionMapper,
-                       UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI, UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB, UnterformularDelMapper unterformularDelMapper,
-                       @Value("${metadata.ngsReports.kitManufacturer}") String kitManufacturer,
-                       @Value("${metadata.ngsReports.sequencer}") String sequencer,
-                       @Value("${metadata.ngsReports.referenceGenome}") String referenceGenome,
-                       @Value("${metadata.ngsReports.sequencingType}") String sequencingType,
-                       @Value("${metadata.ngsReports.sequencingTypeShort}") String sequencingTypeShort,
-                       @Value("${metadata.ngsReports.panelVP}") String panelVP,@Value("${metadata.ngsReports.panelVPCP}") String panelVPCP,
-                       @Value("${metadata.ngsReports.seqKitTypVP}")  String seqKitTypVP,
-                       @Value("${metadata.ngsReports.seqPipelineVP}") String seqPipelineVP,
-                       @Value("${metadata.ngsReports.seqKitTypVPCP}") String seqKitTypVPCP,
-                       @Value("${metadata.ngsReports.seqPipelineVPCP}") String seqPipelineVPCP,
-                       @Value("${metadata.ngsReports.fachabteilungKennung}") String fachabteilungKennung,
-                       @Value("${metadata.ngsReports.einrichtungKennung}") String einrichtungKennung,
-                       @Value("${metadata.ngsReports.durchfuehrendeOE}") String durchfuehrendeOE,
-                       @Value("${metadata.ngsReports.durchfuehrendeOEKurzText}") String durchfuehrendeOEKurzText,
-                       @Value("${metadata.ngsReports.internExternWert}") String internExternWert,
-                       @Value("${metadata.ngsReports.internExternKurztext}") String internExternKurztext,
-                       @Value("${metadata.ngsReports.analyseMethoden}") String analyseMethodenVal,
-                       @Value("${metadata.ngsReports.classificationName}") String classificationName,
-                       @Value("${metadata.ngsReports.oncogenicClassificationName}") String oncogenicClassificationName
+                       UnterformularKomplexBiomarkerMapperMSI unterformularKomplexBiomarkerMapperMSI, UnterformularKomplexBiomarkerMapperTMB unterformularKomplexBiomarkerMapperTMB,
+                        MetadataConfigurationProperties metadataConfigurationProperties
                        ) {
         this.unterformularSVMapper = unterformularSVMapper;
         this.unterformularCNVMapper = unterformularCNVMapper;
         this.unterformularRANFusionMapper = unterformularRANFusionMapper;
         this.unterformularKomplexBiomarkerMapperMSI = unterformularKomplexBiomarkerMapperMSI;
         this.unterformularKomplexBiomarkerMapperTMB = unterformularKomplexBiomarkerMapperTMB;
-        this.unterformularDelMapper = unterformularDelMapper;
-        this.kitManufacturer = kitManufacturer;
-        this.sequencer = sequencer;
-        this.referenceGenome = referenceGenome;
-        this.sequencingType = sequencingType;
-        this.sequencingTypeShort = sequencingTypeShort;
-        this.panelVP = panelVP;
-        this.panelVPCP = panelVPCP;
-        this.seqKitTypVP = seqKitTypVP;
-        this.seqPipelineVP = seqPipelineVP;
-        this.seqKitTypVPCP = seqKitTypVPCP;
-        this.seqPipelineVPCP = seqPipelineVPCP;
-        this.fachabteilungKennung = fachabteilungKennung;
-        this.einrichtungKennung = einrichtungKennung;
-        this.durchfuehrendeOE = durchfuehrendeOE;
-        this.durchfuehrendeOEKurzText = durchfuehrendeOEKurzText;
-        this.internExternWert = internExternWert;
-        this.internExternKurztext = internExternKurztext;
-        this.analyseMethodenVal = analyseMethodenVal;
-        this.classificationName = classificationName;
-        this.oncogenicClassificationName = oncogenicClassificationName;
+        this.metadataConfigurationProperties = metadataConfigurationProperties;
     }
 
     public TudokEintrag createTudokEintrag(MHGuide mhGuideInfo, MtbPatientInfo mtbPatientInfo) throws JsonProcessingException {
@@ -104,8 +45,8 @@ public class TudokMapper {
         // TudokEintrag :
         tudokEintrag.setTumorId(mtbPatientInfo.getTumorId());
         // TudokEintrag //
-        dokumentierendeFachabteilung.setFachabteilungKennung(fachabteilungKennung);
-        dokumentierendeFachabteilung.setEinrichtungKennung(einrichtungKennung);
+        dokumentierendeFachabteilung.setFachabteilungKennung(metadataConfigurationProperties.getNgsReports().getFachabteilungKennung());
+        dokumentierendeFachabteilung.setEinrichtungKennung(metadataConfigurationProperties.getNgsReports().getEinrichtungKennung());
         // Set the Dokumentierendedfachabteilung
         tudokEintrag.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
 
@@ -138,17 +79,17 @@ public class TudokMapper {
         Eintrag analyseMethoden = new Eintrag();
         analyseMethoden.setFeldname("AnalyseMethoden");
         // application.yml
-        analyseMethoden.setWert(analyseMethodenVal);
+        analyseMethoden.setWert(metadataConfigurationProperties.getNgsReports().getAnalyseMethoden());
         analyseMethoden.setFilterkategorie("{}");
         analyseMethoden.setVersion("OS.MolDiagMethode.v1");
 
         // TudokEintrag: Eintrag: Feldname = ArtDerSequenzierung
         Eintrag artDerSequenzierung = new Eintrag();
         artDerSequenzierung.setFeldname("ArtDerSequenzierung");
-        artDerSequenzierung.setWert(sequencingType);
+        artDerSequenzierung.setWert(metadataConfigurationProperties.getNgsReports().getSequencingType());
         artDerSequenzierung.setFilterkategorie("{}");
         artDerSequenzierung.setVersion("OS.MolDiagSequenzierung.v1");
-        artDerSequenzierung.setKurztext(sequencingTypeShort);
+        artDerSequenzierung.setKurztext(metadataConfigurationProperties.getNgsReports().getSequencingTypeShort());
 
         // TudokEintrag: Eintrag: Feldname = ArtinsituHybridisierung
         // Only if analysemethode = "H"
@@ -184,8 +125,8 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = DurchfuehrendeOE
         Eintrag durchfuehrendeOEFeld = new Eintrag();
         durchfuehrendeOEFeld.setFeldname("DurchfuehrendeOE");
-        durchfuehrendeOEFeld.setWert(durchfuehrendeOE);
-        durchfuehrendeOEFeld.setKurztext(durchfuehrendeOEKurzText);
+        durchfuehrendeOEFeld.setWert(metadataConfigurationProperties.getNgsReports().getDurchfuehrendeOE());
+        durchfuehrendeOEFeld.setKurztext(metadataConfigurationProperties.getNgsReports().getDurchfuehrendeOEKurzText());
 
 
         // TudokEintrag: Eintrag: Feldname = Einsendenummer
@@ -237,10 +178,10 @@ public class TudokMapper {
         // TudokEintrag: Eintrag: Feldname = InternExtern
         Eintrag internExtern = new Eintrag();
         internExtern.setFeldname("InternExtern");
-        internExtern.setWert(internExternWert);
+        internExtern.setWert(metadataConfigurationProperties.getNgsReports().getInternExternWert());
         internExtern.setFilterkategorie("{}");
         internExtern.setVersion("OS.OrtDurchfuehrung.v1");
-        internExtern.setKurztext(internExternKurztext);
+        internExtern.setKurztext(metadataConfigurationProperties.getNgsReports().getInternExternKurztext());
 
         // TudokEintrag: Eintrag: Feldname = MolekulargenetischeUntersuchung
         Eintrag eintragMolekulargenetischeUntersuchung = new Eintrag();
@@ -463,14 +404,14 @@ public class TudokMapper {
         // TudokEintrag: Eintrag : ReferenzGenom
         Eintrag referenzGenom = new Eintrag();
         referenzGenom.setFeldname("ReferenzGenom");
-        referenzGenom.setWert(referenceGenome);
+        referenzGenom.setWert(metadataConfigurationProperties.getNgsReports().getReferenceGenome());
         referenzGenom.setVersion("OS.MolSeqGenom.v1");
-        referenzGenom.setKurztext(referenceGenome);
+        referenzGenom.setKurztext(metadataConfigurationProperties.getNgsReports().getReferenceGenome());
 
         // TudokEintrag: Eintrag : SeqKitHersteller
         Eintrag seqKitHersteller = new Eintrag();
         seqKitHersteller.setFeldname("SeqKitHersteller");
-        seqKitHersteller.setWert(kitManufacturer);
+        seqKitHersteller.setWert(metadataConfigurationProperties.getNgsReports().getKitManufacturer());
         seqKitHersteller.setVersion("OS.MolDiag.KitHersteller.v1");
         seqKitHersteller.setKurztext("Archer");
 
@@ -490,20 +431,20 @@ public class TudokMapper {
         String lastestDisplayName = mhGuideInfo.getGeneralInfo().getLastestDisplayName();
         if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor (unpaired) PathoMarburg")) {
             // TODO! Need to checked the values present in panel and seqKitTyp
-            panelEintrag.setWert(panelVP);
+            panelEintrag.setWert(metadataConfigurationProperties.getNgsReports().getPanelVP());
             // seqKitType need to be checked
-            seqKitTyp.setWert(seqKitTypVP);
-            seqPipeline.setWert(seqPipelineVP);
+            seqKitTyp.setWert(metadataConfigurationProperties.getNgsReports().getSeqKitTypVP());
+            seqPipeline.setWert(metadataConfigurationProperties.getNgsReports().getSeqPipelineVP());
         } else if (Objects.equals(lastestDisplayName, "VCF ArcherDx VP Complete Solid Tumor + FP Pan Solid Tumor PathoMarburg v2")) {
-            panelEintrag.setWert(panelVPCP);
-            seqKitTyp.setWert(seqKitTypVPCP);
-            seqPipeline.setWert(seqPipelineVPCP);
+            panelEintrag.setWert(metadataConfigurationProperties.getNgsReports().getPanelVPCP());
+            seqKitTyp.setWert(metadataConfigurationProperties.getNgsReports().getSeqKitTypVPCP());
+            seqPipeline.setWert(metadataConfigurationProperties.getNgsReports().getSeqPipelineVPCP());
         }
 
         // TudokEintrag: Eintrag : Sequenziergeraet
         Eintrag sequenziergeraet = new Eintrag();
         sequenziergeraet.setFeldname("Sequenziergeraet");
-        sequenziergeraet.setWert(sequencer);
+        sequenziergeraet.setWert(metadataConfigurationProperties.getNgsReports().getSequencer());
         sequenziergeraet.setVersion("OS.MolDiag.Sequenziergerät.v1");
         sequenziergeraet.setKurztext("Illumina NovaSeq 6000");
 
@@ -521,8 +462,8 @@ public class TudokMapper {
 
     // Actual not in use
     public List<Variant> filterBiomarkers(List<Variant> variants) {
-        List<String> classificationNameList  = Arrays.asList(classificationName.split(",\\s*"));
-        List<String>  oncogenicClassificationNameList = Arrays.asList(oncogenicClassificationName.split(",\\s*"));
+        List<String> classificationNameList  = Arrays.asList(metadataConfigurationProperties.getNgsReports().getClassificationName().split(",\\s*"));
+        List<String>  oncogenicClassificationNameList = Arrays.asList(metadataConfigurationProperties.getNgsReports().getOncogenicClassificationName().split(",\\s*"));
         return variants.stream().filter(variantLongList -> {
                     String classificationName = variantLongList.getClassificationName();
                     String oncogenicClassificationName = variantLongList.getOncogenicClassificationName();

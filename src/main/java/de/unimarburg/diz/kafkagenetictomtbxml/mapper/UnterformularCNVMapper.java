@@ -10,7 +10,6 @@ import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.Eintrag;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml.UnterformularCNV;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import de.unimarburg.diz.kafkagenetictomtbxml.util.JsonUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -18,16 +17,12 @@ import java.util.Arrays;
 @Component
 public class UnterformularCNVMapper {
 
-
-    private String  reportedFocality;
-    private HgncConfigurationProperties hgncConfigurationProperties;
+    private final HgncConfigurationProperties hgncConfigurationProperties;
 
 
-    public  UnterformularCNVMapper (
-            @Value("${metadata.ngsReports.reportedFocality}") String reportedFocality,
-            HgncConfigurationProperties hgncConfigurationProperties
+    public UnterformularCNVMapper (
+            final HgncConfigurationProperties hgncConfigurationProperties
     ){
-        this.reportedFocality = reportedFocality;
         this.hgncConfigurationProperties = hgncConfigurationProperties;
     }
 

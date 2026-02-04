@@ -23,7 +23,7 @@ class UnterformularCNVMapperTest {
             var hgncConfigProperties = new HgncConfigurationProperties();
             hgncConfigProperties.setEnabled(false);
 
-            this.mapper = new UnterformularCNVMapper("", hgncConfigProperties);
+            this.mapper = new UnterformularCNVMapper(hgncConfigProperties);
         }
 
         @Test
@@ -56,7 +56,7 @@ class UnterformularCNVMapperTest {
             var hgncConfigProperties = new HgncConfigurationProperties();
             hgncConfigProperties.setEnabled(true);
 
-            this.mapper = new UnterformularCNVMapper("", hgncConfigProperties);
+            this.mapper = new UnterformularCNVMapper(hgncConfigProperties);
         }
 
         @Test

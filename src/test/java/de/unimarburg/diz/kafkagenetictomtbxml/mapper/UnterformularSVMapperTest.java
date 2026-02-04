@@ -20,7 +20,7 @@ class UnterformularSVMapperTest {
     @BeforeEach
     void setUp() {
         var hgncConfigProperties = new HgncConfigurationProperties();
-        this.mapper = new UnterformularSVMapper("", hgncConfigProperties);
+        this.mapper = new UnterformularSVMapper(hgncConfigProperties);
     }
 
     @Test
@@ -58,7 +58,7 @@ class UnterformularSVMapperTest {
             var hgncConfigProperties = new HgncConfigurationProperties();
             hgncConfigProperties.setEnabled(false);
 
-            this.mapper = new UnterformularSVMapper("", hgncConfigProperties);
+            this.mapper = new UnterformularSVMapper(hgncConfigProperties);
         }
 
         @Test
@@ -91,7 +91,7 @@ class UnterformularSVMapperTest {
             var hgncConfigProperties = new HgncConfigurationProperties();
             hgncConfigProperties.setEnabled(true);
 
-            this.mapper = new UnterformularSVMapper("", hgncConfigProperties);
+            this.mapper = new UnterformularSVMapper(hgncConfigProperties);
         }
 
         @Test

@@ -3,6 +3,7 @@ package de.unimarburg.diz.kafkagenetictomtbxml.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.unimarburg.diz.kafkagenetictomtbxml.UtilCreateDummyDataTest;
 import de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide.MHGuide;
+import org.apache.kafka.common.errors.SerializationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MHGuideDeserializerTest {
 
@@ -21,7 +23,7 @@ class MHGuideDeserializerTest {
     }
 
     @Test
-    void shouldDecompressGzipContent() throws Exception {
+    void shouldNotDecompressGzipContent() throws Exception {
         final var plainJson = new ObjectMapper().writeValueAsBytes(UtilCreateDummyDataTest.getDummyMHGuide());
 
         final var baos = new ByteArrayOutputStream();
@@ -29,8 +31,11 @@ class MHGuideDeserializerTest {
         gzipJson.write(plainJson);
         gzipJson.close();
 
-        var actual = out.deserialize("test", baos.toByteArray());
-        assertThat(actual).isInstanceOf(MHGuide.class);
+        var exception = assertThrows(SerializationException.class, () -> {
+            out.deserialize("test", baos.toByteArray());
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Error when deserializing byte[] to MessageDto");
     }
 
     @Test

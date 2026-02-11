@@ -216,7 +216,9 @@
             <Version>OS.MolDiag.Projekte.v1</Version>
           </Eintrag>
           <Eintrag Feldname="ReferenzGenom">
+            <Wert>HG19</Wert>
             <Version>OS.MolSeqGenom.v1</Version>
+            <Kurztext>HG19</Kurztext>
           </Eintrag>
           <Eintrag Feldname="SeqKitHersteller">
             <Version>OS.MolDiag.KitHersteller.v1</Version>

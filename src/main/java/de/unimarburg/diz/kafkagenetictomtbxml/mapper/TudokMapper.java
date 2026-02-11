@@ -407,6 +407,14 @@ public class TudokMapper {
         referenzGenom.setWert(metadataConfigurationProperties.getNgsReports().getReferenceGenome());
         referenzGenom.setVersion("OS.MolSeqGenom.v1");
         referenzGenom.setKurztext(metadataConfigurationProperties.getNgsReports().getReferenceGenome());
+        // Aus MH Guide, wenn verfügbar.
+        if ("37".equals(mhGuideInfo.getGeneralInfo().getRefGenomeVersion())) {
+            referenzGenom.setWert("HG19");
+            referenzGenom.setKurztext("HG19");
+        } else if ("38".equals(mhGuideInfo.getGeneralInfo().getRefGenomeVersion())) {
+            referenzGenom.setWert("HG38");
+            referenzGenom.setKurztext("HG38");
+        }
 
         // TudokEintrag: Eintrag : SeqKitHersteller
         Eintrag seqKitHersteller = new Eintrag();

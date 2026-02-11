@@ -60,7 +60,7 @@ metadata:
   ngsReports:
     kitManufacturer: ${KIT_MANUFACTURER:Archer}
     sequencer: ${SEQUENCER:Illumina NovaSeq 6000}
-    referenceGenome: ${REFERENCE_GENOME:GRCh37}
+    referenceGenome: ${REFERENCE_GENOME:HG19}
     sequencingType: ${SEQUENCING_TYPE:PanelKit}
     sequencingTypeShort: ${SEQUENCING_TYPE_SHORT:Panel}
     interpolationSystem: ${INTERPOLATION_SYSTEM:MH Guide}

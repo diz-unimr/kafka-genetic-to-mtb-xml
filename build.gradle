@@ -8,6 +8,7 @@ plugins {
 
 group = 'de.unimarburg.diz'
 version = '0.0.2-SNAPSHOT'
+
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
@@ -57,7 +58,8 @@ tasks.register('snapshotTest', Test) {
     shouldRunAfter test
 }
 
-//check.dependsOn integrationTest
+build.dependsOn integrationTest
+build.dependsOn snapshotTest
 
 ext {
 	set('springCloudVersion', "2025.0.1")

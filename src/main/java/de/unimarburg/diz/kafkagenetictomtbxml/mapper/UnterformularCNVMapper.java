@@ -150,7 +150,12 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVTotalCN
         Eintrag cNVTotalCN = new Eintrag();
         cNVTotalCN.setFeldname("CNVTotalCN");
-        cNVTotalCN.setWert(extractFromJsonString(variant.getAnnotationJson(), "GSP2 Count"));
+        try {
+            var value = extractFromJsonString(variant.getAnnotationJson(), "GSP2 Count");
+            cNVTotalCN.setWert("%d".formatted((int)(Double.parseDouble(value))));
+        } catch (Exception e) {
+            // No op
+        }
 
         // CNV-Unterformular: Eintrag: CNVTotalCNDouble
         Eintrag cNVTotalCNDouble = new Eintrag();

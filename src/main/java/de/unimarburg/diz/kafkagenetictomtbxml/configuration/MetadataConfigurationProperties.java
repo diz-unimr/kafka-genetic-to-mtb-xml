@@ -1,7 +1,9 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.configuration;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "metadata")
@@ -12,6 +14,8 @@ public class MetadataConfigurationProperties {
     private NgsReports ngsReports;
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class NgsReports {
         private String kitManufacturer;

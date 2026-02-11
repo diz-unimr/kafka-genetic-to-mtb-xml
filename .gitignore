@@ -20,3 +20,6 @@ out/
 
 /deploy/.env
 #/gradle/wrapper/gradle-wrapper.jar
+
+# ApprovalTests
+**/*.received.xml

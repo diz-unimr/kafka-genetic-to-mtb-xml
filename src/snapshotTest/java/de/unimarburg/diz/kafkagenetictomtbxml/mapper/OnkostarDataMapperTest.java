@@ -72,7 +72,11 @@ class OnkostarDataMapperTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"empty-mhguide.json"})
+    @ValueSource(strings = {
+            "empty-mhguide.json",
+            "sv-mhguide.json",
+            "sv_del-mhguide.json"
+    })
     void shouldMapToOnkostarXml(String mhGuideFile) throws IOException {
         var inputStream = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("mhguide/" + mhGuideFile)).readAllBytes();
         var mhGuide = this.jsonMapper.readValue(inputStream, MHGuide.class);

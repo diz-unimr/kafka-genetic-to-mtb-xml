@@ -22,11 +22,21 @@ sourceSets {
 		compileClasspath += sourceSets.main.output
 		runtimeClasspath += sourceSets.main.output
 	}
+
+    snapshotTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+
+        compileClasspath += sourceSets.test.output
+        runtimeClasspath += sourceSets.test.output
+    }
 }
 
 configurations {
 	intTestImplementation.extendsFrom implementation
 	intTestRuntimeOnly.extendsFrom runtimeOnly
+
+    snapshotTestImplementation.extendsFrom implementation
 }
 
 tasks.register('integrationTest', Test) {
@@ -36,6 +46,15 @@ tasks.register('integrationTest', Test) {
 	testClassesDirs = sourceSets.intTest.output.classesDirs
 	classpath = sourceSets.intTest.runtimeClasspath
 	shouldRunAfter test
+}
+
+tasks.register('snapshotTest', Test) {
+    description = 'Runs snapshot tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.snapshotTest.output.classesDirs
+    classpath = sourceSets.snapshotTest.runtimeClasspath
+    shouldRunAfter test
 }
 
 //check.dependsOn integrationTest
@@ -83,6 +102,13 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	intTestImplementation 'org.assertj:assertj-core'
+
+    // snapshot tests
+    snapshotTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    snapshotTestImplementation 'org.assertj:assertj-core'
+    snapshotTestImplementation "com.approvaltests:approvaltests:26.7.1"
 }
 
 dependencyManagement {
@@ -97,6 +123,10 @@ test {
 
 integrationTest {
 	useJUnitPlatform()
+}
+
+snapshotTest {
+    useJUnitPlatform()
 }
 
 jacoco {

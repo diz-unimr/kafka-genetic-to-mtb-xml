@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OnkostarDaten>
+  <Titel/>
+  <SendendeOrganisation>
+    <Bezeichnung/>
+    <Kennung/>
+  </SendendeOrganisation>
+  <SendeDatum>2026-01-01T12:00:00.000Z</SendeDatum>
+  <DokumentId>1</DokumentId>
+  <DokumentVersion>1</DokumentVersion>
+  <Inhalt>
+    <PatientenDaten>
+      <Patient>
+        <ExportID>1</ExportID>
+        <PatientenId>0123456</PatientenId>
+        <Personendaten>
+          <AktuelleAdresse/>
+        </Personendaten>
+        <PidGesperrt>false</PidGesperrt>
+      </Patient>
+      <Dokumentation>
+        <Erkrankung>
+          <ExportID>2</ExportID>
+          <TumorId>1</TumorId>
+          <SID>2</SID>
+          <GUID>00000000-0001-9999-ffff-000000000001</GUID>
+          <Revision>3</Revision>
+          <MigReferenzTumorId>4</MigReferenzTumorId>
+        </Erkrankung>
+        <TudokEintrag>
+          <ExportID>3</ExportID>
+          <ErkrankungExportID>2</ErkrankungExportID>
+          <TumorId>1</TumorId>
+          <DokumentierendeFachabteilung>
+            <FachabteilungKennung/>
+            <EinrichtungKennung/>
+          </DokumentierendeFachabteilung>
+          <StartDatum></StartDatum>
+          <FormularName>OS.Molekulargenetik</FormularName>
+          <FormularVersion>1</FormularVersion>
+          <Prozedurtyp>Beobachtung</Prozedurtyp>
+          <Eintrag Feldname="Dokumentation">
+            <Wert>ERW</Wert>
+            <Filterkategorie>{}</Filterkategorie>
+            <Version>OS.MolDokumentation.v1</Version>
+            <Kurztext>Erweitert</Kurztext>
+          </Eintrag>
+          <Eintrag Feldname="AnalyseID"/>
+          <Eintrag Feldname="AnalyseMethode"/>
+          <Eintrag Feldname="AnalyseMethoden">
+            <Filterkategorie>{}</Filterkategorie>
+            <Version>OS.MolDiagMethode.v1</Version>
+          </Eintrag>
+          <Eintrag Feldname="ArtDerSequenzierung">
+            <Filterkategorie>{}</Filterkategorie>
+            <Version>OS.MolDiagSequenzierung.v1</Version>
+          </Eintrag>
+          <Eintrag Feldname="ArtinsituHybridisierung">
+            <Wert></Wert>
+            <Filterkategorie></Filterkategorie>
+            <Version></Version>
+            <Kurztext></Kurztext>
+          </Eintrag>
+          <Eintrag Feldname="Befund"/>
+          <Eintrag Feldname="Bemerkung"/>
+          <Eintrag Feldname="Blocknummer"/>
+          <Eintrag Feldname="Datum">
+            <Genauigkeit>exact</Genauigkeit>
+          </Eintrag>
+          <Eintrag Feldname="DurchfuehrendeOE"/>
+          <Eintrag Feldname="Einsendenummer">
+            <Wert>H/2026/10000</Wert>
+          </Eintrag>
+          <Eintrag Feldname="Entnahmedatum"/>
+          <Eintrag Feldname="Entnahmemethode">
+            <Filterkategorie></Filterkategorie>
+          </Eintrag>
+          <Eintrag Feldname="ErgebnisMSI">
+            <Wert></Wert>
+            <Filterkategorie>{}</Filterkategorie>
+          </Eintrag>
+          <Eintrag Feldname="GenetischeVeraenderung"/>
+          <Eintrag Feldname="Genexpressionstests"/>
+          <Eintrag Feldname="HRD">
+            <Filterkategorie>{}</Filterkategorie>
+          </Eintrag>
+          <Eintrag Feldname="ICDO3Lokalisation">
+            <Filterkategorie></Filterkategorie>
+          </Eintrag>
+          <Eintrag Feldname="InternExtern">
+            <Filterkategorie>{}</Filterkategorie>
+            <Version>OS.OrtDurchfuehrung.v1</Version>
+          </Eintrag>
+          <Eintrag Feldname="KomplexeBiomarker"/>
+          <Eintrag Feldname="GenetischeVeraenderung"/>
+          <Eintrag Feldname="MolekulargenetischeUntersuchung"/>
+          <Eintrag Feldname="Panel"/>
+          <Eintrag Feldname="ProbeID"/>
+          <Eintrag Feldname="Probenmaterial">
+            <Wert></Wert>
+            <Version>OS.Probenmaterial.v1</Version>
+            <Kurztext></Kurztext>
+          </Eintrag>
+          <Eintrag Feldname="Projekt">
+            <Wert>ZPM,</Wert>
+            <Version>OS.MolDiag.Projekte.v1</Version>
+          </Eintrag>
+          <Eintrag Feldname="ReferenzGenom">
+            <Version>OS.MolSeqGenom.v1</Version>
+          </Eintrag>
+          <Eintrag Feldname="SeqKitHersteller">
+            <Version>OS.MolDiag.KitHersteller.v1</Version>
+            <Kurztext>Archer</Kurztext>
+          </Eintrag>
+          <Eintrag Feldname="SeqKitTyp"/>
+          <Eintrag Feldname="SeqPipeline"/>
+          <Eintrag Feldname="Sequenziergeraet">
+            <Version>OS.MolDiag.Sequenziergerät.v1</Version>
+            <Kurztext>Illumina NovaSeq 6000</Kurztext>
+          </Eintrag>
+          <Eintrag Feldname="Tumorzellgehalt"/>
+          <Revision>1</Revision>
+          <BearbeitungStatus>2</BearbeitungStatus>
+        </TudokEintrag>
+      </Dokumentation>
+    </PatientenDaten>
+  </Inhalt>
+</OnkostarDaten>

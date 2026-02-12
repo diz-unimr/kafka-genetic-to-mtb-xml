@@ -103,7 +103,7 @@
                 <FachabteilungKennung/>
                 <EinrichtungKennung/>
               </DokumentierendeFachabteilung>
-              <StartDatum>2026-02-11</StartDatum>
+              <StartDatum/>
               <FormularName>OS.Molekulargenetische Untersuchung</FormularName>
               <FormularVersion>1</FormularVersion>
               <Prozedurtyp></Prozedurtyp>
@@ -158,9 +158,6 @@
               <Eintrag Feldname="Coverage">
                 <Wert></Wert>
               </Eintrag>
-              <Eintrag Feldname="Datum">
-                <Wert></Wert>
-              </Eintrag>
               <Eintrag Feldname="Untersucht">
                 <Wert>BRAF</Wert>
                 <Filterkategorie>{}</Filterkategorie>
@@ -210,7 +207,9 @@
             <Version>OS.MolDiag.Projekte.v1</Version>
           </Eintrag>
           <Eintrag Feldname="ReferenzGenom">
+            <Wert>HG19</Wert>
             <Version>OS.MolSeqGenom.v1</Version>
+            <Kurztext>HG19</Kurztext>
           </Eintrag>
           <Eintrag Feldname="SeqKitHersteller">
             <Version>OS.MolDiag.KitHersteller.v1</Version>

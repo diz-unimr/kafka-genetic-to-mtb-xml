@@ -12,6 +12,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,7 +112,6 @@ public class UnterformularSVMapper {
         unterformularSV.setTumorId(mtbPatientInfo.getTumorId());
         unterformularSV.setErkrankungExportID(2);
         unterformularSV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularSV.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularSV.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularSV.setFormularVersion(1);
         unterformularSV.setProzedurtyp("");
@@ -141,12 +141,6 @@ public class UnterformularSVMapper {
         Eintrag bemerkung = new Eintrag();
         bemerkung.setFeldname("Bemerkung");
         bemerkung.setWert("");
-
-        // SV-Unterformular: Eintrag: Datum
-        // Oder_date
-        Eintrag datumSV = new Eintrag();
-        datumSV.setFeldname("Datum");
-        datumSV.setWert("");
 
         // SV-Unterformular: Eintrag: EVCOSMICID
         // NA
@@ -336,7 +330,7 @@ public class UnterformularSVMapper {
 
 
         unterformularSV.setEintraege(Arrays.asList(aktivierend,
-                allelfrequenz, allelzahl, analysemethode, bemerkung, datumSV, eVAltNucleotide,
+                allelfrequenz, allelzahl, analysemethode, bemerkung, eVAltNucleotide,
                 eVCOSMICID, eVChromosom, eVENSEMBLID,
                 eVEnde, eVHGNCID, eVHGNCName, eVHGNCSymbol, eVNMNummer, eVReadDepth, eVRefNucleotide, eVStart, untersucht, eVdbSNPID,
                 ergebnisEintragSV, exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,

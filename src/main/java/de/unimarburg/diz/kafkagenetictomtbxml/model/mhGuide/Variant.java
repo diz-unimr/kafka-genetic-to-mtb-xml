@@ -3,84 +3,82 @@ package de.unimarburg.diz.kafkagenetictomtbxml.model.mhGuide;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Variant implements Serializable {
-    @JsonProperty("DETECTED_VAR_ID")
-    private Integer detectedVarId;
+  @JsonProperty("DETECTED_VAR_ID")
+  private Integer detectedVarId;
 
-    @JsonProperty("VARIANT_SYMBOL")
-    private String variantSymbol;
+  @JsonProperty("VARIANT_SYMBOL")
+  private String variantSymbol;
 
-    @JsonProperty("DISPLAY_VARIANT_TYPE")
-    private String displayVariantType;
+  @JsonProperty("DISPLAY_VARIANT_TYPE")
+  private String displayVariantType;
 
-    @JsonProperty("GENOMIC_EXTRA_DATA")
-    private String genomicExtraData;
+  @JsonProperty("GENOMIC_EXTRA_DATA")
+  private String genomicExtraData;
 
-    @JsonProperty("TMB_VARIANT_COUNT_PER_MEGABASE")
-    private String tmbVariantCountPerMegabase;
+  @JsonProperty("TMB_VARIANT_COUNT_PER_MEGABASE")
+  private String tmbVariantCountPerMegabase;
 
-    @JsonProperty("CHROMOSOMAL_HGVS")
-    private String chromosomeHgvs;
+  @JsonProperty("CHROMOSOMAL_HGVS")
+  private String chromosomeHgvs;
 
-    @JsonProperty("CHROMOSOMAL_MODIFICATION")
-    private String chromosomeModification;
+  @JsonProperty("CHROMOSOMAL_MODIFICATION")
+  private String chromosomeModification;
 
-    @JsonProperty("CHROMOSOMAL_MODIFIED_OBJECT")
-    private String chromosomeModifiedObject;
+  @JsonProperty("CHROMOSOMAL_MODIFIED_OBJECT")
+  private String chromosomeModifiedObject;
 
-    @JsonProperty("GENE_SYMBOL")
-    private String geneSymbol;
+  @JsonProperty("GENE_SYMBOL")
+  private String geneSymbol;
 
-    @JsonProperty("PROTEIN_MODIFICATION")
-    private String proteinModification;
+  @JsonProperty("PROTEIN_MODIFICATION")
+  private String proteinModification;
 
-    @JsonProperty("TOTAL_READS_IN_TUMOR")
-    private String totalReadsInTumor;
+  @JsonProperty("TOTAL_READS_IN_TUMOR")
+  private String totalReadsInTumor;
 
-    @JsonProperty("VARIANT_ALLELE_FREQUENCY_IN_TUMOR")
-    private String variantAlleleFrequencyInTumor;
+  @JsonProperty("VARIANT_ALLELE_FREQUENCY_IN_TUMOR")
+  private String variantAlleleFrequencyInTumor;
 
-    @JsonProperty("DBSNP")
-    private String dbsnp;
+  @JsonProperty("DBSNP")
+  private String dbsnp;
 
-    @JsonProperty("VARIANT_CLASSIFICATION")
-    private String variantClassification;
+  @JsonProperty("VARIANT_CLASSIFICATION")
+  private String variantClassification;
 
-    @JsonProperty("ANNOTATION_JSON")
-    private String annotationJson;
+  @JsonProperty("ANNOTATION_JSON")
+  private String annotationJson;
 
-    @JsonProperty("COPY_NUMBER")
-    private String copyNumber;
+  @JsonProperty("COPY_NUMBER")
+  private String copyNumber;
 
-    @JsonProperty("DISPLAY_MODIFIED_OBJECT")
-    private String displayModifiedObject;
+  @JsonProperty("DISPLAY_MODIFIED_OBJECT")
+  private String displayModifiedObject;
 
-    @JsonProperty("VARIANT_EFFECT")
-    private String variantEffect;
+  @JsonProperty("VARIANT_EFFECT")
+  private String variantEffect;
 
-    @JsonProperty("SUPPORTING_READ_PAIRS_IN_FUSION_GENE")
-    private String supportingReadPairsInFusionGene;
+  @JsonProperty("SUPPORTING_READ_PAIRS_IN_FUSION_GENE")
+  private String supportingReadPairsInFusionGene;
 
-    @JsonProperty("CLASSIFICATION_NAME")
-    private String classificationName;
+  @JsonProperty("CLASSIFICATION_NAME")
+  private String classificationName;
 
-    // Exist only for new specimen
-    @Nullable
-    @JsonProperty("ONCOGENIC_CLASSIFICATION_NAME")
-    private String oncogenicClassificationName;
+  // Exist only for new specimen
+  @Nullable
+  @JsonProperty("ONCOGENIC_CLASSIFICATION_NAME")
+  private String oncogenicClassificationName;
 
-    @Nullable
-    @JsonProperty("TRANSCRIPT_HGVS_MODIFIED_OBJECT")
-    private String transcriptHgvsModifiedObject;
+  @Nullable
+  @JsonProperty("TRANSCRIPT_HGVS_MODIFIED_OBJECT")
+  private String transcriptHgvsModifiedObject;
 
-    @Nullable
-    @JsonProperty("TRANSCRIPT_HGVS")
-    private String transcriptHgvs;
-
+  @Nullable
+  @JsonProperty("TRANSCRIPT_HGVS")
+  private String transcriptHgvs;
 }

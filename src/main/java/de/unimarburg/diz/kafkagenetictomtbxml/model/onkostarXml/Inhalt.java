@@ -1,12 +1,12 @@
 package de.unimarburg.diz.kafkagenetictomtbxml.model.onkostarXml;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Inhalt {
-    @JacksonXmlProperty(localName = "PatientenDaten")
-    private PatientenDaten patientenDaten;
+  @JacksonXmlProperty(localName = "PatientenDaten")
+  private PatientenDaten patientenDaten;
 }

@@ -13,22 +13,20 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({HgncConfigurationProperties.class, MetadataConfigurationProperties.class})
+@EnableConfigurationProperties({
+  HgncConfigurationProperties.class,
+  MetadataConfigurationProperties.class
+})
 public class Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
 
-    }
-
-    @Bean
-    public RestTemplate restTemplate(
-            @Value("${services.mtbSender.mtb-username}") String username,
-            @Value("${services.mtbSender.mtb-password}") String password
-    ) {
-        return new RestTemplateBuilder()
-                .basicAuthentication(username, password)
-                .build();
-    }
-
+  @Bean
+  public RestTemplate restTemplate(
+      @Value("${services.mtbSender.mtb-username}") String username,
+      @Value("${services.mtbSender.mtb-password}") String password) {
+    return new RestTemplateBuilder().basicAuthentication(username, password).build();
+  }
 }

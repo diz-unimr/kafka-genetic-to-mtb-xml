@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SendendeOrganisation {
-    @JacksonXmlProperty(localName = "Bezeichnung")
-    private String bezeichnung;
-    @JacksonXmlProperty(localName = "Kennung")
-    private String kennung;
+  @JacksonXmlProperty(localName = "Bezeichnung")
+  private String bezeichnung;
 
+  @JacksonXmlProperty(localName = "Kennung")
+  private String kennung;
 }

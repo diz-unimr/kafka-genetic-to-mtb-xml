@@ -7,6 +7,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class HgncConfigurationProperties {
 
-    private boolean enabled = false;
-
+  private boolean enabled = false;
 }

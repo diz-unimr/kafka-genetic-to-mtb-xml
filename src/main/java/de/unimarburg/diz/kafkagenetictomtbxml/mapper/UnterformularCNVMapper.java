@@ -160,6 +160,9 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CNVTotalCNDouble
         Eintrag cNVTotalCNDouble = new Eintrag();
         cNVTotalCNDouble.setFeldname("CNVTotalCNDouble");
+        if (null != relCopyNumber) {
+            cNVTotalCNDouble.setWert(relCopyNumber.replace(".", ","));
+        }
 
         // CNV-Unterformular: Eintrag: Codon
         Eintrag codon = new Eintrag();
@@ -168,12 +171,18 @@ public class UnterformularCNVMapper {
         // CNV-Unterformular: Eintrag: CopyNumberVariation
         Eintrag copyNumberVariation = new Eintrag();
         copyNumberVariation.setFeldname("CopyNumberVariation");
-        if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) >= 3) {
-            copyNumberVariation.setWert("high-level gain");
-        } else if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy gain") && Integer.parseInt(relCopyNumber) < 3) {
-            copyNumberVariation.setWert("low-level gain");
+        if (
+                null != variant.getVariantEffect() && "copy gain".equalsIgnoreCase(variant.getVariantEffect())
+                        && null != relCopyNumber && Double.parseDouble(relCopyNumber) >= 3
+        ) {
+            copyNumberVariation.setWert("G");
+        } else if (
+                null != variant.getVariantEffect() && "copy gain".equalsIgnoreCase(variant.getVariantEffect())
+                        && null != relCopyNumber && Double.parseDouble(relCopyNumber) < 3
+        ) {
+            copyNumberVariation.setWert("LLG");
         } else if (null != variant.getVariantEffect() && variant.getVariantEffect().equalsIgnoreCase("copy loss")) {
-            copyNumberVariation.setWert("loss");
+            copyNumberVariation.setWert("L");
         }
 
         // Unterformular: Eintrag: Coverage

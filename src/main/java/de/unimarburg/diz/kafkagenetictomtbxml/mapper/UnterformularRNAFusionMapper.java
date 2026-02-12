@@ -11,6 +11,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +59,6 @@ public class UnterformularRNAFusionMapper {
         unterformularRNAFusion.setTumorId(mtbPatientInfo.getTumorId());
         unterformularRNAFusion.setErkrankungExportID(2);
         unterformularRNAFusion.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularRNAFusion.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularRNAFusion.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularRNAFusion.setFormularVersion(1);
         unterformularRNAFusion.setProzedurtyp("");

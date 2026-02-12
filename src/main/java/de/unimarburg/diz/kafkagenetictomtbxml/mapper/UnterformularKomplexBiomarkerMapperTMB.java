@@ -11,6 +11,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class UnterformularKomplexBiomarkerMapperTMB {
@@ -28,7 +29,6 @@ public class UnterformularKomplexBiomarkerMapperTMB {
         unterformularKBiomarker.setTumorId(mtbPatientInfo.getTumorId());
         unterformularKBiomarker.setErkrankungExportID(2);
         unterformularKBiomarker.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularKBiomarker.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularKBiomarker.setFormularName("OS.MolGen Komplexe Biomarker");
         unterformularKBiomarker.setFormularVersion(1);
         unterformularKBiomarker.setProzedurtyp("");

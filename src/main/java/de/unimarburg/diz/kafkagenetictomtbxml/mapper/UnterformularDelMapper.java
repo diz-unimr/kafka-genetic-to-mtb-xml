@@ -9,6 +9,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.CurrentDateFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class UnterformularDelMapper {
@@ -20,7 +21,6 @@ public class UnterformularDelMapper {
         unterformularDel.setTumorId(mtbPatientInfo.getTumorId());
         unterformularDel.setErkrankungExportID(2);
         unterformularDel.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularDel.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularDel.setFormularName("OS.GenetischeVeraenderung");
         unterformularDel.setFormularVersion(1);
         unterformularDel.setProzedurtyp("Beobachtung");

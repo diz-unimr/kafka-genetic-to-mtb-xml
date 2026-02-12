@@ -103,7 +103,7 @@
                 <FachabteilungKennung/>
                 <EinrichtungKennung/>
               </DokumentierendeFachabteilung>
-              <StartDatum>2026-02-11</StartDatum>
+              <StartDatum/>
               <FormularName>OS.Molekulargenetische Untersuchung</FormularName>
               <FormularVersion>1</FormularVersion>
               <Prozedurtyp></Prozedurtyp>
@@ -121,9 +121,6 @@
                 <Filterkategorie>{}</Filterkategorie>
               </Eintrag>
               <Eintrag Feldname="Bemerkung">
-                <Wert></Wert>
-              </Eintrag>
-              <Eintrag Feldname="Datum">
                 <Wert></Wert>
               </Eintrag>
               <Eintrag Feldname="EVAltNucleotide"/>

@@ -13,6 +13,7 @@ import de.unimarburg.diz.kafkagenetictomtbxml.util.JsonUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class UnterformularCNVMapper {
@@ -39,7 +40,6 @@ public class UnterformularCNVMapper {
         unterformularCNV.setTumorId(mtbPatientInfo.getTumorId());
         unterformularCNV.setErkrankungExportID(2);
         unterformularCNV.setDokumentierendeFachabteilung(dokumentierendeFachabteilung);
-        unterformularCNV.setStartDatum(CurrentDateFormatter.formatCurrentDate());
         unterformularCNV.setFormularName("OS.Molekulargenetische Untersuchung");
         unterformularCNV.setFormularVersion(1);
         unterformularCNV.setProzedurtyp("");
@@ -190,12 +190,6 @@ public class UnterformularCNVMapper {
         coverage.setFeldname("Coverage");
         coverage.setWert("");
 
-
-        // Unterformular: Eintrag: Datum
-        Eintrag datumCNV = new Eintrag();
-        datumCNV.setFeldname("Datum");
-        datumCNV.setWert("");
-
         // CNV-Unterformular: Eintrag: Untersucht
         Eintrag untersucht = new Eintrag();
         untersucht.setFeldname("Untersucht");
@@ -285,7 +279,7 @@ public class UnterformularCNVMapper {
                 allelfrequenz, allelzahl, analysemethode, bemerkung, cNVBetroffeneGene, cNVCNA,
                 cNVCNB, cNVChromosom, cNVENSEMBLID, cNVEndRange, cNVHGNCID, cNVHGNCName,
                 cNVHGNCSymbol, cNVNeutralLoH, cNVRelativeCN, cNVReportedFocality, cNVStartRange, cNVTotalCN, cNVTotalCNDouble, codon,
-                copyNumberVariation, coverage, datumCNV, untersucht, ergebnisEintragCNV,
+                copyNumberVariation, coverage, untersucht, ergebnisEintragCNV,
                 exon, exonInt, exonText, expressionStoma, expressionTumor, genomposition, interpretation, mETLevel, mutation,
                 neuanlage, pathogenitaetsklasse, proteinebeneNomenklatur, translation, zygositaet, cDNANomenklatur));
 

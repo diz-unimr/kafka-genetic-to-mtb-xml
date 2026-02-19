@@ -79,7 +79,8 @@
       "IS_FUSION": false,
       "IS_INCLUDED": true,
       "SHOW_CHROMOSOME": true,
-      "SHOW_VAF": true
+      "SHOW_VAF": true,
+      "ONCOGENIC_CLASSIFICATION_NAME": "Likely oncogenic"
     }
   ],
   "BIOMARKERS": {

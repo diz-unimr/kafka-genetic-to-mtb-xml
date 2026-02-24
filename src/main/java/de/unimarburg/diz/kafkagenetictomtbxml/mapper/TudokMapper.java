@@ -326,8 +326,7 @@ public class TudokMapper {
     for (Variant variant : variantLongListsAll) {
       var variantType = variant.getDisplayVariantType();
       if (null != variant.getOncogenicClassificationName()
-          && (variant.getOncogenicClassificationName().toLowerCase().contains("oncogenic")
-              || variant.getOncogenicClassificationName().toLowerCase().contains("benign"))) {
+          && variant.getOncogenicClassificationName().toLowerCase().contains("oncogenic")) {
         switch (variantType) {
           case "SNV":
           case "del":

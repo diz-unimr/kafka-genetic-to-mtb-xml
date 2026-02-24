@@ -322,11 +322,11 @@ public class TudokMapper {
             log.warn(String.format("CASE_UUID: {%s}: MH Guide variation list element with DETECTED_VAR_ID: {%s} has empty CHROMOSOMAL_VARIANT_TYPE", mhGuideInfo.getGeneralInfo().getCaseUuid(), variant.getDetectedVarId()));
         }
     }*/
-    // Only notable biomarkers are saved to xml
+    // only oncogenic or benign variants are saved to xml
     for (Variant variant : variantLongListsAll) {
-      var variantID = variant.getDetectedVarId();
       var variantType = variant.getDisplayVariantType();
-      if (!variationIdList.isEmpty() && variationIdList.contains(variantID)) {
+      if (null != variant.getOncogenicClassificationName()
+          && variant.getOncogenicClassificationName().toLowerCase().contains("oncogenic")) {
         switch (variantType) {
           case "SNV":
           case "del":

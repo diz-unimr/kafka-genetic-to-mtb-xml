@@ -1,5 +1,5 @@
 plugins {
-	id "org.springframework.boot" version '3.5.10'
+	id "org.springframework.boot" version '3.5.13'
 	id "io.spring.dependency-management" version '1.1.7'
 	id 'java'
 	id 'jacoco'
@@ -63,7 +63,7 @@ build.dependsOn integrationTest
 build.dependsOn snapshotTest
 
 ext {
-	set('springCloudVersion', "2025.0.1")
+	set('springCloudVersion', "2025.0.2")
     set('apacheCommonsCsv', "1.14.1")
 }
 

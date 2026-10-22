@@ -63,7 +63,7 @@ build.dependsOn integrationTest
 build.dependsOn snapshotTest
 
 ext {
-	set('springCloudVersion', "2025.0.2")
+	set('springCloudVersion', "2025.1.4")
     set('apacheCommonsCsv', "1.14.1")
 }
 
